@@ -4,9 +4,8 @@
     global double *masses
     ) {
     
-    int numberOfBodies = 2;
-
-    const int timestep = 1000;
+    const int numberOfBodies = 2;
+    const int timestep = 1;
     
     const int index = get_global_id(0);
     const int xIndex = index * 3;

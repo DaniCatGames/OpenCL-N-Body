@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
+using NLog;
 using Silk.NET.OpenCL;
 
 namespace OpenCL_Barnes_Hut;
@@ -6,7 +10,8 @@ namespace OpenCL_Barnes_Hut;
 internal class Program {
 	private const int NumberOfBodies = 2;
 	private const int Iterations = 1;
-	private const float DeltaTime = 100;
+	private const float DeltaTime = 1;
+	private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
 	private static unsafe void Main(string[] args) {
 		var cl = CL.GetApi();
@@ -15,14 +20,24 @@ internal class Program {
 		nint program = 0;
 		nint kernel = 0;
 		nint device = 0;
-		var writer = new StreamWriter(@"D:\Programming\OpenTK\OpenCL Barnes-Hut\NBodyData.txt");
+
+		LogManager.Setup().LoadConfiguration(builder => {
+			builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
+			builder.ForLogger().FilterMinLevel(LogLevel.Debug)
+				.WriteToFile(@"D:\Programming\C#\OpenCL Barnes-Hut\Output\log.txt");
+		});
+
+		logger.Debug("Starting StreamWriter");
+		var dir = Directory.GetCurrentDirectory() + @"\..\..\..\Output\NBodyData.txt";
+		var writer = new StreamWriter(dir);
 
 		var memObjects = new nint[3];
 
 		// Create an OpenCL context on first available platform
 		context = CreateContext(cl);
 		if (context == IntPtr.Zero) {
-			Console.WriteLine("Failed to create OpenCL context.");
+			logger.Fatal("Failed to create OpenCL context.");
+			writer.Dispose();
 			return;
 		}
 
@@ -35,7 +50,7 @@ internal class Program {
 		}
 
 		// Create OpenCL program from kernel source
-		program = CreateProgram(cl, context, device, @"D:\Programming\OpenTK\OpenCL Barnes-Hut\NBodyKernel.cl");
+		program = CreateProgram(cl, context, device, @"D:\Programming\C#\OpenCL Barnes-Hut\Kernels\NBodyKernel.cl");
 		if (program == IntPtr.Zero) {
 			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 			return;
@@ -44,15 +59,15 @@ internal class Program {
 		// Create OpenCL kernel
 		kernel = cl.CreateKernel(program, "nbody_step", null);
 		if (kernel == IntPtr.Zero) {
-			Console.WriteLine("Failed to create kernel");
+			logger.Fatal("Failed to create kernel.");
 			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 			return;
 		}
 
 		// Create Memory Arrays
-		var positions = new float[NumberOfBodies * 3];
-		var velocities = new float[NumberOfBodies * 3];
-		var masses = new float[NumberOfBodies];
+		var positions = new double[NumberOfBodies * 3];
+		var velocities = new double[NumberOfBodies * 3];
+		var masses = new double[NumberOfBodies];
 
 		// Initialize data
 		/*for (var i = 0; i < NumberOfBodies; i++) {
@@ -61,8 +76,8 @@ internal class Program {
 			masses[i] = i * 3;
 		}*/
 
-		/*masses[0] = 398576057600000; // Mass Earth
-		masses[1] = 4904113984000; // Mass Moon
+		/*masses[0] = 398576057600000; // Mass Earth * G
+		masses[1] = 4904113984000; // Mass Moon * G
 
 
 		positions[0] = 0; //Position Earth
@@ -82,13 +97,24 @@ internal class Program {
 		velocities[4] = 1022;
 		velocities[5] = 0;*/
 
-		masses[0] = 4.297e6 * 2e30;
+		masses[0] = 4.297e6 * 2e30 * 6.67408e-11;
 		positions[0] = 0; //Position Sagittarius A*
 		positions[1] = 0;
 		positions[2] = 0;
 		velocities[0] = 0; //Velocity Sagittarius A*
 		velocities[1] = 0;
 		velocities[2] = 0;
+
+
+		for (var i = 1; i < NumberOfBodies; i++) {
+			masses[i] = 2e30 * 6.67408e-11;
+			positions[i * 3] = 100e9 + i * 1e9;
+			positions[i * 3 + 1] = 0;
+			positions[i * 3 + 2] = 0;
+			velocities[i * 3] = 0;
+			velocities[i * 3 + 1] = double.Sqrt(6.67408e-11 * masses[0] / positions[i * 3]);
+			velocities[i * 3 + 2] = 0;
+		}
 
 
 		if (!CreateMemObjects(cl, context, memObjects, positions, velocities, masses)) {
@@ -102,13 +128,21 @@ internal class Program {
 
 		var errNum = cl.SetKernelArg(kernel, 2, (nuint)sizeof(nint), memObjects[2]);
 
-		Console.WriteLine($"{positions[0]}");
-
+		/* Zindaji
 		writer.WriteLine($"{NumberOfBodies}");
 		writer.WriteLine("0");
 		for (var i = 0; i < NumberOfBodies; i++)
-			writer.WriteLine($"{positions[i * 3]} {positions[i * 3 + 1]} {positions[i * 3 + 2]}");
+			writer.WriteLine($"{positions[i * 3]} {positions[i * 3 + 1]} {positions[i * 3 + 2]}");*/
 
+		writer.WriteLine("bodyId,time,xPosition,yPosition,zPosition");
+		for (var k = 0; k < NumberOfBodies; k++)
+			writer.WriteLine(DoubleToString(k, "g") + ",0," + DoubleToString(positions[k * 3], "e2") + "," +
+			                 DoubleToString(positions[k * 3 + 1], "e2") + "," +
+			                 DoubleToString(positions[k * 3 + 1], "e2"));
+
+
+		logger.Info("Starting N-Body simulation.");
+		var stopwatch = Stopwatch.StartNew();
 
 		for (var i = 0; i < Iterations; i++) {
 			// Set the kernel arguments (position, velocity, mass)
@@ -116,7 +150,7 @@ internal class Program {
 			errNum |= cl.SetKernelArg(kernel, 1, (nuint)sizeof(nint), memObjects[1]);
 
 			if (errNum != (int)ErrorCodes.Success) {
-				Console.WriteLine("Error setting kernel arguments.");
+				logger.Fatal("Error setting kernel arguments.");
 				Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 				return;
 			}
@@ -126,8 +160,8 @@ internal class Program {
 			errNum = cl.EnqueueNdrangeKernel(commandQueue, kernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
 				(nint*)null, (nint*)null);
 			if (errNum != (int)ErrorCodes.Success) {
-				Console.WriteLine("Error queuing kernel for execution.");
-				Console.WriteLine(errNum.ToString());
+				logger.Fatal("Error queuing kernel for execution.");
+				logger.Debug(errNum.ToString());
 				Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 				return;
 			}
@@ -135,58 +169,71 @@ internal class Program {
 
 			// Extract data
 			fixed (void* pPositions = positions) {
-				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0, 3 * NumberOfBodies * sizeof(float),
+				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0, 3 * NumberOfBodies * sizeof(double),
 					pPositions, 0, null, null);
 
 				if (errNum != (int)ErrorCodes.Success) {
-					Console.WriteLine("Error reading position buffer");
+					logger.Fatal("Error reading position buffer.");
 					Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 					return;
 				}
 			}
 
 			fixed (void* pVelocities = velocities) {
-				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[1], true, 0, 3 * NumberOfBodies * sizeof(float),
+				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[1], true, 0, 3 * NumberOfBodies * sizeof(double),
 					pVelocities, 0, null, null);
 
 				if (errNum != (int)ErrorCodes.Success) {
-					Console.WriteLine("Error reading velocity buffer");
+					logger.Fatal("Error reading velocity buffer.");
 					Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 					return;
 				}
 			}
 
+			/* Zindaji
 			writer.WriteLine($"{DeltaTime * (i + 1)}");
 			for (var k = 0; k < NumberOfBodies; k++)
-				writer.WriteLine($"{positions[k * 3]} {positions[k * 3 + 1]} {positions[k * 3 + 2]}");
+				writer.WriteLine(
+					$"{positions[k * 3]} {positions[k * 3 + 1]} {positions[k * 3 + 2]}");*/
+
+			for (var k = 0; k < NumberOfBodies; k++)
+				writer.WriteLine(DoubleToString(k, "g") + ",0," + DoubleToString(positions[k * 3], "e2") + "," +
+				                 DoubleToString(positions[k * 3 + 1], "e2") + "," +
+				                 DoubleToString(positions[k * 3 + 1], "e2"));
+
+			logger.Debug($"Stepped N-Body Sim, iteration: {i + 1}");
 		}
 
+		stopwatch.Stop();
 
-		Console.WriteLine("Executed program succesfully.");
+		logger.Info(
+			$"Executed program succesfully, time elapsed: {stopwatch.ElapsedMilliseconds / 1000f} seconds");
 		Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
+
+		OpenClWindow.RunWindow();
 	}
 
 
 	// Create memory objects used as the arguments to the kernel
-	private static unsafe bool CreateMemObjects(CL cl, nint context, nint[] memObjects, float[] positions,
-		float[] velocities, float[] masses) {
+	private static unsafe bool CreateMemObjects(CL cl, nint context, nint[] memObjects, double[] positions,
+		double[] velocities, double[] masses) {
 		fixed (void* pPositions = positions) {
 			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
-				sizeof(float) * NumberOfBodies * 3, pPositions, null);
+				sizeof(double) * NumberOfBodies * 3, pPositions, null);
 		}
 
 		fixed (void* pVelocities = velocities) {
 			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
-				sizeof(float) * NumberOfBodies * 3, pVelocities, null);
+				sizeof(double) * NumberOfBodies * 3, pVelocities, null);
 		}
 
 		fixed (void* pMasses = masses) {
 			memObjects[2] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.CopyHostPtr,
-				sizeof(float) * NumberOfBodies, pMasses, null);
+				sizeof(double) * NumberOfBodies, pMasses, null);
 		}
 
 		if (memObjects[0] == IntPtr.Zero || memObjects[1] == IntPtr.Zero || memObjects[2] == IntPtr.Zero) {
-			Console.WriteLine("Error creating memory objects.");
+			logger.Fatal("Error creating memory objects.");
 			return false;
 		}
 
@@ -197,7 +244,7 @@ internal class Program {
 	// Create an OpenCL program from the kernel source file
 	private static unsafe nint CreateProgram(CL cl, nint context, nint device, string fileName) {
 		if (!File.Exists(fileName)) {
-			Console.WriteLine($"File does not exist: {fileName}");
+			logger.Fatal($"File does not exist: {fileName}");
 			return IntPtr.Zero;
 		}
 
@@ -206,7 +253,7 @@ internal class Program {
 
 		var program = cl.CreateProgramWithSource(context, 1, new[] { clStr }, null, null);
 		if (program == IntPtr.Zero) {
-			Console.WriteLine("Failed to create CL program from source.");
+			logger.Fatal("Failed to create CL program from source.");
 			return IntPtr.Zero;
 		}
 
@@ -221,10 +268,10 @@ internal class Program {
 
 			var build_log = Encoding.UTF8.GetString(log);
 
-			//Console.WriteLine("Error in kernel: ");
-			Console.WriteLine("=============== OpenCL Program Build Info ================");
-			Console.WriteLine(build_log);
-			Console.WriteLine("==========================================================");
+			logger.Fatal("Error in kernel.");
+			logger.Debug("=============== OpenCL Program Build Info ================");
+			logger.Debug(build_log);
+			logger.Debug("==========================================================");
 
 			cl.ReleaseProgram(program);
 			return IntPtr.Zero;
@@ -265,12 +312,12 @@ internal class Program {
 	private static unsafe nint CreateCommandQueue(CL cL, nint context, ref nint device) {
 		var errNum = cL.GetContextInfo(context, ContextInfo.Devices, 0, null, out var deviceBufferSize);
 		if (errNum != (int)ErrorCodes.Success) {
-			Console.WriteLine("Failed call to clGetContextInfo(...,GL_CONTEXT_DEVICES,...)");
+			logger.Fatal("Failed call to clGetContextInfo(...,GL_CONTEXT_DEVICES,...)");
 			return IntPtr.Zero;
 		}
 
 		if (deviceBufferSize <= 0) {
-			Console.WriteLine("No devices available.");
+			logger.Fatal("No devices available.");
 			return IntPtr.Zero;
 		}
 
@@ -279,7 +326,7 @@ internal class Program {
 			var er = cL.GetContextInfo(context, ContextInfo.Devices, deviceBufferSize, pValue, null);
 
 			if (er != (int)ErrorCodes.Success) {
-				Console.WriteLine("Failed to get device IDs");
+				logger.Fatal("Failed to get device IDs");
 				return IntPtr.Zero;
 			}
 		}
@@ -287,7 +334,7 @@ internal class Program {
 
 		var commandQueue = cL.CreateCommandQueue(context, devices[0], CommandQueueProperties.None, null);
 		if (commandQueue == IntPtr.Zero) {
-			Console.WriteLine("Failed to create commandQueue for device 0");
+			logger.Fatal("Failed to create commandQueue for device 0");
 			return IntPtr.Zero;
 		}
 
@@ -304,7 +351,7 @@ internal class Program {
 	private static unsafe nint CreateContext(CL cL) {
 		var errNum = cL.GetPlatformIDs(1, out var firstPlatformId, out var numPlatforms);
 		if (errNum != (int)ErrorCodes.Success || numPlatforms <= 0) {
-			Console.WriteLine("Failed to find any OpenCL platforms.");
+			logger.Fatal("Failed to find any OpenCL platforms.");
 			return IntPtr.Zero;
 		}
 
@@ -320,12 +367,12 @@ internal class Program {
 		fixed (nint* p = contextProperties) {
 			var context = cL.CreateContextFromType(p, DeviceType.Gpu, null, null, out errNum);
 			if (errNum != (int)ErrorCodes.Success) {
-				Console.WriteLine("Could not create GPU context, trying CPU...");
+				logger.Info("Could not create GPU context, trying to create CPU context.");
 
 				context = cL.CreateContextFromType(p, DeviceType.Cpu, null, null, out errNum);
 
 				if (errNum != (int)ErrorCodes.Success) {
-					Console.WriteLine("Failed to create an OpenCL GPU or CPU context.");
+					logger.Fatal("Failed to create an OpenCL GPU or CPU context.");
 					return IntPtr.Zero;
 				}
 
@@ -334,5 +381,9 @@ internal class Program {
 
 			return context;
 		}
+	}
+
+	private static string DoubleToString(double number, [StringSyntax("NumericFormat")] string format) {
+		return number.ToString(format, CultureInfo.InvariantCulture);
 	}
 }

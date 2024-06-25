@@ -1,0 +1,80 @@
+2024-06-25 18:18:44.5993|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 18:18:45.0809|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 18:18:45.0842|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 18:18:45.0842|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 18:19:25.0235|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 18:19:25.5178|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 18:19:25.5213|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 18:19:25.5213|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-25 18:19:50.0299|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 18:19:50.5085|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 18:19:50.5085|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 18:19:50.5085|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 18:20:14.0335|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 18:20:14.5062|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 18:20:14.5062|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 18:20:14.5062|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-25 19:12:14.7348|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:12:15.6021|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:12:15.6021|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:12:15.6021|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:12:34.8131|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:12:35.3009|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:12:35.3043|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:12:35.3043|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:12:45.0090|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:12:45.5021|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:12:45.5055|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:12:45.5055|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:13:09.3549|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:13:09.8330|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:13:09.8330|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:13:09.8330|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:13:34.2818|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:13:34.7574|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:13:34.7574|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:13:34.7574|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:14:35.4257|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:14:35.9056|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:14:35.9056|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:14:35.9056|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-25 19:15:01.5767|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:15:02.0483|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:15:02.0517|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:15:02.0517|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:15:08.8844|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:15:09.3657|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:15:09.3657|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:15:09.3657|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:15:16.2104|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:15:16.6916|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:15:16.6952|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:15:16.6952|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:15:24.4611|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:15:24.9327|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:15:24.9327|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:15:24.9327|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:15:31.2819|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:15:31.7560|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:15:31.7560|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:15:31.7560|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:15:49.4355|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:15:49.9105|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:15:49.9105|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:15:49.9105|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-25 19:30:14.2492|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:30:14.7317|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:30:14.7317|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:30:14.7317|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-25 19:30:38.1305|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 19:30:38.6193|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 19:30:38.6193|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 19:30:38.6193|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-25 21:12:14.3461|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 21:12:14.9877|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 21:12:14.9918|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 21:12:14.9918|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-25 21:13:48.5905|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-25 21:13:49.0950|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-25 21:13:49.0984|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-25 21:13:49.0984|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
