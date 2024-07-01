@@ -1,80 +1,1206 @@
-2024-06-25 18:18:44.5993|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 18:18:45.0809|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 18:18:45.0842|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 18:18:45.0842|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 18:19:25.0235|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 18:19:25.5178|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 18:19:25.5213|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 18:19:25.5213|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
-2024-06-25 18:19:50.0299|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 18:19:50.5085|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 18:19:50.5085|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 18:19:50.5085|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 18:20:14.0335|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 18:20:14.5062|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 18:20:14.5062|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 18:20:14.5062|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
-2024-06-25 19:12:14.7348|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:12:15.6021|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:12:15.6021|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:12:15.6021|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:12:34.8131|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:12:35.3009|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:12:35.3043|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:12:35.3043|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:12:45.0090|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:12:45.5021|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:12:45.5055|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:12:45.5055|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:13:09.3549|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:13:09.8330|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:13:09.8330|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:13:09.8330|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:13:34.2818|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:13:34.7574|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:13:34.7574|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:13:34.7574|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:14:35.4257|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:14:35.9056|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:14:35.9056|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:14:35.9056|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
-2024-06-25 19:15:01.5767|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:15:02.0483|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:15:02.0517|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:15:02.0517|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:15:08.8844|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:15:09.3657|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:15:09.3657|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:15:09.3657|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:15:16.2104|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:15:16.6916|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:15:16.6952|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:15:16.6952|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:15:24.4611|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:15:24.9327|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:15:24.9327|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:15:24.9327|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:15:31.2819|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:15:31.7560|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:15:31.7560|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:15:31.7560|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:15:49.4355|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:15:49.9105|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:15:49.9105|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:15:49.9105|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
-2024-06-25 19:30:14.2492|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:30:14.7317|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:30:14.7317|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:30:14.7317|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
-2024-06-25 19:30:38.1305|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 19:30:38.6193|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 19:30:38.6193|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 19:30:38.6193|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
-2024-06-25 21:12:14.3461|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 21:12:14.9877|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 21:12:14.9918|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 21:12:14.9918|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
-2024-06-25 21:13:48.5905|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
-2024-06-25 21:13:49.0950|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
-2024-06-25 21:13:49.0984|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
-2024-06-25 21:13:49.0984|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-30 14:45:48.6484|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 14:45:49.1249|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 14:45:49.1249|INFO|OpenCL_Barnes_Hut.Program|
+2024-06-30 14:45:49.1249|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 14:45:49.1249|INFO|OpenCL_Barnes_Hut.Program|
+2024-06-30 14:45:49.1249|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 14:45:49.1296|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-30 14:47:52.4074|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 14:47:52.8906|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 14:47:52.8906|INFO|OpenCL_Barnes_Hut.Program|NaN
+2024-06-30 14:47:52.8983|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 14:47:52.8983|INFO|OpenCL_Barnes_Hut.Program|NaN
+2024-06-30 14:47:52.8983|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 14:47:52.8983|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,006 seconds
+2024-06-30 14:48:04.5091|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 14:48:04.9877|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 14:48:04.9907|INFO|OpenCL_Barnes_Hut.Program|<NaN. NaN. NaN>
+2024-06-30 14:48:04.9907|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 14:48:04.9907|INFO|OpenCL_Barnes_Hut.Program|<NaN. NaN. NaN>
+2024-06-30 14:48:04.9907|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 14:48:04.9907|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,005 seconds
+2024-06-30 14:52:03.4587|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 14:52:03.9407|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 14:52:03.9439|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.Vector3`1[System.Double]
+2024-06-30 14:52:03.9439|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 14:52:03.9439|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.Vector3`1[System.Double]
+2024-06-30 14:52:03.9439|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 14:52:03.9439|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,005 seconds
+2024-06-30 16:03:02.2690|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:03:02.7578|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:03:02.7578|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.double3
+2024-06-30 16:03:02.7578|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:03:02.7578|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.double3
+2024-06-30 16:03:02.7578|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:03:02.7578|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,005 seconds
+2024-06-30 16:03:22.6301|INFO|OpenCL_Barnes_Hut.Program|24
+2024-06-30 16:03:22.6477|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:03:23.1357|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:03:23.1357|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.double3
+2024-06-30 16:03:23.1357|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:03:23.1357|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.double3
+2024-06-30 16:03:23.1357|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:03:23.1357|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-30 16:12:18.6527|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:12:19.1317|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:12:19.1317|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.double3
+2024-06-30 16:12:19.1317|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:12:19.1317|INFO|OpenCL_Barnes_Hut.Program|OpenCL_Barnes_Hut.double3
+2024-06-30 16:12:19.1317|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:12:19.1317|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,005 seconds
+2024-06-30 16:13:07.9765|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:13:08.4649|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:13:08.4649|INFO|OpenCL_Barnes_Hut.Program|NaN
+2024-06-30 16:13:08.4649|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:13:08.4730|INFO|OpenCL_Barnes_Hut.Program|NaN
+2024-06-30 16:13:08.4730|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:13:08.4730|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,006 seconds
+2024-06-30 16:16:45.9679|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:16:46.4524|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:16:46.4524|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:16:46.4524|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:16:46.4524|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,002 seconds
+2024-06-30 16:20:51.5463|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:20:52.0255|INFO|OpenCL_Barnes_Hut.Program|System.Double[]
+2024-06-30 16:20:52.0255|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:20:52.0255|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:20:52.0255|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:20:52.0357|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-06-30 16:21:12.9662|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:21:13.4444|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-06-30 16:21:13.4444|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:21:13.4444|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:21:13.4444|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:21:13.4444|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-06-30 16:21:38.7531|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:21:39.2347|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-06-30 16:21:39.2415|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:21:39.2415|INFO|OpenCL_Barnes_Hut.Program|NaN
+2024-06-30 16:21:39.2415|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:21:39.2415|INFO|OpenCL_Barnes_Hut.Program|NaN
+2024-06-30 16:21:39.2415|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:21:39.2415|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-06-30 16:21:51.6936|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 16:21:52.1822|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-06-30 16:21:52.1822|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 16:21:52.1822|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-06-30 16:21:52.1922|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 16:21:52.1922|INFO|OpenCL_Barnes_Hut.Program|NaN
+2024-06-30 16:21:52.1922|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 16:21:52.1922|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-06-30 18:33:00.9565|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 18:33:01.4435|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-06-30 18:33:01.4435|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 18:33:01.4435|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 18:33:01.4435|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 18:33:01.4435|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-06-30 18:39:11.3657|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 18:39:11.8569|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-06-30 18:39:11.8640|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 18:39:11.8640|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 18:39:11.8640|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 18:39:11.8640|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,001 seconds
+2024-06-30 18:51:59.6682|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 18:52:00.1627|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 18:52:00.1627|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-06-30 18:52:00.1627|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 18:52:00.1627|INFO|OpenCL_Barnes_Hut.Program|388695415,7861681
+2024-06-30 18:52:00.1627|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 18:52:00.1627|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,006 seconds
+2024-06-30 18:57:59.0828|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 18:57:59.5931|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 18:57:59.5931|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 0: Position (0, 0, 0), 
+Velocity (0, 0, 0)
+2024-06-30 18:57:59.5931|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 1: Position (384000000, 1022, 0), 
+Velocity (0, 1022, 0)
+2024-06-30 18:57:59.5931|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 18:57:59.5931|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 0: Position (4695415,786168098, 0, 0), 
+Velocity (4695415,786168098, 0, 0)
+2024-06-30 18:57:59.5931|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 1: Position (388695415,7861681, -381612314,66896963, 0), 
+Velocity (4695415,786168098, -381613336,66896963, 0)
+2024-06-30 18:57:59.5931|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 18:57:59.5987|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-06-30 19:03:17.4965|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 19:03:18.0041|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 19:03:18.0095|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 0: Position (0, 0, 0), 
+Velocity (0, 0, 0)
+2024-06-30 19:03:18.0095|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 1: Position (0, 1,022, 0), 
+Velocity (0, 1022, 0)
+2024-06-30 19:03:18.0095|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 19:03:18.0095|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 0: Position (4695415,786168098, 0, 0), 
+Velocity (4695415786,168098, 0, 0)
+2024-06-30 19:03:18.0095|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 1: Position (0, -381614356,6249696, 0), 
+Velocity (0, -381614357646,9696, 0)
+2024-06-30 19:03:18.0095|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 19:03:18.0095|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,004 seconds
+2024-06-30 19:08:40.4485|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-06-30 19:08:40.9410|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-06-30 19:08:40.9458|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 0: Position (0, 0, 0), 
+Velocity (0, 0, 0)
+2024-06-30 19:08:40.9458|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 1: Position (0, 1,022, 0), 
+Velocity (0, 1022, 0)
+2024-06-30 19:08:40.9458|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-06-30 19:08:40.9458|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 0: Position (-4695415,786168098, 0, 0), 
+Velocity (-4695415786,168098, 0, 0)
+2024-06-30 19:08:40.9458|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 1: Position (0, 381614360,7129696, 0), 
+Velocity (0, 381614359690,9696, 0)
+2024-06-30 19:08:40.9458|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-06-30 19:08:40.9458|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-07-01 11:48:16.9561|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 11:48:17.9406|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-07-01 11:48:17.9453|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 0: Position (0, 0, 0), 
+Velocity (0, 0, 0)
+2024-07-01 11:48:17.9453|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 1: Position (6,375059588E-314, 1,022, 0), 
+Velocity (6,375059588E-314, 1022, 0)
+2024-07-01 11:48:17.9453|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-07-01 11:48:17.9453|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 0: Position (4695415,786168098, 0, 0), 
+Velocity (4695415786,168098, 0, 0)
+2024-07-01 11:48:17.9453|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 1: Position (6,375059588E-314, -381614356,6249696, 0), 
+Velocity (6,375059588E-314, -381614357646,9696, 0)
+2024-07-01 11:48:17.9453|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-07-01 11:48:17.9453|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-07-01 11:49:56.4400|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|6,375059588E-314
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 0: Position (0, 0, 0), 
+Velocity (0, 0, 0)
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 1: Position (6,375059588E-314, 1,022, 0), 
+Velocity (6,375059588E-314, 1022, 0)
+2024-07-01 11:49:56.9279|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|6,375059588E-314
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 0: Position (4695415,786168098, 0, 0), 
+Velocity (4695415786,168098, 0, 0)
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 1: Position (6,375059588E-314, -381614356,6249696, 0), 
+Velocity (6,375059588E-314, -381614357646,9696, 0)
+2024-07-01 11:49:56.9279|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-07-01 11:49:56.9279|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-07-01 11:50:35.8686|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 11:50:36.3568|INFO|OpenCL_Barnes_Hut.Program|384000000
+2024-07-01 11:50:36.3568|INFO|OpenCL_Barnes_Hut.Program|Starting N-Body simulation.
+2024-07-01 11:50:36.3655|INFO|OpenCL_Barnes_Hut.Program|6,375059588E-314
+2024-07-01 11:50:36.3655|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 0: Position (4,695415786168099, 0, 0), 
+Velocity (4695,415786168099, 0, 0)
+2024-07-01 11:50:36.3655|INFO|OpenCL_Barnes_Hut.Program|Iteration 0, Body 1: Position (6,375059588E-314, 641,4076413310304, 0), 
+Velocity (6,375059588E-314, -380592,35866896965, 0)
+2024-07-01 11:50:36.3655|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 1
+2024-07-01 11:50:36.3655|INFO|OpenCL_Barnes_Hut.Program|6,375059588E-314
+2024-07-01 11:50:36.3655|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 0: Position (21,488159951349374, 0, 0), 
+Velocity (16792,744165181273, 0, 0)
+2024-07-01 11:50:36.3655|INFO|OpenCL_Barnes_Hut.Program|Iteration 1, Body 1: Position (6,375059588E-314, -722,3807581581173, 0), 
+Velocity (6,375059588E-314, -1363788,3994891476, 0)
+2024-07-01 11:50:36.3655|DEBUG|OpenCL_Barnes_Hut.Program|Stepped N-Body Sim, iteration: 2
+2024-07-01 11:50:36.3655|INFO|OpenCL_Barnes_Hut.Program|Executed program succesfully, time elapsed: 0,003 seconds
+2024-07-01 12:07:10.7165|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 12:07:11.1037|FATAL|OpenCL_Barnes_Hut.Program|Error in kernel.
+2024-07-01 12:07:11.1037|INFO|OpenCL_Barnes_Hut.Program|=============== OpenCL Program Build Info ================
+2024-07-01 12:07:11.1037|INFO|OpenCL_Barnes_Hut.Program|C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:31:5: error: use of undeclared identifier 'position'; did you mean 'positions'?
+    position = vload3(globalId, positions);
+    ^~~~~~~~
+    positions
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:22:22: note: 'positions' declared here
+    __global double* positions,
+                     ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:31:14: error: assigning to '__global double *__private' from incompatible type 'double3' (vector of 3 'double' values)
+    position = vload3(globalId, positions);
+             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:35:50: error: use of undeclared identifier 'position'
+            acceleration += compute_acceleration(position, vload3(i, positions), masses[i]);
+                                                 ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:40:5: error: use of undeclared identifier 'velocity'
+    velocity = vload3(globalId, velocity) + acceleration * dt;
+    ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:40:33: error: use of undeclared identifier 'velocity'; did you mean 'velocities'?
+    velocity = vload3(globalId, velocity) + acceleration * dt;
+                                ^~~~~~~~
+                                velocities
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:23:22: note: 'velocities' declared here
+    __global double* velocities,
+                     ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:41:5: error: use of undeclared identifier 'position'; did you mean 'positions'?
+    position += velocity * dt;
+    ^~~~~~~~
+    positions
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:22:22: note: 'positions' declared here
+    __global double* positions,
+                     ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:41:17: error: use of undeclared identifier 'velocity'
+    position += velocity * dt;
+                ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:43:13: error: use of undeclared identifier 'velocity'
+    vstore3(velocity, globalId, velocities);
+            ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-213845\input\CompileSource:44:13: error: use of undeclared identifier 'position'
+    vstore3(position, globalId, positions);
+            ^
+9 errors generated.
+Error: Failed to compile source (from CL or HIP source to LLVM IR).
+ 
+2024-07-01 12:07:11.1037|INFO|OpenCL_Barnes_Hut.Program|==========================================================
+2024-07-01 12:07:43.1762|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 12:07:43.5644|FATAL|OpenCL_Barnes_Hut.Program|Error in kernel.
+2024-07-01 12:07:43.5644|INFO|OpenCL_Barnes_Hut.Program|=============== OpenCL Program Build Info ================
+2024-07-01 12:07:43.5644|INFO|OpenCL_Barnes_Hut.Program|C:\Users\DANICA~1\AppData\Local\Temp\comgr-a6e9a6\input\CompileSource:40:24: error: no matching function for call to 'vload3'
+    double3 velocity = vload3(globalId, velocity) + acceleration * dt;
+                       ^~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12106:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private char *__private' for 2nd argument; take the address of the argument with &
+char3 __ovld __purefn vload3(size_t, const __private char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12107:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uchar *__private' (aka 'const __private unsigned char *__private') for 2nd argument; take the address of the argument with &
+uchar3 __ovld __purefn vload3(size_t, const __private uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12108:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private short *__private' for 2nd argument; take the address of the argument with &
+short3 __ovld __purefn vload3(size_t, const __private short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12109:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ushort *__private' (aka 'const __private unsigned short *__private') for 2nd argument; take the address of the argument with &
+ushort3 __ovld __purefn vload3(size_t, const __private ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12110:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private int *__private' for 2nd argument; take the address of the argument with &
+int3 __ovld __purefn vload3(size_t, const __private int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12111:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uint *__private' (aka 'const __private unsigned int *__private') for 2nd argument; take the address of the argument with &
+uint3 __ovld __purefn vload3(size_t, const __private uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12112:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private long *__private' for 2nd argument; take the address of the argument with &
+long3 __ovld __purefn vload3(size_t, const __private long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12113:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ulong *__private' (aka 'const __private unsigned long *__private') for 2nd argument; take the address of the argument with &
+ulong3 __ovld __purefn vload3(size_t, const __private ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12114:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private float *__private' for 2nd argument; take the address of the argument with &
+float3 __ovld __purefn vload3(size_t, const __private float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12155:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private double *__private' for 2nd argument; take the address of the argument with &
+double3 __ovld __purefn vload3(size_t, const __private double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12173:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private half *__private' for 2nd argument; take the address of the argument with &
+half3 __ovld __purefn vload3(size_t, const __private half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11892:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __constant char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11893:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uchar *__private' (aka 'const __constant unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __constant uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11894:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __constant short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11895:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ushort *__private' (aka 'const __constant unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __constant ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11896:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __constant int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11897:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uint *__private' (aka 'const __constant unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __constant uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11898:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __constant long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11899:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ulong *__private' (aka 'const __constant unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __constant ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11900:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __constant float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11930:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __constant double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11938:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __constant half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12016:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __global char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12017:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uchar *__private' (aka 'const __global unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __global uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12018:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __global short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12019:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ushort *__private' (aka 'const __global unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __global ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12020:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __global int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12021:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uint *__private' (aka 'const __global unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __global uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12022:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __global long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12023:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ulong *__private' (aka 'const __global unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __global ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12024:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __global float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12061:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __local char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12062:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uchar *__private' (aka 'const __local unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __local uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12063:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __local short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12064:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ushort *__private' (aka 'const __local unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __local ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12065:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __local int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12066:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uint *__private' (aka 'const __local unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __local uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12067:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __local long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12068:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ulong *__private' (aka 'const __local unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __local ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12069:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __local float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12145:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __global double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12150:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __local double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12163:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __global half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12168:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __local half *);
+                      ^
+1 error generated.
+Error: Failed to compile source (from CL or HIP source to LLVM IR).
+ 
+2024-07-01 12:07:43.5702|INFO|OpenCL_Barnes_Hut.Program|==========================================================
+2024-07-01 12:08:45.0590|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 12:08:45.4348|FATAL|OpenCL_Barnes_Hut.Program|Error in kernel.
+2024-07-01 12:08:45.4348|INFO|OpenCL_Barnes_Hut.Program|=============== OpenCL Program Build Info ================
+2024-07-01 12:08:45.4348|INFO|OpenCL_Barnes_Hut.Program|C:\Users\DANICA~1\AppData\Local\Temp\comgr-71c27b\input\CompileSource:40:24: error: no matching function for call to 'vload3'
+    double3 velocity = vload3(globalId, velocity) + acceleration * dt;
+                       ^~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12106:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private char *__private' for 2nd argument; take the address of the argument with &
+char3 __ovld __purefn vload3(size_t, const __private char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12107:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uchar *__private' (aka 'const __private unsigned char *__private') for 2nd argument; take the address of the argument with &
+uchar3 __ovld __purefn vload3(size_t, const __private uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12108:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private short *__private' for 2nd argument; take the address of the argument with &
+short3 __ovld __purefn vload3(size_t, const __private short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12109:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ushort *__private' (aka 'const __private unsigned short *__private') for 2nd argument; take the address of the argument with &
+ushort3 __ovld __purefn vload3(size_t, const __private ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12110:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private int *__private' for 2nd argument; take the address of the argument with &
+int3 __ovld __purefn vload3(size_t, const __private int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12111:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uint *__private' (aka 'const __private unsigned int *__private') for 2nd argument; take the address of the argument with &
+uint3 __ovld __purefn vload3(size_t, const __private uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12112:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private long *__private' for 2nd argument; take the address of the argument with &
+long3 __ovld __purefn vload3(size_t, const __private long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12113:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ulong *__private' (aka 'const __private unsigned long *__private') for 2nd argument; take the address of the argument with &
+ulong3 __ovld __purefn vload3(size_t, const __private ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12114:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private float *__private' for 2nd argument; take the address of the argument with &
+float3 __ovld __purefn vload3(size_t, const __private float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12155:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private double *__private' for 2nd argument; take the address of the argument with &
+double3 __ovld __purefn vload3(size_t, const __private double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12173:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private half *__private' for 2nd argument; take the address of the argument with &
+half3 __ovld __purefn vload3(size_t, const __private half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11892:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __constant char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11893:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uchar *__private' (aka 'const __constant unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __constant uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11894:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __constant short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11895:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ushort *__private' (aka 'const __constant unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __constant ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11896:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __constant int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11897:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uint *__private' (aka 'const __constant unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __constant uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11898:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __constant long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11899:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ulong *__private' (aka 'const __constant unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __constant ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11900:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __constant float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11930:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __constant double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11938:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __constant half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12016:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __global char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12017:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uchar *__private' (aka 'const __global unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __global uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12018:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __global short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12019:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ushort *__private' (aka 'const __global unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __global ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12020:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __global int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12021:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uint *__private' (aka 'const __global unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __global uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12022:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __global long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12023:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ulong *__private' (aka 'const __global unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __global ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12024:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __global float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12061:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __local char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12062:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uchar *__private' (aka 'const __local unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __local uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12063:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __local short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12064:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ushort *__private' (aka 'const __local unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __local ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12065:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __local int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12066:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uint *__private' (aka 'const __local unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __local uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12067:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __local long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12068:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ulong *__private' (aka 'const __local unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __local ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12069:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __local float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12145:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __global double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12150:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __local double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12163:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __global half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12168:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __local half *);
+                      ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-71c27b\input\CompileSource:43:33: warning: incompatible pointer types passing '__global double *__private *' to parameter of type '__private double *' [-Wincompatible-pointer-types]
+    vstore3(velocity, globalId, &velocities);
+                                ^~~~~~~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12390:61: note: passing argument to parameter here
+void __ovld vstore3(double3 data, size_t, __private double *);
+                                                            ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-71c27b\input\CompileSource:44:33: warning: incompatible pointer types passing '__global double *__private *' to parameter of type '__private double *' [-Wincompatible-pointer-types]
+    vstore3(position, globalId, &positions);
+                                ^~~~~~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12390:61: note: passing argument to parameter here
+void __ovld vstore3(double3 data, size_t, __private double *);
+                                                            ^
+2 warnings and 1 error generated.
+Error: Failed to compile source (from CL or HIP source to LLVM IR).
+ 
+2024-07-01 12:08:45.4348|INFO|OpenCL_Barnes_Hut.Program|==========================================================
+2024-07-01 12:10:32.3579|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 12:10:32.7418|FATAL|OpenCL_Barnes_Hut.Program|Error in kernel.
+2024-07-01 12:10:32.7418|INFO|OpenCL_Barnes_Hut.Program|=============== OpenCL Program Build Info ================
+2024-07-01 12:10:32.7418|INFO|OpenCL_Barnes_Hut.Program|C:\Users\DANICA~1\AppData\Local\Temp\comgr-8f166a\input\CompileSource:31:24: error: call to 'vload3' is ambiguous
+    double3 position = vload3(globalId, &positions);
+                       ^~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12106:23: note: candidate function
+char3 __ovld __purefn vload3(size_t, const __private char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12107:24: note: candidate function
+uchar3 __ovld __purefn vload3(size_t, const __private uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12108:24: note: candidate function
+short3 __ovld __purefn vload3(size_t, const __private short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12109:25: note: candidate function
+ushort3 __ovld __purefn vload3(size_t, const __private ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12110:22: note: candidate function
+int3 __ovld __purefn vload3(size_t, const __private int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12111:23: note: candidate function
+uint3 __ovld __purefn vload3(size_t, const __private uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12112:23: note: candidate function
+long3 __ovld __purefn vload3(size_t, const __private long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12113:24: note: candidate function
+ulong3 __ovld __purefn vload3(size_t, const __private ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12114:24: note: candidate function
+float3 __ovld __purefn vload3(size_t, const __private float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12155:25: note: candidate function
+double3 __ovld __purefn vload3(size_t, const __private double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12173:23: note: candidate function
+half3 __ovld __purefn vload3(size_t, const __private half *);
+                      ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-8f166a\input\CompileSource:40:24: error: no matching function for call to 'vload3'
+    double3 velocity = vload3(globalId, velocity) + acceleration * dt;
+                       ^~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12106:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private char *__private' for 2nd argument; take the address of the argument with &
+char3 __ovld __purefn vload3(size_t, const __private char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12107:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uchar *__private' (aka 'const __private unsigned char *__private') for 2nd argument; take the address of the argument with &
+uchar3 __ovld __purefn vload3(size_t, const __private uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12108:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private short *__private' for 2nd argument; take the address of the argument with &
+short3 __ovld __purefn vload3(size_t, const __private short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12109:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ushort *__private' (aka 'const __private unsigned short *__private') for 2nd argument; take the address of the argument with &
+ushort3 __ovld __purefn vload3(size_t, const __private ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12110:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private int *__private' for 2nd argument; take the address of the argument with &
+int3 __ovld __purefn vload3(size_t, const __private int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12111:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uint *__private' (aka 'const __private unsigned int *__private') for 2nd argument; take the address of the argument with &
+uint3 __ovld __purefn vload3(size_t, const __private uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12112:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private long *__private' for 2nd argument; take the address of the argument with &
+long3 __ovld __purefn vload3(size_t, const __private long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12113:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ulong *__private' (aka 'const __private unsigned long *__private') for 2nd argument; take the address of the argument with &
+ulong3 __ovld __purefn vload3(size_t, const __private ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12114:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private float *__private' for 2nd argument; take the address of the argument with &
+float3 __ovld __purefn vload3(size_t, const __private float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12155:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private double *__private' for 2nd argument; take the address of the argument with &
+double3 __ovld __purefn vload3(size_t, const __private double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12173:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private half *__private' for 2nd argument; take the address of the argument with &
+half3 __ovld __purefn vload3(size_t, const __private half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11892:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __constant char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11893:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uchar *__private' (aka 'const __constant unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __constant uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11894:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __constant short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11895:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ushort *__private' (aka 'const __constant unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __constant ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11896:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __constant int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11897:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uint *__private' (aka 'const __constant unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __constant uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11898:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __constant long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11899:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ulong *__private' (aka 'const __constant unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __constant ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11900:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __constant float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11930:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __constant double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11938:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __constant half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12016:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __global char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12017:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uchar *__private' (aka 'const __global unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __global uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12018:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __global short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12019:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ushort *__private' (aka 'const __global unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __global ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12020:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __global int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12021:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uint *__private' (aka 'const __global unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __global uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12022:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __global long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12023:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ulong *__private' (aka 'const __global unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __global ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12024:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __global float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12061:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __local char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12062:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uchar *__private' (aka 'const __local unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __local uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12063:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __local short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12064:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ushort *__private' (aka 'const __local unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __local ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12065:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __local int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12066:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uint *__private' (aka 'const __local unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __local uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12067:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __local long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12068:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ulong *__private' (aka 'const __local unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __local ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12069:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __local float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12145:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __global double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12150:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __local double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12163:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __global half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12168:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __local half *);
+                      ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-8f166a\input\CompileSource:43:33: warning: incompatible pointer types passing '__global double *__private *' to parameter of type '__private double *' [-Wincompatible-pointer-types]
+    vstore3(velocity, globalId, &velocities);
+                                ^~~~~~~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12390:61: note: passing argument to parameter here
+void __ovld vstore3(double3 data, size_t, __private double *);
+                                                            ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-8f166a\input\CompileSource:44:33: warning: incompatible pointer types passing '__global double *__private *' to parameter of type '__private double *' [-Wincompatible-pointer-types]
+    vstore3(position, globalId, &positions);
+                                ^~~~~~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12390:61: note: passing argument to parameter here
+void __ovld vstore3(double3 data, size_t, __private double *);
+                                                            ^
+2 warnings and 2 errors generated.
+Error: Failed to compile source (from CL or HIP source to LLVM IR).
+ 
+2024-07-01 12:10:32.7418|INFO|OpenCL_Barnes_Hut.Program|==========================================================
+2024-07-01 12:10:46.7236|DEBUG|OpenCL_Barnes_Hut.Program|Starting StreamWriter
+2024-07-01 12:10:47.1007|FATAL|OpenCL_Barnes_Hut.Program|Error in kernel.
+2024-07-01 12:10:47.1007|INFO|OpenCL_Barnes_Hut.Program|=============== OpenCL Program Build Info ================
+2024-07-01 12:10:47.1007|INFO|OpenCL_Barnes_Hut.Program|C:\Users\DANICA~1\AppData\Local\Temp\comgr-4b08e7\input\CompileSource:31:24: error: no matching function for call to 'vload3'
+    double3 position = vload3(globalId, *positions);
+                       ^~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12016:23: note: candidate function not viable: no known conversion from '__global double' to 'const __global char *__private' for 2nd argument; remove *
+char3 __ovld __purefn vload3(size_t, const __global char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12017:24: note: candidate function not viable: no known conversion from '__global double' to 'const __global uchar *__private' (aka 'const __global unsigned char *__private') for 2nd argument; remove *
+uchar3 __ovld __purefn vload3(size_t, const __global uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12018:24: note: candidate function not viable: no known conversion from '__global double' to 'const __global short *__private' for 2nd argument; remove *
+short3 __ovld __purefn vload3(size_t, const __global short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12019:25: note: candidate function not viable: no known conversion from '__global double' to 'const __global ushort *__private' (aka 'const __global unsigned short *__private') for 2nd argument; remove *
+ushort3 __ovld __purefn vload3(size_t, const __global ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12020:22: note: candidate function not viable: no known conversion from '__global double' to 'const __global int *__private' for 2nd argument; remove *
+int3 __ovld __purefn vload3(size_t, const __global int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12021:23: note: candidate function not viable: no known conversion from '__global double' to 'const __global uint *__private' (aka 'const __global unsigned int *__private') for 2nd argument; remove *
+uint3 __ovld __purefn vload3(size_t, const __global uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12022:23: note: candidate function not viable: no known conversion from '__global double' to 'const __global long *__private' for 2nd argument; remove *
+long3 __ovld __purefn vload3(size_t, const __global long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12023:24: note: candidate function not viable: no known conversion from '__global double' to 'const __global ulong *__private' (aka 'const __global unsigned long *__private') for 2nd argument; remove *
+ulong3 __ovld __purefn vload3(size_t, const __global ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12024:24: note: candidate function not viable: no known conversion from '__global double' to 'const __global float *__private' for 2nd argument; remove *
+float3 __ovld __purefn vload3(size_t, const __global float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12145:25: note: candidate function not viable: no known conversion from '__global double' to 'const __global double *__private' for 2nd argument; remove *
+double3 __ovld __purefn vload3(size_t, const __global double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12163:23: note: candidate function not viable: no known conversion from '__global double' to 'const __global half *__private' for 2nd argument; remove *
+half3 __ovld __purefn vload3(size_t, const __global half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11892:23: note: candidate function not viable: no known conversion from '__global double' to 'const __constant char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __constant char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11893:24: note: candidate function not viable: no known conversion from '__global double' to 'const __constant uchar *__private' (aka 'const __constant unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __constant uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11894:24: note: candidate function not viable: no known conversion from '__global double' to 'const __constant short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __constant short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11895:25: note: candidate function not viable: no known conversion from '__global double' to 'const __constant ushort *__private' (aka 'const __constant unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __constant ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11896:22: note: candidate function not viable: no known conversion from '__global double' to 'const __constant int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __constant int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11897:23: note: candidate function not viable: no known conversion from '__global double' to 'const __constant uint *__private' (aka 'const __constant unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __constant uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11898:23: note: candidate function not viable: no known conversion from '__global double' to 'const __constant long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __constant long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11899:24: note: candidate function not viable: no known conversion from '__global double' to 'const __constant ulong *__private' (aka 'const __constant unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __constant ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11900:24: note: candidate function not viable: no known conversion from '__global double' to 'const __constant float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __constant float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11930:25: note: candidate function not viable: no known conversion from '__global double' to 'const __constant double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __constant double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11938:23: note: candidate function not viable: no known conversion from '__global double' to 'const __constant half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __constant half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12061:23: note: candidate function not viable: no known conversion from '__global double' to 'const __local char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __local char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12062:24: note: candidate function not viable: no known conversion from '__global double' to 'const __local uchar *__private' (aka 'const __local unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __local uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12063:24: note: candidate function not viable: no known conversion from '__global double' to 'const __local short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __local short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12064:25: note: candidate function not viable: no known conversion from '__global double' to 'const __local ushort *__private' (aka 'const __local unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __local ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12065:22: note: candidate function not viable: no known conversion from '__global double' to 'const __local int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __local int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12066:23: note: candidate function not viable: no known conversion from '__global double' to 'const __local uint *__private' (aka 'const __local unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __local uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12067:23: note: candidate function not viable: no known conversion from '__global double' to 'const __local long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __local long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12068:24: note: candidate function not viable: no known conversion from '__global double' to 'const __local ulong *__private' (aka 'const __local unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __local ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12069:24: note: candidate function not viable: no known conversion from '__global double' to 'const __local float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __local float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12106:23: note: candidate function not viable: no known conversion from '__global double' to 'const __private char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __private char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12107:24: note: candidate function not viable: no known conversion from '__global double' to 'const __private uchar *__private' (aka 'const __private unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __private uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12108:24: note: candidate function not viable: no known conversion from '__global double' to 'const __private short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __private short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12109:25: note: candidate function not viable: no known conversion from '__global double' to 'const __private ushort *__private' (aka 'const __private unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __private ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12110:22: note: candidate function not viable: no known conversion from '__global double' to 'const __private int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __private int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12111:23: note: candidate function not viable: no known conversion from '__global double' to 'const __private uint *__private' (aka 'const __private unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __private uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12112:23: note: candidate function not viable: no known conversion from '__global double' to 'const __private long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __private long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12113:24: note: candidate function not viable: no known conversion from '__global double' to 'const __private ulong *__private' (aka 'const __private unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __private ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12114:24: note: candidate function not viable: no known conversion from '__global double' to 'const __private float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __private float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12150:25: note: candidate function not viable: no known conversion from '__global double' to 'const __local double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __local double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12155:25: note: candidate function not viable: no known conversion from '__global double' to 'const __private double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __private double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12168:23: note: candidate function not viable: no known conversion from '__global double' to 'const __local half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __local half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12173:23: note: candidate function not viable: no known conversion from '__global double' to 'const __private half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __private half *);
+                      ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-4b08e7\input\CompileSource:40:24: error: no matching function for call to 'vload3'
+    double3 velocity = vload3(globalId, velocity) + acceleration * dt;
+                       ^~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12106:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private char *__private' for 2nd argument; take the address of the argument with &
+char3 __ovld __purefn vload3(size_t, const __private char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12107:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uchar *__private' (aka 'const __private unsigned char *__private') for 2nd argument; take the address of the argument with &
+uchar3 __ovld __purefn vload3(size_t, const __private uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12108:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private short *__private' for 2nd argument; take the address of the argument with &
+short3 __ovld __purefn vload3(size_t, const __private short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12109:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ushort *__private' (aka 'const __private unsigned short *__private') for 2nd argument; take the address of the argument with &
+ushort3 __ovld __purefn vload3(size_t, const __private ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12110:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private int *__private' for 2nd argument; take the address of the argument with &
+int3 __ovld __purefn vload3(size_t, const __private int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12111:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private uint *__private' (aka 'const __private unsigned int *__private') for 2nd argument; take the address of the argument with &
+uint3 __ovld __purefn vload3(size_t, const __private uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12112:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private long *__private' for 2nd argument; take the address of the argument with &
+long3 __ovld __purefn vload3(size_t, const __private long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12113:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private ulong *__private' (aka 'const __private unsigned long *__private') for 2nd argument; take the address of the argument with &
+ulong3 __ovld __purefn vload3(size_t, const __private ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12114:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private float *__private' for 2nd argument; take the address of the argument with &
+float3 __ovld __purefn vload3(size_t, const __private float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12155:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private double *__private' for 2nd argument; take the address of the argument with &
+double3 __ovld __purefn vload3(size_t, const __private double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12173:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __private half *__private' for 2nd argument; take the address of the argument with &
+half3 __ovld __purefn vload3(size_t, const __private half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11892:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __constant char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11893:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uchar *__private' (aka 'const __constant unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __constant uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11894:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __constant short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11895:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ushort *__private' (aka 'const __constant unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __constant ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11896:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __constant int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11897:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant uint *__private' (aka 'const __constant unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __constant uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11898:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __constant long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11899:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant ulong *__private' (aka 'const __constant unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __constant ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11900:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __constant float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11930:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __constant double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:11938:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __constant half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __constant half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12016:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __global char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12017:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uchar *__private' (aka 'const __global unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __global uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12018:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __global short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12019:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ushort *__private' (aka 'const __global unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __global ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12020:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __global int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12021:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global uint *__private' (aka 'const __global unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __global uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12022:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __global long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12023:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global ulong *__private' (aka 'const __global unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __global ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12024:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __global float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12061:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local char *__private' for 2nd argument
+char3 __ovld __purefn vload3(size_t, const __local char *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12062:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uchar *__private' (aka 'const __local unsigned char *__private') for 2nd argument
+uchar3 __ovld __purefn vload3(size_t, const __local uchar *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12063:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local short *__private' for 2nd argument
+short3 __ovld __purefn vload3(size_t, const __local short *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12064:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ushort *__private' (aka 'const __local unsigned short *__private') for 2nd argument
+ushort3 __ovld __purefn vload3(size_t, const __local ushort *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12065:22: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local int *__private' for 2nd argument
+int3 __ovld __purefn vload3(size_t, const __local int *);
+                     ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12066:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local uint *__private' (aka 'const __local unsigned int *__private') for 2nd argument
+uint3 __ovld __purefn vload3(size_t, const __local uint *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12067:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local long *__private' for 2nd argument
+long3 __ovld __purefn vload3(size_t, const __local long *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12068:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local ulong *__private' (aka 'const __local unsigned long *__private') for 2nd argument
+ulong3 __ovld __purefn vload3(size_t, const __local ulong *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12069:24: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local float *__private' for 2nd argument
+float3 __ovld __purefn vload3(size_t, const __local float *);
+                       ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12145:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __global double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12150:25: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local double *__private' for 2nd argument
+double3 __ovld __purefn vload3(size_t, const __local double *);
+                        ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12163:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __global half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __global half *);
+                      ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12168:23: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to 'const __local half *__private' for 2nd argument
+half3 __ovld __purefn vload3(size_t, const __local half *);
+                      ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-4b08e7\input\CompileSource:43:5: error: no matching function for call to 'vstore3'
+    vstore3(velocity, globalId, *velocities);
+    ^~~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12380:13: note: candidate function not viable: no known conversion from '__global double' to '__global double *__private' for 3rd argument; remove *
+void __ovld vstore3(double3 data, size_t, __global double *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12385:13: note: candidate function not viable: no known conversion from '__global double' to '__local double *__private' for 3rd argument
+void __ovld vstore3(double3 data, size_t, __local double *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12390:13: note: candidate function not viable: no known conversion from '__global double' to '__private double *__private' for 3rd argument
+void __ovld vstore3(double3 data, size_t, __private double *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12252:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private char3' (vector of 3 'char' values) for 1st argument
+void __ovld vstore3(char3 data, size_t, __global char *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12253:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uchar3' (vector of 3 'uchar' values) for 1st argument
+void __ovld vstore3(uchar3 data, size_t, __global uchar *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12254:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private short3' (vector of 3 'short' values) for 1st argument
+void __ovld vstore3(short3 data, size_t, __global short *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12255:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ushort3' (vector of 3 'ushort' values) for 1st argument
+void __ovld vstore3(ushort3 data, size_t, __global ushort *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12256:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private int3' (vector of 3 'int' values) for 1st argument
+void __ovld vstore3(int3 data, size_t, __global int *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12257:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uint3' (vector of 3 'uint' values) for 1st argument
+void __ovld vstore3(uint3 data, size_t, __global uint *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12258:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private long3' (vector of 3 'long' values) for 1st argument
+void __ovld vstore3(long3 data, size_t, __global long *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12259:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ulong3' (vector of 3 'ulong' values) for 1st argument
+void __ovld vstore3(ulong3 data, size_t, __global ulong *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12260:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private float3' (vector of 3 'float' values) for 1st argument
+void __ovld vstore3(float3 data, size_t, __global float *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12297:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private char3' (vector of 3 'char' values) for 1st argument
+void __ovld vstore3(char3 data, size_t, __local char *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12298:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uchar3' (vector of 3 'uchar' values) for 1st argument
+void __ovld vstore3(uchar3 data, size_t, __local uchar *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12299:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private short3' (vector of 3 'short' values) for 1st argument
+void __ovld vstore3(short3 data, size_t, __local short *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12300:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ushort3' (vector of 3 'ushort' values) for 1st argument
+void __ovld vstore3(ushort3 data, size_t, __local ushort *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12301:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private int3' (vector of 3 'int' values) for 1st argument
+void __ovld vstore3(int3 data, size_t, __local int *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12302:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uint3' (vector of 3 'uint' values) for 1st argument
+void __ovld vstore3(uint3 data, size_t, __local uint *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12303:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private long3' (vector of 3 'long' values) for 1st argument
+void __ovld vstore3(long3 data, size_t, __local long *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12304:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ulong3' (vector of 3 'ulong' values) for 1st argument
+void __ovld vstore3(ulong3 data, size_t, __local ulong *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12305:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private float3' (vector of 3 'float' values) for 1st argument
+void __ovld vstore3(float3 data, size_t, __local float *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12342:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private char3' (vector of 3 'char' values) for 1st argument
+void __ovld vstore3(char3 data, size_t, __private char *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12343:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uchar3' (vector of 3 'uchar' values) for 1st argument
+void __ovld vstore3(uchar3 data, size_t, __private uchar *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12344:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private short3' (vector of 3 'short' values) for 1st argument
+void __ovld vstore3(short3 data, size_t, __private short *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12345:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ushort3' (vector of 3 'ushort' values) for 1st argument
+void __ovld vstore3(ushort3 data, size_t, __private ushort *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12346:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private int3' (vector of 3 'int' values) for 1st argument
+void __ovld vstore3(int3 data, size_t, __private int *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12347:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uint3' (vector of 3 'uint' values) for 1st argument
+void __ovld vstore3(uint3 data, size_t, __private uint *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12348:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private long3' (vector of 3 'long' values) for 1st argument
+void __ovld vstore3(long3 data, size_t, __private long *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12349:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ulong3' (vector of 3 'ulong' values) for 1st argument
+void __ovld vstore3(ulong3 data, size_t, __private ulong *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12350:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private float3' (vector of 3 'float' values) for 1st argument
+void __ovld vstore3(float3 data, size_t, __private float *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12398:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private half3' (vector of 3 'half' values) for 1st argument
+void __ovld vstore3(half3, size_t, __global half *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12404:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private half3' (vector of 3 'half' values) for 1st argument
+void __ovld vstore3(half3, size_t, __local half *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12410:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private half3' (vector of 3 'half' values) for 1st argument
+void __ovld vstore3(half3, size_t, __private half *);
+            ^
+C:\Users\DANICA~1\AppData\Local\Temp\comgr-4b08e7\input\CompileSource:44:5: error: no matching function for call to 'vstore3'
+    vstore3(position, globalId, *positions);
+    ^~~~~~~
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12380:13: note: candidate function not viable: no known conversion from '__global double' to '__global double *__private' for 3rd argument; remove *
+void __ovld vstore3(double3 data, size_t, __global double *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12385:13: note: candidate function not viable: no known conversion from '__global double' to '__local double *__private' for 3rd argument
+void __ovld vstore3(double3 data, size_t, __local double *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12390:13: note: candidate function not viable: no known conversion from '__global double' to '__private double *__private' for 3rd argument
+void __ovld vstore3(double3 data, size_t, __private double *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12252:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private char3' (vector of 3 'char' values) for 1st argument
+void __ovld vstore3(char3 data, size_t, __global char *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12253:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uchar3' (vector of 3 'uchar' values) for 1st argument
+void __ovld vstore3(uchar3 data, size_t, __global uchar *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12254:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private short3' (vector of 3 'short' values) for 1st argument
+void __ovld vstore3(short3 data, size_t, __global short *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12255:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ushort3' (vector of 3 'ushort' values) for 1st argument
+void __ovld vstore3(ushort3 data, size_t, __global ushort *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12256:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private int3' (vector of 3 'int' values) for 1st argument
+void __ovld vstore3(int3 data, size_t, __global int *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12257:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uint3' (vector of 3 'uint' values) for 1st argument
+void __ovld vstore3(uint3 data, size_t, __global uint *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12258:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private long3' (vector of 3 'long' values) for 1st argument
+void __ovld vstore3(long3 data, size_t, __global long *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12259:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ulong3' (vector of 3 'ulong' values) for 1st argument
+void __ovld vstore3(ulong3 data, size_t, __global ulong *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12260:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private float3' (vector of 3 'float' values) for 1st argument
+void __ovld vstore3(float3 data, size_t, __global float *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12297:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private char3' (vector of 3 'char' values) for 1st argument
+void __ovld vstore3(char3 data, size_t, __local char *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12298:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uchar3' (vector of 3 'uchar' values) for 1st argument
+void __ovld vstore3(uchar3 data, size_t, __local uchar *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12299:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private short3' (vector of 3 'short' values) for 1st argument
+void __ovld vstore3(short3 data, size_t, __local short *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12300:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ushort3' (vector of 3 'ushort' values) for 1st argument
+void __ovld vstore3(ushort3 data, size_t, __local ushort *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12301:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private int3' (vector of 3 'int' values) for 1st argument
+void __ovld vstore3(int3 data, size_t, __local int *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12302:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uint3' (vector of 3 'uint' values) for 1st argument
+void __ovld vstore3(uint3 data, size_t, __local uint *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12303:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private long3' (vector of 3 'long' values) for 1st argument
+void __ovld vstore3(long3 data, size_t, __local long *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12304:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ulong3' (vector of 3 'ulong' values) for 1st argument
+void __ovld vstore3(ulong3 data, size_t, __local ulong *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12305:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private float3' (vector of 3 'float' values) for 1st argument
+void __ovld vstore3(float3 data, size_t, __local float *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12342:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private char3' (vector of 3 'char' values) for 1st argument
+void __ovld vstore3(char3 data, size_t, __private char *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12343:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uchar3' (vector of 3 'uchar' values) for 1st argument
+void __ovld vstore3(uchar3 data, size_t, __private uchar *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12344:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private short3' (vector of 3 'short' values) for 1st argument
+void __ovld vstore3(short3 data, size_t, __private short *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12345:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ushort3' (vector of 3 'ushort' values) for 1st argument
+void __ovld vstore3(ushort3 data, size_t, __private ushort *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12346:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private int3' (vector of 3 'int' values) for 1st argument
+void __ovld vstore3(int3 data, size_t, __private int *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12347:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private uint3' (vector of 3 'uint' values) for 1st argument
+void __ovld vstore3(uint3 data, size_t, __private uint *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12348:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private long3' (vector of 3 'long' values) for 1st argument
+void __ovld vstore3(long3 data, size_t, __private long *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12349:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private ulong3' (vector of 3 'ulong' values) for 1st argument
+void __ovld vstore3(ulong3 data, size_t, __private ulong *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12350:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private float3' (vector of 3 'float' values) for 1st argument
+void __ovld vstore3(float3 data, size_t, __private float *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12398:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private half3' (vector of 3 'half' values) for 1st argument
+void __ovld vstore3(half3, size_t, __global half *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12404:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private half3' (vector of 3 'half' values) for 1st argument
+void __ovld vstore3(half3, size_t, __local half *);
+            ^
+C:\constructicon\builds\gfx\eleven\23.40\drivers\compute\build\native\Release\x64\lc\tools\comgr\<stdin>:12410:13: note: candidate function not viable: no known conversion from '__private double3' (vector of 3 'double' values) to '__private half3' (vector of 3 'half' values) for 1st argument
+void __ovld vstore3(half3, size_t, __private half *);
+            ^
+4 errors generated.
+Error: Failed to compile source (from CL or HIP source to LLVM IR).
+ 
+2024-07-01 12:10:47.1136|INFO|OpenCL_Barnes_Hut.Program|==========================================================

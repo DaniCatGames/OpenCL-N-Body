@@ -10,6 +10,7 @@ public class Shader : IDisposable {
 	private readonly uint handle;
 
 	public Shader(GL openGl, string vertPath, string fragPath) {
+		logger.Info("Creating new Shader.");
 		gl = openGl;
 
 		var vertex = LoadShader(ShaderType.VertexShader, vertPath);
@@ -39,30 +40,35 @@ public class Shader : IDisposable {
 	}
 
 	public void SetUniform(string name, int value) {
+		logger.Debug($"Setting uniform {name}.");
 		var location = gl.GetUniformLocation(handle, name);
 		if (location == -1) logger.Error($"{name} uniform not found on shader.");
 		gl.Uniform1(location, value);
 	}
 
 	public void SetUniform(string name, float value) {
+		logger.Debug($"Setting uniform {name}.");
 		var location = gl.GetUniformLocation(handle, name);
 		if (location == -1) logger.Error($"{name} uniform not found on shader.");
 		gl.Uniform1(location, value);
 	}
 
 	public void SetUniform(string name, Vector2 value) {
+		logger.Debug($"Setting uniform {name}.");
 		var location = gl.GetUniformLocation(handle, name);
 		if (location == -1) logger.Error($"{name} uniform not found on shader.");
 		gl.Uniform2(location, value);
 	}
 
 	public unsafe void SetUniform(string name, Matrix4x4 value) {
+		logger.Debug($"Setting uniform {name}.");
 		var location = gl.GetUniformLocation(handle, name);
 		if (location == -1) logger.Error($"{name} uniform not found on shader.");
 		gl.UniformMatrix4(location, 1, false, (float*)&value);
 	}
 
 	private uint LoadShader(ShaderType type, string path) {
+		logger.Info("Loading shader.");
 		var str = File.ReadAllText(path);
 		var shaderHandle = gl.CreateShader(type);
 

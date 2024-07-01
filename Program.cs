@@ -7,10 +7,31 @@ using Silk.NET.OpenCL;
 
 namespace OpenCL_Barnes_Hut;
 
+internal struct double3 {
+	public double X;
+	public double Y;
+	public double Z;
+
+	public double3(double x) {
+		X = x;
+		Y = x;
+		Z = x;
+	}
+
+	public double3(double x, double y, double z) {
+		X = x;
+		Y = y;
+		Z = z;
+	}
+}
+
 internal class Program {
 	private const int NumberOfBodies = 2;
-	private const int Iterations = 1;
-	private const float DeltaTime = 1;
+	private const int Iterations = 2;
+	private const double DeltaTime = 0.001;
+	private const int logEvery = 1;
+
+	private const double G = 6.674315e-11;
 	private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
 	private static unsafe void Main(string[] args) {
@@ -28,8 +49,8 @@ internal class Program {
 		});
 
 		logger.Debug("Starting StreamWriter");
-		var dir = Directory.GetCurrentDirectory() + @"\..\..\..\Output\NBodyData.txt";
-		var writer = new StreamWriter(dir);
+		var nBodyDataCsv = @"D:\Programming\C#\OpenCL Barnes-Hut\Output\NBodyData.csv";
+		var writer = new StreamWriter(nBodyDataCsv);
 
 		var memObjects = new nint[3];
 
@@ -65,59 +86,36 @@ internal class Program {
 		}
 
 		// Create Memory Arrays
-		var positions = new double[NumberOfBodies * 3];
-		var velocities = new double[NumberOfBodies * 3];
+		var positions = new double3[NumberOfBodies];
+		var velocities = new double3[NumberOfBodies];
 		var masses = new double[NumberOfBodies];
 
 		// Initialize data
-		/*for (var i = 0; i < NumberOfBodies; i++) {
-			positions[i] = i;
-			velocities[i] = i * 2;
-			masses[i] = i * 3;
-		}*/
+		masses[0] = 5.972e24 * G; // Mass Earth
+		masses[1] = 7.348e22 * G; // Mass Moon 
 
-		/*masses[0] = 398576057600000; // Mass Earth * G
-		masses[1] = 4904113984000; // Mass Moon * G
+		positions[0] = new double3(0.0); //Position Earth
+		positions[1] = new double3(3.84e8, 0.0, 0.0); //Position Moon
 
+		velocities[0] = new double3(0.0);
+		velocities[1] = new double3(0.0, 1022.0, 0.0);
 
-		positions[0] = 0; //Position Earth
-		positions[1] = 0;
-		positions[2] = 0;
-
-		positions[3] = 384000000; //Position Moon
-		positions[4] = 0;
-		positions[5] = 0;
-
-
-		velocities[0] = 0;
-		velocities[1] = 0;
-		velocities[2] = 0;
-
-		velocities[3] = 0;
-		velocities[4] = 1022;
-		velocities[5] = 0;*/
-
+		/*
 		masses[0] = 4.297e6 * 2e30 * 6.67408e-11;
-		positions[0] = 0; //Position Sagittarius A*
-		positions[1] = 0;
-		positions[2] = 0;
-		velocities[0] = 0; //Velocity Sagittarius A*
-		velocities[1] = 0;
-		velocities[2] = 0;
-
+		positions[0] = new double3(0.0); //Position Sagittarius A*
+		velocities[0] = new double3(0.0); //Velocity Sagittarius A*
 
 		for (var i = 1; i < NumberOfBodies; i++) {
-			masses[i] = 2e30 * 6.67408e-11;
-			positions[i * 3] = 100e9 + i * 1e9;
-			positions[i * 3 + 1] = 0;
-			positions[i * 3 + 2] = 0;
-			velocities[i * 3] = 0;
-			velocities[i * 3 + 1] = double.Sqrt(6.67408e-11 * masses[0] / positions[i * 3]);
-			velocities[i * 3 + 2] = 0;
-		}
+			masses[i] = 2e30 * G;
+			positions[i] = new double3(100e9 + i * 1e9, 0.0, 0.0);
+			velocities[i] = new double3(0.0, double.Sqrt(G * masses[0] / positions[i].X), 0.0);
+		}*/
 
 
-		if (!CreateMemObjects(cl, context, memObjects, positions, velocities, masses)) {
+		var flattenedPositions = FlattenDoubleArray(positions);
+		var flattenedVelocities = FlattenDoubleArray(velocities);
+
+		if (!CreateMemObjects(cl, context, memObjects, flattenedPositions, flattenedVelocities, masses)) {
 			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 			return;
 		}
@@ -126,26 +124,24 @@ internal class Program {
 		nuint[] globalWorkSize = [NumberOfBodies];
 		nuint[] localWorkSize = [1];
 
+		// Set the kernel arguments (mass, dt, body count)
 		var errNum = cl.SetKernelArg(kernel, 2, (nuint)sizeof(nint), memObjects[2]);
+		//errNum |= cl.SetKernelArg(kernel, 3, sizeof(float), DeltaTime);
+		//errNum |= cl.SetKernelArg(kernel, 4, sizeof(int), NumberOfBodies);
 
-		/* Zindaji
-		writer.WriteLine($"{NumberOfBodies}");
-		writer.WriteLine("0");
-		for (var i = 0; i < NumberOfBodies; i++)
-			writer.WriteLine($"{positions[i * 3]} {positions[i * 3 + 1]} {positions[i * 3 + 2]}");*/
-
+		//Write start data to csv
 		writer.WriteLine("bodyId,time,xPosition,yPosition,zPosition");
 		for (var k = 0; k < NumberOfBodies; k++)
-			writer.WriteLine(DoubleToString(k, "g") + ",0," + DoubleToString(positions[k * 3], "e2") + "," +
-			                 DoubleToString(positions[k * 3 + 1], "e2") + "," +
-			                 DoubleToString(positions[k * 3 + 1], "e2"));
+			writer.WriteLine(DoubleToString(k, "g") + ",0," + DoubleToString(flattenedPositions[k * 3], "e2") + "," +
+			                 DoubleToString(flattenedPositions[k * 3 + 1], "e2") + "," +
+			                 DoubleToString(flattenedPositions[k * 3 + 2], "e2"));
 
 
 		logger.Info("Starting N-Body simulation.");
 		var stopwatch = Stopwatch.StartNew();
 
 		for (var i = 0; i < Iterations; i++) {
-			// Set the kernel arguments (position, velocity, mass)
+			// Set the kernel arguments (position, velocity)
 			errNum |= cl.SetKernelArg(kernel, 0, (nuint)sizeof(nint), memObjects[0]);
 			errNum |= cl.SetKernelArg(kernel, 1, (nuint)sizeof(nint), memObjects[1]);
 
@@ -166,10 +162,10 @@ internal class Program {
 				return;
 			}
 
-
 			// Extract data
-			fixed (void* pPositions = positions) {
-				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0, 3 * NumberOfBodies * sizeof(double),
+			fixed (void* pPositions = flattenedPositions) {
+				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
+					NumberOfBodies * sizeof(double) * 3,
 					pPositions, 0, null, null);
 
 				if (errNum != (int)ErrorCodes.Success) {
@@ -179,8 +175,9 @@ internal class Program {
 				}
 			}
 
-			fixed (void* pVelocities = velocities) {
-				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[1], true, 0, 3 * NumberOfBodies * sizeof(double),
+			fixed (void* pVelocities = flattenedVelocities) {
+				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[1], true, 0,
+					NumberOfBodies * sizeof(double) * 3,
 					pVelocities, 0, null, null);
 
 				if (errNum != (int)ErrorCodes.Success) {
@@ -190,16 +187,18 @@ internal class Program {
 				}
 			}
 
-			/* Zindaji
-			writer.WriteLine($"{DeltaTime * (i + 1)}");
 			for (var k = 0; k < NumberOfBodies; k++)
-				writer.WriteLine(
-					$"{positions[k * 3]} {positions[k * 3 + 1]} {positions[k * 3 + 2]}");*/
+				logger.Info(
+					$"Iteration {i}, Body {k}: Position ({flattenedPositions[k * 3]}, {flattenedPositions[k * 3 + 1]}, {flattenedPositions[k * 3 + 2]}), \n" +
+					$"Velocity ({flattenedVelocities[k * 3]}, {flattenedVelocities[k * 3 + 1]}, {flattenedVelocities[k * 3 + 2]})");
 
+			//Write step data to csv file
 			for (var k = 0; k < NumberOfBodies; k++)
-				writer.WriteLine(DoubleToString(k, "g") + ",0," + DoubleToString(positions[k * 3], "e2") + "," +
-				                 DoubleToString(positions[k * 3 + 1], "e2") + "," +
-				                 DoubleToString(positions[k * 3 + 1], "e2"));
+				if (i % logEvery == 0)
+					writer.WriteLine(DoubleToString(k, "g") + "," + DoubleToString((i + 1) * DeltaTime, "g") + "," +
+					                 DoubleToString(flattenedPositions[k * 3], "e2") + "," +
+					                 DoubleToString(flattenedPositions[k * 3 + 1], "e2") + "," +
+					                 DoubleToString(flattenedPositions[k * 3 + 2], "e2"));
 
 			logger.Debug($"Stepped N-Body Sim, iteration: {i + 1}");
 		}
@@ -207,28 +206,28 @@ internal class Program {
 		stopwatch.Stop();
 
 		logger.Info(
-			$"Executed program succesfully, time elapsed: {stopwatch.ElapsedMilliseconds / 1000f} seconds");
+			$"Executed program succesfully, time elapsed: {stopwatch.ElapsedMilliseconds / 1000.0f} seconds");
 		Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 
-		OpenClWindow.RunWindow();
+		//OpenClWindow.RunWindow();
 	}
 
 
 	// Create memory objects used as the arguments to the kernel
-	private static unsafe bool CreateMemObjects(CL cl, nint context, nint[] memObjects, double[] positions,
-		double[] velocities, double[] masses) {
+	private static unsafe bool CreateMemObjects(CL cl, nint context, nint[] memObjects,
+		double[] positions, double[] velocities, double[] masses) {
 		fixed (void* pPositions = positions) {
 			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
-				sizeof(double) * NumberOfBodies * 3, pPositions, null);
+				NumberOfBodies * sizeof(double) * 3, pPositions, null);
 		}
 
 		fixed (void* pVelocities = velocities) {
 			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
-				sizeof(double) * NumberOfBodies * 3, pVelocities, null);
+				NumberOfBodies * sizeof(double) * 3, pVelocities, null);
 		}
 
 		fixed (void* pMasses = masses) {
-			memObjects[2] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.CopyHostPtr,
+			memObjects[2] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.HostWriteOnly | MemFlags.CopyHostPtr,
 				sizeof(double) * NumberOfBodies, pMasses, null);
 		}
 
@@ -269,9 +268,9 @@ internal class Program {
 			var build_log = Encoding.UTF8.GetString(log);
 
 			logger.Fatal("Error in kernel.");
-			logger.Debug("=============== OpenCL Program Build Info ================");
-			logger.Debug(build_log);
-			logger.Debug("==========================================================");
+			logger.Info("=============== OpenCL Program Build Info ================");
+			logger.Info(build_log);
+			logger.Info("==========================================================");
 
 			cl.ReleaseProgram(program);
 			return IntPtr.Zero;
@@ -301,14 +300,8 @@ internal class Program {
 		writer.Dispose();
 	}
 
-	/// <summary>
-	///     Create a command queue on the first device available on the
-	///     context
-	/// </summary>
-	/// <param name="cL"></param>
-	/// <param name="context"></param>
-	/// <param name="device"></param>
-	/// <returns></returns>
+
+	//Create a command queue on the first device available on the context
 	private static unsafe nint CreateCommandQueue(CL cL, nint context, ref nint device) {
 		var errNum = cL.GetContextInfo(context, ContextInfo.Devices, 0, null, out var deviceBufferSize);
 		if (errNum != (int)ErrorCodes.Success) {
@@ -342,12 +335,7 @@ internal class Program {
 		return commandQueue;
 	}
 
-	/// <summary>
-	///     Create an OpenCL context on the first available platform using
-	///     either a GPU or CPU depending on what is available.
-	/// </summary>
-	/// <param name="cL"></param>
-	/// <returns></returns>
+	// Create an OpenCL context on the first available platform using either a GPU or CPU depending on what is available.
 	private static unsafe nint CreateContext(CL cL) {
 		var errNum = cL.GetPlatformIDs(1, out var firstPlatformId, out var numPlatforms);
 		if (errNum != (int)ErrorCodes.Success || numPlatforms <= 0) {
@@ -355,9 +343,7 @@ internal class Program {
 			return IntPtr.Zero;
 		}
 
-		// Next, create an OpenCL context on the platform.  Attempt to
-		// create a GPU-based context, and if that fails, try to create
-		// a CPU-based context.
+		// Next, create an OpenCL context on the platform.  Attempt to create a GPU-based context, and if that fails, try to create a CPU-based context.
 		nint[] contextProperties = {
 			(nint)ContextProperties.Platform,
 			firstPlatformId,
@@ -385,5 +371,16 @@ internal class Program {
 
 	private static string DoubleToString(double number, [StringSyntax("NumericFormat")] string format) {
 		return number.ToString(format, CultureInfo.InvariantCulture);
+	}
+
+	private static double[] FlattenDoubleArray(double3[] array) {
+		var flattened = new double[array.Length * 3];
+		for (var i = 0; i < array.Length; i++) {
+			flattened[i * 3] = array[i].X;
+			flattened[i * 3 + 1] = array[i].Y;
+			flattened[i * 3 + 2] = array[i].Z;
+		}
+
+		return flattened;
 	}
 }

@@ -4,7 +4,7 @@ in vec2 fUv;
 
 out vec4 FragColor; //Out Color
 
-//uniform float uTime; // elapsed in sec
+uniform float uTime; // elapsed in sec
 uniform vec2 uResolution;
 
 vec3 palette(float t) {

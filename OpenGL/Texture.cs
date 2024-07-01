@@ -10,6 +10,8 @@ public class Texture : IDisposable {
 	private readonly uint handle;
 
 	public unsafe Texture(GL openGl, string path) {
+		logger.Debug("Loading new texture.");
+
 		gl = openGl;
 		handle = gl.GenTexture();
 		Bind();
@@ -24,6 +26,8 @@ public class Texture : IDisposable {
 	}
 
 	public unsafe Texture(GL openGl, Span<byte> data, uint width, uint height) {
+		logger.Debug("Loading new texture.");
+
 		gl = openGl;
 		handle = gl.GenTexture();
 		Bind();
@@ -40,6 +44,7 @@ public class Texture : IDisposable {
 	}
 
 	private void SetParams() {
+		logger.Debug("Setting texture parameters.");
 		gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)GLEnum.ClampToEdge);
 		gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)GLEnum.ClampToEdge);
 		gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.LinearMipmapLinear);
