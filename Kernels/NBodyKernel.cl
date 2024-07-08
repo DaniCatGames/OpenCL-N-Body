@@ -2,8 +2,9 @@
 {
     double4 difference = position2 - position1;
     double distance_squared = difference.x * difference.x + difference.y * difference.y + difference.z * difference.z;
+    
+    // Stop OpenCL from crashing my fucking computer for the 4th time in a row.
     const double epsilon = 1e-10;
-
     if (distance_squared < epsilon) distance_squared = epsilon;
 
     // Compute acceleration, mass precomputed with G
@@ -47,10 +48,4 @@ __kernel void integrate_verlet(__global double4 *positions, __global double4 *ve
     positions[globalId] += dt * (velocities[globalId] + acceleration * dt / 2);
     double4 new_acceleration = calculate_total_acceleration(positions, velocities, masses, numberOfBodies, globalId);
     velocities[globalId] += dt * (acceleration + new_acceleration) / 2;
-}
-
-__kernel void runge_kutta_4(__global double4 *positions, __global double4 *velocities, __global double *masses,
-    double dt, int numberOfBodies)
-{
-    
 }

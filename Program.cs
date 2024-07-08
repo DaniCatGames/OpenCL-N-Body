@@ -36,12 +36,12 @@ internal struct Double4 {
 }
 
 internal class Program {
-	private const int NumberOfBodies = 20;
-
-	private const int Iterations = 500000;
-
-	private const int LogEvery = 30;
+	private const int NumberOfBodies = 2000;
+	private const int Iterations = 10000;
+	private const int DeltaTime = 1;
+	private const int LogEvery = 50;
 	private const int ReferenceFrame = 0; // BodyID of reference frame
+	
 	private const double G = 6.674315e-11;
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -53,8 +53,8 @@ internal class Program {
 		nint kernel = 0;
 		nint device = 0;
 
-		var deltaTime = 1.0;
-		var numberOfBodies = 2;
+		var deltaTime = DeltaTime;
+		var numberOfBodies = NumberOfBodies;
 
 		LogManager.Setup().LoadConfiguration(builder => {
 			builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
@@ -118,7 +118,7 @@ internal class Program {
 		for (var i = 2; i < NumberOfBodies; i++) {
 			masses[i] = 1200;
 			positions[i] = new Double4(6571000 + i * 1000, 0.0, 0.0);
-			velocities[i] = new Double4(0.0, 10915.7777777778 + (i - 2.0) / (NumberOfBodies - 2.0) * 10, 0.0);
+			velocities[i] = new Double4(0.0, 7800 + 3386 * (i / (float)NumberOfBodies), 0.0);
 		}
 
 		/*
@@ -172,14 +172,8 @@ internal class Program {
 
 		for (var i = 0; i < Iterations; i++) {
 			// Enqueue kernel for execution
-			errNum = cl.EnqueueNdrangeKernel(commandQueue, kernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
+			cl.EnqueueNdrangeKernel(commandQueue, kernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
 				(nint*)null, (nint*)null);
-			if (errNum != (int)ErrorCodes.Success) {
-				Logger.Fatal("Error queuing kernel for execution.");
-				Logger.Debug(errNum.ToString());
-				Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
-				return;
-			}
 
 			if (i % LogEvery == 0) {
 				fixed (void* pPositions = flattenedPositions) {
@@ -199,7 +193,7 @@ internal class Program {
 					Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 					return;
 				}
-				
+
 				//Write step data to csv file
 				for (var k = 0; k < NumberOfBodies; k++)
 					writer.WriteLine(DoubleToString((i + 1) * deltaTime, "g") + "," + DoubleToString(k, "g") + "," +
@@ -212,16 +206,13 @@ internal class Program {
 					                 DoubleToString(
 						                 flattenedPositions[k * 4 + 2] - flattenedPositions[ReferenceFrame * 4 + 2],
 						                 "e2"));
-				
-				
-				Logger.Debug($"Stepped N-Body Sim, iteration: {i + 1}");
 			}
 		}
 
 		stopwatch.Stop();
 
 		Logger.Info(
-			$"Executed program succesfully, time elapsed: {stopwatch.ElapsedMilliseconds / 1000.0f} seconds");
+			$"Executed program succesfully, time elapsed: {stopwatch.ElapsedMilliseconds / 1000.0f} seconds, number of bodies: {numberOfBodies}, logging every {LogEvery} cycles.");
 		Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 
 		//OpenClWindow.RunWindow();
@@ -274,7 +265,7 @@ internal class Program {
 		var errNum = cl.BuildProgram(program, 0, null, (byte*)null, null, null);
 
 		if (errNum != (int)ErrorCodes.Success) {
-			_ = cl.GetProgramBuildInfo(program, device, ProgramBuildInfo.BuildLog, 0, null, out var buildLogSize);
+			cl.GetProgramBuildInfo(program, device, ProgramBuildInfo.BuildLog, 0, null, out var buildLogSize);
 			var log = new byte[buildLogSize / sizeof(byte)];
 			fixed (void* pValue = log) {
 				cl.GetProgramBuildInfo(program, device, ProgramBuildInfo.BuildLog, buildLogSize, pValue, null);
@@ -320,7 +311,7 @@ internal class Program {
 	private static unsafe nint CreateCommandQueue(CL cL, nint context, ref nint device) {
 		var errNum = cL.GetContextInfo(context, ContextInfo.Devices, 0, null, out var deviceBufferSize);
 		if (errNum != (int)ErrorCodes.Success) {
-			Logger.Fatal("Failed call to clGetContextInfo(...,GL_CONTEXT_DEVICES,...)");
+			Logger.Fatal("Failed call to clGetContextInfo");
 			return IntPtr.Zero;
 		}
 
