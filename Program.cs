@@ -36,12 +36,11 @@ internal struct Double4 {
 }
 
 internal class Program {
-	private const int NumberOfBodies = 2;
+	private const int NumberOfBodies = 20;
 
-	private const int Iterations = 1;
+	private const int Iterations = 500000;
 
-	//private const double DeltaTime = 1;
-	private const int LogEvery = 1;
+	private const int LogEvery = 30;
 	private const int ReferenceFrame = 0; // BodyID of reference frame
 	private const double G = 6.674315e-11;
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -93,7 +92,8 @@ internal class Program {
 		}
 
 		// Create OpenCL kernel
-		kernel = cl.CreateKernel(program, "brute_force_calculations_haha_get_it", null);
+		//kernel = cl.CreateKernel(program, "integrate_euler", null); // Euler Integration
+		kernel = cl.CreateKernel(program, "integrate_verlet", null); // Verlet Integration
 		if (kernel == IntPtr.Zero) {
 			Logger.Fatal("Failed to create kernel.");
 			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
@@ -145,10 +145,18 @@ internal class Program {
 		nuint[] globalWorkSize = [NumberOfBodies];
 		nuint[] localWorkSize = [1];
 
-		// Set the kernel arguments (mass, dt, body count)
+		// Set the kernel arguments (position, velocity, mass, dt, body count)
 		var errNum = cl.SetKernelArg(kernel, 2, (nuint)sizeof(nint), memObjects[2]);
 		errNum |= cl.SetKernelArg(kernel, 3, sizeof(double), &deltaTime);
 		errNum |= cl.SetKernelArg(kernel, 4, sizeof(int), &numberOfBodies);
+		errNum |= cl.SetKernelArg(kernel, 0, (nuint)sizeof(nint), memObjects[0]);
+		errNum |= cl.SetKernelArg(kernel, 1, (nuint)sizeof(nint), memObjects[1]);
+
+		if (errNum != (int)ErrorCodes.Success) {
+			Logger.Fatal("Error setting kernel arguments.");
+			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
+			return;
+		}
 
 		//Write start data to csv
 		writer.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
@@ -163,17 +171,6 @@ internal class Program {
 		var stopwatch = Stopwatch.StartNew();
 
 		for (var i = 0; i < Iterations; i++) {
-			// Set the kernel arguments (position, velocity)
-			errNum |= cl.SetKernelArg(kernel, 0, (nuint)sizeof(nint), memObjects[0]);
-			errNum |= cl.SetKernelArg(kernel, 1, (nuint)sizeof(nint), memObjects[1]);
-
-			if (errNum != (int)ErrorCodes.Success) {
-				Logger.Fatal("Error setting kernel arguments.");
-				Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
-				return;
-			}
-
-
 			// Enqueue kernel for execution
 			errNum = cl.EnqueueNdrangeKernel(commandQueue, kernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
 				(nint*)null, (nint*)null);
@@ -184,39 +181,27 @@ internal class Program {
 				return;
 			}
 
-			// Extract data
-			fixed (void* pPositions = flattenedPositions) {
-				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
-					NumberOfBodies * sizeof(double) * 4,
-					pPositions, 0, null, null);
+			if (i % LogEvery == 0) {
+				fixed (void* pPositions = flattenedPositions) {
+					errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
+						NumberOfBodies * sizeof(double) * 4,
+						pPositions, 0, null, null);
+				}
+
+				fixed (void* pVelocities = flattenedVelocities) {
+					errNum |= cl.EnqueueReadBuffer(commandQueue, memObjects[1], true, 0,
+						NumberOfBodies * sizeof(double) * 4,
+						pVelocities, 0, null, null);
+				}
 
 				if (errNum != (int)ErrorCodes.Success) {
-					Logger.Fatal("Error reading position buffer.");
+					Logger.Fatal("Error reading position or velocity buffer.");
 					Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 					return;
 				}
-			}
-
-			fixed (void* pVelocities = flattenedVelocities) {
-				errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[1], true, 0,
-					NumberOfBodies * sizeof(double) * 4,
-					pVelocities, 0, null, null);
-
-				if (errNum != (int)ErrorCodes.Success) {
-					Logger.Fatal("Error reading velocity buffer.");
-					Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
-					return;
-				}
-			}
-
-			/*for (var k = 0; k < NumberOfBodies; k++)
-				Logger.Info(
-					$"Iteration {i}, Body {k}: Position ({flattenedPositions[k * 4]}, {flattenedPositions[k * 4 + 1]}, {flattenedPositions[k * 4 + 2]}), \n" +
-					$"Velocity ({flattenedVelocities[k * 4 + 3]}, {flattenedVelocities[k * 4 + 1]}, {flattenedVelocities[k * 4 + 2]})");*/
-
-			//Write step data to csv file
-			for (var k = 0; k < NumberOfBodies; k++)
-				if (i % LogEvery == 0)
+				
+				//Write step data to csv file
+				for (var k = 0; k < NumberOfBodies; k++)
 					writer.WriteLine(DoubleToString((i + 1) * deltaTime, "g") + "," + DoubleToString(k, "g") + "," +
 					                 DoubleToString(
 						                 flattenedPositions[k * 4 + 0] - flattenedPositions[ReferenceFrame * 4 + 0],
@@ -227,8 +212,10 @@ internal class Program {
 					                 DoubleToString(
 						                 flattenedPositions[k * 4 + 2] - flattenedPositions[ReferenceFrame * 4 + 2],
 						                 "e2"));
-
-			Logger.Debug($"Stepped N-Body Sim, iteration: {i + 1}");
+				
+				
+				Logger.Debug($"Stepped N-Body Sim, iteration: {i + 1}");
+			}
 		}
 
 		stopwatch.Stop();
