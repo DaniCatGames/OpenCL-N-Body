@@ -49,3 +49,11 @@ __kernel void integrate_verlet(__global double4 *positions, __global double4 *ve
     double4 new_acceleration = calculate_total_acceleration(positions, velocities, masses, numberOfBodies, globalId);
     velocities[globalId] += dt * (acceleration + new_acceleration) / 2;
 }
+
+__kernel void integrate_rk4(__global double4 *positions, __global double4 *velocities, __global double *masses,
+    double dt, int numberOfBodies)
+{
+    int globalId = get_global_id(0);
+
+    
+}
