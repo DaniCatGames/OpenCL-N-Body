@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
@@ -8,23 +9,25 @@ using Silk.NET.OpenCL;
 namespace OpenCL_Barnes_Hut;
 
 internal enum IntegrationMethod {
-	Euler,
-	Verlet,
+	[Description("Euler Integration")] Euler,
+	[Description("Verlet Integration")] Verlet,
+
+	[Description("4th Order Runge-Kutta Integration")]
 	RK4
 }
 
 internal static class Program {
-	private const int NumberOfBodies = 2;
+	private const int NumberOfBodies = 2000;
 	private const int Iterations = 1;
 	private const double DeltaTime = 1;
-	
+
 	private const IntegrationMethod IntegrationMethodConfig = IntegrationMethod.RK4;
 	private const UniverseSetup UniverseSetupConfig = UniverseSetup.EarthMoonSatellites;
 
 	private const int LogEvery = 1;
 	private const int RepeatSim = 1;
 	private const int ReferenceFrame = 0; // BodyID of reference frame
-	
+
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
 	private static unsafe void Main() {
@@ -36,7 +39,7 @@ internal static class Program {
 		var numberOfBodies = NumberOfBodies;
 
 		LogManager.Setup().LoadConfiguration(builder => {
-			builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
+			builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToColoredConsole();
 			builder.ForLogger().FilterMinLevel(LogLevel.Debug)
 				.WriteToFile(@"D:\Programming\C#\OpenCL Barnes-Hut\Output\log.txt");
 		});
@@ -73,7 +76,7 @@ internal static class Program {
 			return;
 		}
 		// ReSharper restore HeuristicUnreachableCode
-		
+
 		var (positions, velocities, masses) = Universe.GetUniverse(NumberOfBodies, UniverseSetupConfig);
 
 		// Turn data into memory objects
@@ -137,7 +140,12 @@ internal static class Program {
 		stopwatch.Stop();
 
 		Logger.Info(
-			$"Executed program succesfully, time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds, number of bodies: {NumberOfBodies}, logging every {LogEvery} cycles, repeated {RepeatSim} times."
+			$" Executed program succesfully, data:\n" +
+			$"                                                       |     - Time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds\n" +
+			$"                                                       |     - Integration Method: {GetEnumDescription(IntegrationMethodConfig)}\n" +
+			$"                                                       |     - Number of bodies interacting: {NumberOfBodies}\n" +
+			$"                                                       |     - Logged to CSV every {LogEvery} integration cycles\n" +
+			$"                                                       |     - Repeated full simulation {RepeatSim} times\n"
 		);
 		Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 
@@ -312,5 +320,13 @@ internal static class Program {
 
 	private static string DoubleToString(double number, [StringSyntax("NumericFormat")] string format) {
 		return number.ToString(format, CultureInfo.InvariantCulture);
+	}
+
+	private static string GetEnumDescription(Enum e) {
+		var fieldInfo = e.GetType().GetField(e.ToString());
+		return fieldInfo?.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[]
+			enumAttributes
+			? enumAttributes[0].Description
+			: e.ToString();
 	}
 }
