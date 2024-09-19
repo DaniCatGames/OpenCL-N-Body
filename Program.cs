@@ -7,34 +7,24 @@ using Silk.NET.OpenCL;
 
 namespace OpenCL_Barnes_Hut;
 
-internal struct Double4 {
-	public readonly double X;
-	public readonly double Y;
-	public readonly double Z;
-	public readonly double W;
-
-	public Double4(double x, double y, double z) {
-		X = x;
-		Y = y;
-		Z = z;
-		W = 0.0;
-	}
-	
-	public Double4(double x) {
-		X = x;
-		Y = x;
-		Z = x;
-		W = 0.0;
-	}
+internal enum IntegrationMethod {
+	Euler,
+	Verlet,
+	RK4
 }
 
 internal static class Program {
 	private const int NumberOfBodies = 2;
 	private const int Iterations = 1;
 	private const double DeltaTime = 1;
-	private const int LogEvery = 1;
-	private const int ReferenceFrame = 0; // BodyID of reference frame
+	
+	private const IntegrationMethod IntegrationMethodConfig = IntegrationMethod.RK4;
+	private const UniverseSetup UniverseSetupConfig = UniverseSetup.EarthMoonSatellites;
 
+	private const int LogEvery = 1;
+	private const int RepeatSim = 1;
+	private const int ReferenceFrame = 0; // BodyID of reference frame
+	
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
 	private static unsafe void Main() {
@@ -50,7 +40,7 @@ internal static class Program {
 			builder.ForLogger().FilterMinLevel(LogLevel.Debug)
 				.WriteToFile(@"D:\Programming\C#\OpenCL Barnes-Hut\Output\log.txt");
 		});
-		
+
 		var writer = new StreamWriter(@"D:\Programming\C#\OpenCL Barnes-Hut\Output\NBodyData.csv");
 		var memObjects = new nint[3];
 
@@ -69,18 +59,23 @@ internal static class Program {
 			return;
 		}
 
+		// ReSharper disable HeuristicUnreachableCode
 		// Create OpenCL kernel
-		//kernel = cl.CreateKernel(program, "integrate_euler", null); // Euler Integration
-		kernel = cl.CreateKernel(program, "integrate_verlet", null); // Verlet Integration
-		//kernel = cl.CreateKernel(program, "integrate_rk4", null); // Runge-Kutta 4 Integration
+		kernel = IntegrationMethodConfig switch {
+			IntegrationMethod.Euler => cl.CreateKernel(program, "integrate_euler", null),
+			IntegrationMethod.Verlet => cl.CreateKernel(program, "integrate_verlet", null),
+			IntegrationMethod.RK4 => cl.CreateKernel(program, "integrate_rk4", null),
+			_ => cl.CreateKernel(program, "integrate_euler", null)
+		};
 		if (kernel == IntPtr.Zero) {
 			Logger.Fatal("Failed to create kernel.");
 			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 			return;
 		}
-
-		var (positions, velocities, masses) = Universe.EarthMoonSatellites(NumberOfBodies);
+		// ReSharper restore HeuristicUnreachableCode
 		
+		var (positions, velocities, masses) = Universe.GetUniverse(NumberOfBodies, UniverseSetupConfig);
+
 		// Turn data into memory objects
 		if (!CreateMemObjects(cl, context, memObjects, positions, velocities, masses)) {
 			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
@@ -100,16 +95,17 @@ internal static class Program {
 			return;
 		}
 
-		//Write start data to csv
+		// Write start data to csv
 		writer.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
 		SavePositionData(writer, positions, 0);
 
 		nuint[] globalWorkSize = [NumberOfBodies];
 		nuint[] localWorkSize = [1];
-		
+
 		Logger.Info("Starting N-Body simulation.");
 		var stopwatch = Stopwatch.StartNew();
 
+		for (var repeat = 0; repeat < RepeatSim; repeat++)
 		for (var iteration = 0; iteration < Iterations; iteration++) {
 			// Enqueue kernel for execution
 			cl.EnqueueNdrangeKernel(commandQueue, kernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
@@ -141,7 +137,8 @@ internal static class Program {
 		stopwatch.Stop();
 
 		Logger.Info(
-			$"Executed program succesfully, time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds, number of bodies: {NumberOfBodies}, logging every {LogEvery} cycles.");
+			$"Executed program succesfully, time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds, number of bodies: {NumberOfBodies}, logging every {LogEvery} cycles, repeated {RepeatSim} times."
+		);
 		Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 
 		//OpenClWindow.RunWindow();
@@ -187,7 +184,7 @@ internal static class Program {
 		}
 
 		if (memObjects[0] != IntPtr.Zero && memObjects[1] != IntPtr.Zero && memObjects[2] != IntPtr.Zero) return true;
-		
+
 		Logger.Fatal("Error creating memory objects.");
 		return false;
 	}
@@ -203,7 +200,7 @@ internal static class Program {
 		using var sr = new StreamReader(fileName);
 		var clStr = sr.ReadToEnd();
 
-		var program = cl.CreateProgramWithSource(context, 1, new[] { clStr }, null, null);
+		var program = cl.CreateProgramWithSource(context, 1, [clStr], null, null);
 		if (program == IntPtr.Zero) {
 			Logger.Fatal("Failed to create CL program from source.");
 			return IntPtr.Zero;
@@ -212,7 +209,7 @@ internal static class Program {
 		var errNum = cl.BuildProgram(program, 0, null, (byte*)null, null, null);
 
 		if (errNum == (int)ErrorCodes.Success) return program;
-		
+
 		cl.GetProgramBuildInfo(program, device, ProgramBuildInfo.BuildLog, 0, null, out var buildLogSize);
 		var log = new byte[buildLogSize / sizeof(byte)];
 		fixed (void* pValue = log) {
@@ -301,16 +298,15 @@ internal static class Program {
 		fixed (nint* p = contextProperties) {
 			var context = cL.CreateContextFromType(p, DeviceType.Gpu, null, null, out errNum);
 			if (errNum == (int)ErrorCodes.Success) return context;
-			
+
 			Logger.Info("Could not create GPU context, trying to create CPU context.");
 
 			context = cL.CreateContextFromType(p, DeviceType.Cpu, null, null, out errNum);
 
 			if (errNum == (int)ErrorCodes.Success) return context;
-				
+
 			Logger.Fatal("Failed to create an OpenCL GPU or CPU context.");
 			return IntPtr.Zero;
-
 		}
 	}
 

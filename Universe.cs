@@ -1,9 +1,23 @@
 ﻿namespace OpenCL_Barnes_Hut;
 
+public enum UniverseSetup {
+	EarthMoonSatellites,
+	SunSystem
+}
+
 public class Universe {
 	private const double G = 6.674315e-11;
 
-	public static (double[] positions, double[] velocities, double[] masses) EarthMoonSatellites(int numberOfBodies) {
+	public static (double[] positions, double[] velocities, double[] masses) GetUniverse(int numberOfBodies,
+		UniverseSetup setup) {
+		return setup switch {
+			UniverseSetup.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies),
+			UniverseSetup.SunSystem => SunSystem(),
+			_ => EarthMoonSatellites(numberOfBodies)
+		};
+	}
+
+	private static (double[] positions, double[] velocities, double[] masses) EarthMoonSatellites(int numberOfBodies) {
 		var positions = new Double4[numberOfBodies];
 		var velocities = new Double4[numberOfBodies];
 		var masses = new double[numberOfBodies];
@@ -26,13 +40,12 @@ public class Universe {
 
 		return (flattenedPositions, flattenedVelocities, masses);
 	}
-	
-	public static (double[] positions, double[] velocities, double[] masses) SunSystem() {
+
+	private static (double[] positions, double[] velocities, double[] masses) SunSystem() {
 		var positions = new Double4[9];
 		var velocities = new Double4[9];
 		var masses = new double[9];
 
-		
 
 		return (FlattenDoubleArray(positions), FlattenDoubleArray(velocities), masses);
 	}
