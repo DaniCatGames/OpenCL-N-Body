@@ -17,15 +17,16 @@ internal enum IntegrationMethod {
 }
 
 internal static class Program {
-	private const int NumberOfBodies = 2000;
-	private const int Iterations = 1;
+	private const int NumberOfBodies = 100;
+	private const int Iterations = 3000;
 	private const double DeltaTime = 1;
+	private const int LocalSize = 1;
 
-	private const IntegrationMethod IntegrationMethodConfig = IntegrationMethod.RK4;
+	private const IntegrationMethod IntegrationMethodConfig = IntegrationMethod.Euler;
 	private const UniverseSetup UniverseSetupConfig = UniverseSetup.EarthMoonSatellites;
 
 	private const int LogEvery = 1;
-	private const int RepeatSim = 1;
+	private const int RepeatSim = 5;
 	private const int ReferenceFrame = 0; // BodyID of reference frame
 
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -91,6 +92,8 @@ internal static class Program {
 		errNum |= cl.SetKernelArg(kernel, 2, (nuint)sizeof(nint), memObjects[2]);
 		errNum |= cl.SetKernelArg(kernel, 3, sizeof(double), &deltaTime);
 		errNum |= cl.SetKernelArg(kernel, 4, sizeof(int), &numberOfBodies);
+		errNum |= cl.SetKernelArg(kernel, 5, LocalSize * 4 * sizeof(double), null);
+		errNum |= cl.SetKernelArg(kernel, 6, LocalSize * sizeof(double), null);
 
 		if (errNum != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting kernel arguments.");
@@ -142,10 +145,13 @@ internal static class Program {
 		Logger.Info(
 			$" Executed program succesfully, data:\n" +
 			$"                                                       |     - Time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds\n" +
+			$"                                                       |     - Iterations: {Iterations}\n" +
 			$"                                                       |     - Integration Method: {GetEnumDescription(IntegrationMethodConfig)}\n" +
 			$"                                                       |     - Number of bodies interacting: {NumberOfBodies}\n" +
 			$"                                                       |     - Logged to CSV every {LogEvery} integration cycles\n" +
-			$"                                                       |     - Repeated full simulation {RepeatSim} times\n"
+			$"                                                       |     - Repeated full simulation {RepeatSim} times\n" + 
+			$"                                                       |     - Average simulation runtime: {stopwatch.Elapsed.TotalSeconds / RepeatSim} seconds\n" + 
+			$"                                                       |     - Average iteration runtime: {stopwatch.Elapsed.TotalSeconds / (RepeatSim * Iterations)} seconds\n"
 		);
 		Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
 
