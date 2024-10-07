@@ -24,7 +24,7 @@ public class Universe {
 		};
 	}
 
-	private static (double[] positions, double[] velocities, double[] masses) EarthMoonSatellites(int numberOfBodies,
+	private static (double[] positions, double[] accelerations, double[] masses) EarthMoonSatellites(int numberOfBodies,
 		double timeStep) {
 		var positions = new Double4[numberOfBodies];
 		var velocities = new Double4[numberOfBodies];
@@ -48,6 +48,17 @@ public class Universe {
 		var positions2 = CalculatePositionsAtTime(2, timeStep, positions, velocities, masses, numberOfBodies);
 		var positions3 = CalculatePositionsAtTime(3, timeStep, positions, velocities, masses, numberOfBodies);
 
+		var accelerations0 = new Double4[numberOfBodies];
+		var accelerations1 = new Double4[numberOfBodies];
+		var accelerations2 = new Double4[numberOfBodies];
+
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations0[i] = CalculateTotalAcceleration(positions, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations1[i] = CalculateTotalAcceleration(positions1, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations2[i] = CalculateTotalAcceleration(positions2, masses, numberOfBodies, i);
+
 		var positionsArray = new Double4[numberOfBodies * 5];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i] = new Double4(0);
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies] = positions[i];
@@ -55,7 +66,14 @@ public class Universe {
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 3] = positions2[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 4] = positions3[i];
 
-		return (FlattenDoubleArray(positionsArray), FlattenDoubleArray(velocities), masses);
+		var accelerationsArray = new Double4[numberOfBodies * 4];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i] = new Double4(0);
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies] = accelerations0[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 2] = accelerations1[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 3] = accelerations2[i];
+
+
+		return (FlattenDoubleArray(positionsArray), FlattenDoubleArray(accelerationsArray), masses);
 	}
 
 	private static (double[] positions, double[] velocities, double[] masses) EarthMoonSatellites(int numberOfBodies) {
@@ -122,7 +140,7 @@ public class Universe {
 		//Kickoff 
 		for (var i = 0; i < numberOfBodies; i++)
 			velocitiesAtTime[i] +=
-				-calcTimeStep * 0.5 * CalculateAcceleration(positionsAtTime, masses, numberOfBodies, i);
+				-calcTimeStep * 0.5 * CalculateTotalAcceleration(positionsAtTime, masses, numberOfBodies, i);
 
 		//Leapfrog
 		for (var i = 0; i < iterations; i++) {
@@ -131,23 +149,24 @@ public class Universe {
 
 			for (var j = 0; j < numberOfBodies; j++)
 				velocitiesAtTime[j] +=
-					-calcTimeStep * CalculateAcceleration(positionsAtTime, masses, numberOfBodies, j);
+					-calcTimeStep * CalculateTotalAcceleration(positionsAtTime, masses, numberOfBodies, j);
 		}
 
 		return positionsAtTime;
 	}
 
-	private static Double4 CalculateAcceleration(Double4[] positions, double[] masses, int numberOfBodies, int id) {
+	private static Double4
+		CalculateTotalAcceleration(Double4[] positions, double[] masses, int numberOfBodies, int id) {
 		var acceleration = new Double4(0);
 
 		for (var i = 0; i < numberOfBodies; i++)
 			if (i != id)
-				acceleration += ComputeAcceleration(positions[id], positions[i], masses[i]);
+				acceleration += CalculateAcceleration(positions[id], positions[i], masses[i]);
 
 		return acceleration;
 	}
 
-	private static Double4 ComputeAcceleration(Double4 position1, Double4 position2, double mass2) {
+	private static Double4 CalculateAcceleration(Double4 position1, Double4 position2, double mass2) {
 		var difference = position2 - position1;
 		var distanceSquared = difference.X * difference.X + difference.Y * difference.Y + difference.Z * difference.Z;
 		return mass2 / (distanceSquared * double.Sqrt(distanceSquared)) * difference;
