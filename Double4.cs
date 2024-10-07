@@ -51,4 +51,8 @@ internal struct Double4 {
 		if (b.X == 0 || b.Y == 0 || b.Z == 0 || b.W == 0) throw new DivideByZeroException();
 		return new Double4(a.X / b.X, a.Y / b.Y, a.Z / b.Z, a.W / b.W);
 	}
+
+	public static Double4 operator *(double a, Double4 b) {
+		return new Double4(a * b.X, a * b.Y, a * b.Z, a * b.W);
+	}
 }
