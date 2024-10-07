@@ -1,6 +1,6 @@
 ﻿namespace OpenCL_Barnes_Hut;
 
-public enum UniverseSetup {
+public enum UniverseSetups {
 	EarthMoonSatellites,
 	SunSystem
 }
@@ -9,17 +9,17 @@ public class Universe {
 	private const double G = 6.674315e-11;
 
 	public static (double[] positions, double[] velocities, double[] masses) GetUniverse(int numberOfBodies,
-		UniverseSetup setup, double timeStep = 0) {
-		if (timeStep != 0)
-			return setup switch {
-				UniverseSetup.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies),
-				UniverseSetup.SunSystem => SunSystem(),
+		UniverseSetups setups, double timeStep = 0) {
+		if (timeStep == 0)
+			return setups switch {
+				UniverseSetups.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies),
+				UniverseSetups.SunSystem => SunSystem(),
 				_ => EarthMoonSatellites(numberOfBodies)
 			};
 
-		return setup switch {
-			UniverseSetup.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies, timeStep),
-			UniverseSetup.SunSystem => SunSystem(),
+		return setups switch {
+			UniverseSetups.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies, timeStep),
+			UniverseSetups.SunSystem => SunSystem(),
 			_ => EarthMoonSatellites(numberOfBodies, timeStep)
 		};
 	}
@@ -36,13 +36,13 @@ public class Universe {
 		positions[1] = new Double4(3.84e8, 0.0, 0.0); //Position Moon
 		velocities[0] = new Double4(0.0);
 		velocities[1] = new Double4(0.0, 1022.0, 0.0);
-		
+
 		for (var i = 2; i < numberOfBodies; i++) {
 			masses[i] = 1200;
 			positions[i] = new Double4(6571000 + i * 1000, 0.0, 0.0);
 			velocities[i] = new Double4(0.0, 7800 + 3386 * (i / (float)numberOfBodies), 0.0);
 		}
-		
+
 		//Calculate previous positions with Leapfrog using timesteps of dt/512
 		var positions1 = CalculatePositionsAtTime(1, timeStep, positions, velocities, masses, numberOfBodies);
 		var positions2 = CalculatePositionsAtTime(2, timeStep, positions, velocities, masses, numberOfBodies);
@@ -54,7 +54,7 @@ public class Universe {
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 2] = positions1[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 3] = positions2[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 4] = positions3[i];
-		
+
 		return (FlattenDoubleArray(positionsArray), FlattenDoubleArray(velocities), masses);
 	}
 
@@ -109,23 +109,32 @@ public class Universe {
 	private static Double4[] CalculatePositionsAtTime(double time, double timeStep, Double4[] positions,
 		Double4[] velocities,
 		double[] masses, int numberOfBodies) {
+		var positionsAtTime = new Double4[numberOfBodies];
+		var velocitiesAtTime = new Double4[numberOfBodies];
+
+		for (var i = 0; i < numberOfBodies; i++) positionsAtTime[i] = positions[i];
+
+		for (var i = 0; i < numberOfBodies; i++) velocitiesAtTime[i] = velocities[i];
+
 		var calcTimeStep = timeStep / 512;
 		var iterations = time / calcTimeStep;
 
 		//Kickoff 
 		for (var i = 0; i < numberOfBodies; i++)
-			velocities[i] += -calcTimeStep * 0.5 * CalculateAcceleration(positions, masses, numberOfBodies, i);
+			velocitiesAtTime[i] +=
+				-calcTimeStep * 0.5 * CalculateAcceleration(positionsAtTime, masses, numberOfBodies, i);
 
 		//Leapfrog
 		for (var i = 0; i < iterations; i++) {
 			for (var j = 0; j < numberOfBodies; j++)
-				positions[j] += -calcTimeStep * velocities[j];
+				positionsAtTime[j] += -calcTimeStep * velocitiesAtTime[j];
 
 			for (var j = 0; j < numberOfBodies; j++)
-				velocities[j] += -calcTimeStep * CalculateAcceleration(positions, masses, numberOfBodies, j);
+				velocitiesAtTime[j] +=
+					-calcTimeStep * CalculateAcceleration(positionsAtTime, masses, numberOfBodies, j);
 		}
 
-		return positions;
+		return positionsAtTime;
 	}
 
 	private static Double4 CalculateAcceleration(Double4[] positions, double[] masses, int numberOfBodies, int id) {

@@ -8,35 +8,38 @@ using Silk.NET.OpenCL;
 
 namespace OpenCL_Barnes_Hut;
 
-internal enum IntegrationMethod {
+public enum IntegrationMethods {
 	[Description("Euler Integration")] Euler,
 	[Description("Verlet Integration")] Verlet,
 
 	[Description("4th Order Runge-Kutta Integration")]
-	RK4
+	RK4,
+
+	[Description("5th Order P2 Method Multistep Integration")]
+	M52
 }
 
 internal static class Program {
-	private const int NumberOfBodies = 100;
-	private const int Iterations = 3000;
-	private const double DeltaTime = 1;
-	private const int LocalSize = 1;
+	private const int NumberOfBodies = 200;
+	private const int Iterations = 1000;
+	private const double TimeStep = 1;
 
-	private const IntegrationMethod IntegrationMethodConfig = IntegrationMethod.Euler;
-	private const UniverseSetup UniverseSetupConfig = UniverseSetup.EarthMoonSatellites;
+	private const IntegrationMethods IntegrationMethod = IntegrationMethods.M52;
+	private const UniverseSetups UniverseSetup = UniverseSetups.EarthMoonSatellites;
 
-	private const int LogEvery = 1;
-	private const int RepeatSim = 5;
+	private const int LogEvery = 50;
+	private const int RepeatSim = 1;
 	private const int ReferenceFrame = 0; // BodyID of reference frame
 
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
 	private static unsafe void Main() {
 		var cl = CL.GetApi();
-		nint kernel = 0;
+		nint nBodyKernel = 0;
 		nint device = 0;
+		nint shiftKernel = 0;
 
-		var deltaTime = DeltaTime;
+		var timeStep = TimeStep;
 		var numberOfBodies = NumberOfBodies;
 
 		LogManager.Setup().LoadConfiguration(builder => {
@@ -45,76 +48,196 @@ internal static class Program {
 				.WriteToFile(@"D:\Programming\C#\OpenCL Barnes-Hut\Output\log.txt");
 		});
 
-		var writer = new StreamWriter(@"D:\Programming\C#\OpenCL Barnes-Hut\Output\NBodyData.csv");
+		var csvWriter = new StreamWriter(@"D:\Programming\C#\OpenCL Barnes-Hut\Output\NBodyData.csv");
 		var memObjects = new nint[3];
 
 		// Create an OpenCL context
 		var context = CreateContext(cl);
 		if (context == IntPtr.Zero) {
 			Logger.Fatal("Failed to create OpenCL context.");
-			writer.Dispose();
+			csvWriter.Dispose();
 			return;
 		}
 
 		var commandQueue = CreateCommandQueue(cl, context, ref device);
 		var program = CreateProgram(cl, context, device, @"D:\Programming\C#\OpenCL Barnes-Hut\Kernels\NBodyKernel.cl");
 		if (program == IntPtr.Zero || commandQueue == IntPtr.Zero) {
-			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
 			return;
 		}
 
 		// ReSharper disable HeuristicUnreachableCode
 		// Create OpenCL kernel
-		kernel = IntegrationMethodConfig switch {
-			IntegrationMethod.Euler => cl.CreateKernel(program, "integrate_euler", null),
-			IntegrationMethod.Verlet => cl.CreateKernel(program, "integrate_verlet", null),
-			IntegrationMethod.RK4 => cl.CreateKernel(program, "integrate_rk4", null),
+		nBodyKernel = IntegrationMethod switch {
+			IntegrationMethods.Euler => cl.CreateKernel(program, "integrate_euler", null),
+			IntegrationMethods.Verlet => cl.CreateKernel(program, "integrate_verlet", null),
+			IntegrationMethods.RK4 => cl.CreateKernel(program, "integrate_rk4", null),
+			IntegrationMethods.M52 => cl.CreateKernel(program, "integrate_multistep_5_2", null),
 			_ => cl.CreateKernel(program, "integrate_euler", null)
 		};
-		if (kernel == IntPtr.Zero) {
-			Logger.Fatal("Failed to create kernel.");
-			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
+		shiftKernel = cl.CreateKernel(program, "shiftKernel", null);
+		if (nBodyKernel == IntPtr.Zero || shiftKernel == IntPtr.Zero) {
+			Logger.Fatal("Failed to create " + (nBodyKernel == IntPtr.Zero ? "nBodyKernel" : "shiftKernel"));
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
 			return;
 		}
 		// ReSharper restore HeuristicUnreachableCode
+		
+		switch (IntegrationMethod) {
+			case IntegrationMethods.Euler:
+				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
+					csvWriter);
+				break;
+			case IntegrationMethods.Verlet:
+				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
+					csvWriter);
+				break;
+			case IntegrationMethods.RK4:
+				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
+					csvWriter);
+				break;
+			case IntegrationMethods.M52:
+				IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
+					numberOfBodies,
+					csvWriter, shiftKernel);
+				break;
+		}
+		
+		Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
 
-		var (positions, velocities, masses) = Universe.GetUniverse(NumberOfBodies, UniverseSetupConfig);
+		//OpenClWindow.RunWindow();
+	}
+
+	private static unsafe void IntegrateMultistep(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
+		nint commandQueue,
+		nint program, double deltaTime, int numberOfBodies, StreamWriter writer, nint shiftKernel) {
+		var (positions, _, masses) =
+			Universe.GetUniverse(NumberOfBodies, UniverseSetup, TimeStep);
 
 		// Turn data into memory objects
-		if (!CreateMemObjects(cl, context, memObjects, positions, velocities, masses)) {
-			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
+		if (!CreateMemObjectsMultistep(cl, context, memObjects, positions, masses)) {
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
 			return;
 		}
 
-		// Set the kernel arguments (position, velocity, mass, dt, body count)
-		var errNum = cl.SetKernelArg(kernel, 0, (nuint)sizeof(nint), memObjects[0]);
-		errNum |= cl.SetKernelArg(kernel, 1, (nuint)sizeof(nint), memObjects[1]);
-		errNum |= cl.SetKernelArg(kernel, 2, (nuint)sizeof(nint), memObjects[2]);
-		errNum |= cl.SetKernelArg(kernel, 3, sizeof(double), &deltaTime);
-		errNum |= cl.SetKernelArg(kernel, 4, sizeof(int), &numberOfBodies);
-		errNum |= cl.SetKernelArg(kernel, 5, LocalSize * 4 * sizeof(double), null);
-		errNum |= cl.SetKernelArg(kernel, 6, LocalSize * sizeof(double), null);
+		var historySize = IntegrationMethod switch {
+			IntegrationMethods.M52 => 4,
+			_ => 0
+		};
+
+		// Set the nBodyKernel arguments (positions, velocities, masses, timestep, body count)
+		var errNum = cl.SetKernelArg(nBodyKernel, 0, (nuint)sizeof(nint), memObjects[0]);
+		errNum |= cl.SetKernelArg(nBodyKernel, 1, (nuint)sizeof(nint), memObjects[1]);
+		errNum |= cl.SetKernelArg(nBodyKernel, 2, sizeof(double), &deltaTime);
+		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(int), &numberOfBodies);
+
+		// Set the ShiftKernel arguments (positions, body count, rightshift)
+		var errNumS = cl.SetKernelArg(shiftKernel, 0, (nuint)sizeof(nint), memObjects[0]);
+		errNumS |= cl.SetKernelArg(shiftKernel, 1, sizeof(int), &numberOfBodies);
+		errNumS |= cl.SetKernelArg(shiftKernel, 2, sizeof(int), &historySize);
+
+		if (errNumS != (int)ErrorCodes.Success) {
+			Logger.Fatal("Error setting shiftKernel arguments.");
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
+			return;
+		}
 
 		if (errNum != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting kernel arguments.");
-			Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
 			return;
 		}
 
 		// Write start data to csv
 		writer.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
-		SavePositionData(writer, positions, 0);
+		SavePositionData(writer, positions, 0, NumberOfBodies, true);
 
 		nuint[] globalWorkSize = [NumberOfBodies];
+		nuint[] globalWorkSizeShift = [1];
 		nuint[] localWorkSize = [1];
-
+		
 		Logger.Info("Starting N-Body simulation.");
 		var stopwatch = Stopwatch.StartNew();
 
 		for (var repeat = 0; repeat < RepeatSim; repeat++)
 		for (var iteration = 0; iteration < Iterations; iteration++) {
 			// Enqueue kernel for execution
-			cl.EnqueueNdrangeKernel(commandQueue, kernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
+			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
+				(nint*)null, (nint*)null);
+			cl.EnqueueNdrangeKernel(commandQueue, shiftKernel, 1, (nuint*)null, globalWorkSizeShift, localWorkSize, 0,
+				(nint*)null, (nint*)null);
+
+			if (iteration % LogEvery == 0) {
+				fixed (void* pPositions = positions) {
+					errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
+						NumberOfBodies * sizeof(double) * 4 * 5,
+						pPositions, 0, null, null);
+				}
+
+				if (errNum != (int)ErrorCodes.Success) {
+					Logger.Fatal("Error reading position or velocity buffer.");
+					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
+					return;
+				}
+
+				SavePositionData(writer, positions, iteration, NumberOfBodies, true);
+			}
+		}
+		
+		stopwatch.Stop();
+
+		Logger.Info(
+			$" Executed program succesfully, data:\n" +
+			$"                                                       |     - Time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds\n" +
+			$"                                                       |     - Iterations: {Iterations}\n" +
+			$"                                                       |     - Integration Method: {GetEnumDescription(IntegrationMethod)}\n" +
+			$"                                                       |     - Number of bodies interacting: {NumberOfBodies}\n" +
+			$"                                                       |     - Logged to CSV every {LogEvery} integration cycles\n" +
+			$"                                                       |     - Repeated full simulation {RepeatSim} times\n" +
+			$"                                                       |     - Average simulation runtime: {stopwatch.Elapsed.TotalSeconds / RepeatSim} seconds\n" +
+			$"                                                       |     - Average iteration runtime: {stopwatch.Elapsed.TotalSeconds / (RepeatSim * Iterations)} seconds\n"
+		);
+	}
+
+	private static unsafe void IntegrateNormal(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
+		nint commandQueue,
+		nint program, double deltaTime, int numberOfBodies, StreamWriter csvWriter) {
+		var (positions, velocities, masses) =
+			Universe.GetUniverse(NumberOfBodies, UniverseSetup);
+
+		// Turn data into memory objects
+		if (!CreateMemObjectsNormal(cl, context, memObjects, positions, velocities, masses)) {
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0);
+			return;
+		}
+
+		// Set the kernel arguments (position, velocity, mass, dt, body count)
+		var errNum = cl.SetKernelArg(nBodyKernel, 0, (nuint)sizeof(nint), memObjects[0]);
+		errNum |= cl.SetKernelArg(nBodyKernel, 1, (nuint)sizeof(nint), memObjects[1]);
+		errNum |= cl.SetKernelArg(nBodyKernel, 2, (nuint)sizeof(nint), memObjects[2]);
+		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(double), &deltaTime);
+		errNum |= cl.SetKernelArg(nBodyKernel, 4, sizeof(int), &numberOfBodies);
+
+		if (errNum != (int)ErrorCodes.Success) {
+			Logger.Fatal("Error setting kernel arguments.");
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0);
+			return;
+		}
+
+		// Write start data to csv
+		csvWriter.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
+		SavePositionData(csvWriter, positions, 0, NumberOfBodies, false);
+
+		nuint[] globalWorkSize = [NumberOfBodies];
+		nuint[] localWorkSize = [1];
+		
+		Logger.Info("Starting N-Body simulation.");
+		var stopwatch = Stopwatch.StartNew();
+
+		for (var repeat = 0; repeat < RepeatSim; repeat++)
+		for (var iteration = 0; iteration < Iterations; iteration++) {
+			// Enqueue kernel for execution
+			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
 				(nint*)null, (nint*)null);
 
 			if (iteration % LogEvery == 0) {
@@ -124,64 +247,79 @@ internal static class Program {
 						pPositions, 0, null, null);
 				}
 
-				fixed (void* pVelocities = velocities) {
-					errNum |= cl.EnqueueReadBuffer(commandQueue, memObjects[1], true, 0,
-						NumberOfBodies * sizeof(double) * 4,
-						pVelocities, 0, null, null);
-				}
-
 				if (errNum != (int)ErrorCodes.Success) {
 					Logger.Fatal("Error reading position or velocity buffer.");
-					Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
+					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0);
 					return;
 				}
 
-				SavePositionData(writer, positions, iteration);
+				SavePositionData(csvWriter, positions, iteration, NumberOfBodies, false);
 			}
 		}
-
+		
 		stopwatch.Stop();
 
 		Logger.Info(
 			$" Executed program succesfully, data:\n" +
 			$"                                                       |     - Time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds\n" +
 			$"                                                       |     - Iterations: {Iterations}\n" +
-			$"                                                       |     - Integration Method: {GetEnumDescription(IntegrationMethodConfig)}\n" +
+			$"                                                       |     - Integration Method: {GetEnumDescription(IntegrationMethod)}\n" +
 			$"                                                       |     - Number of bodies interacting: {NumberOfBodies}\n" +
 			$"                                                       |     - Logged to CSV every {LogEvery} integration cycles\n" +
-			$"                                                       |     - Repeated full simulation {RepeatSim} times\n" + 
-			$"                                                       |     - Average simulation runtime: {stopwatch.Elapsed.TotalSeconds / RepeatSim} seconds\n" + 
+			$"                                                       |     - Repeated full simulation {RepeatSim} times\n" +
+			$"                                                       |     - Average simulation runtime: {stopwatch.Elapsed.TotalSeconds / RepeatSim} seconds\n" +
 			$"                                                       |     - Average iteration runtime: {stopwatch.Elapsed.TotalSeconds / (RepeatSim * Iterations)} seconds\n"
 		);
-		Cleanup(cl, context, commandQueue, program, kernel, memObjects, writer);
-
-		//OpenClWindow.RunWindow();
 	}
 
-	private static void SavePositionData(StreamWriter writer, double[] positions, int iteration) {
-		for (var i = 0; i < NumberOfBodies; i++)
-			writer.WriteLine(new StringBuilder().Append(DoubleToString((iteration + 1) * DeltaTime, "g"))
-				.Append(',')
-				.Append(DoubleToString(i, "g"))
-				.Append(',')
-				.Append(DoubleToString(
-					positions[i * 4 + 0] - positions[ReferenceFrame * 4 + 0],
-					"e2"))
-				.Append(',')
-				.Append(DoubleToString(
-					positions[i * 4 + 1] - positions[ReferenceFrame * 4 + 1],
-					"e2"))
-				.Append(',')
-				.Append(DoubleToString(
-					positions[i * 4 + 2] - positions[ReferenceFrame * 4 + 2],
-					"e2"))
-				.ToString());
+	private static void SavePositionData(StreamWriter csvWriter, double[] positions, int iteration, int numberOfBodies,
+		bool multistep) {
+		if (multistep)
+			for (var i = 0; i < NumberOfBodies; i++)
+				csvWriter.WriteLine(new StringBuilder().Append(DoubleToString((iteration + 1) * TimeStep, "g"))
+					.Append(',')
+					.Append(DoubleToString(i, "g"))
+					.Append(',')
+					.Append(DoubleToString(
+						positions[numberOfBodies * 4 + i * 4 + 0] -
+						positions[numberOfBodies * 4 + ReferenceFrame * 4 + 0],
+						"e2"))
+					.Append(',')
+					.Append(DoubleToString(
+						positions[numberOfBodies * 4 + i * 4 + 1] -
+						positions[numberOfBodies * 4 + ReferenceFrame * 4 + 1],
+						"e2"))
+					.Append(',')
+					.Append(DoubleToString(
+						positions[numberOfBodies * 4 + i * 4 + 2] -
+						positions[numberOfBodies * 4 + ReferenceFrame * 4 + 2],
+						"e2"))
+					.ToString());
+		else
+			for (var i = 0; i < NumberOfBodies; i++)
+				csvWriter.WriteLine(new StringBuilder().Append(DoubleToString((iteration + 1) * TimeStep, "g"))
+					.Append(',')
+					.Append(DoubleToString(i, "g"))
+					.Append(',')
+					.Append(DoubleToString(
+						positions[i * 4 + 0] - positions[ReferenceFrame * 4 + 0],
+						"e2"))
+					.Append(',')
+					.Append(DoubleToString(
+						positions[i * 4 + 1] - positions[ReferenceFrame * 4 + 1],
+						"e2"))
+					.Append(',')
+					.Append(DoubleToString(
+						positions[i * 4 + 2] - positions[ReferenceFrame * 4 + 2],
+						"e2"))
+					.ToString());
 	}
 
 
 	// Create memory objects used as the arguments to the kernel
-	private static unsafe bool CreateMemObjects(CL cl, nint context, nint[] memObjects,
-		double[] positions, double[] velocities, double[] masses) {
+	private static unsafe bool CreateMemObjectsNormal(CL cl, nint context, nint[] memObjects,
+		double[] positions, double[] velocities, double[] masses
+	) {
 		fixed (void* pPositions = positions) {
 			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
 				NumberOfBodies * sizeof(double) * 4, pPositions, null);
@@ -203,15 +341,34 @@ internal static class Program {
 		return false;
 	}
 
+	private static unsafe bool CreateMemObjectsMultistep(CL cl, nint context, nint[] memObjects,
+		double[] positions, double[] masses
+	) {
+		fixed (void* pPositions = positions) {
+			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
+				NumberOfBodies * sizeof(double) * 4 * 5, pPositions, null);
+		}
+
+		fixed (void* pMasses = masses) {
+			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.HostWriteOnly | MemFlags.CopyHostPtr,
+				sizeof(double) * NumberOfBodies, pMasses, null);
+		}
+
+		if (memObjects[0] != IntPtr.Zero && memObjects[1] != IntPtr.Zero) return true;
+
+		Logger.Fatal("Error creating memory objects.");
+		return false;
+	}
+
 
 	// Create an OpenCL program from the kernel source file
-	private static unsafe nint CreateProgram(CL cl, nint context, nint device, string fileName) {
-		if (!File.Exists(fileName)) {
-			Logger.Fatal($"File does not exist: {fileName}");
+	private static unsafe nint CreateProgram(CL cl, nint context, nint device, string kernelFile) {
+		if (!File.Exists(kernelFile)) {
+			Logger.Fatal($"File does not exist: {kernelFile}");
 			return IntPtr.Zero;
 		}
 
-		using var sr = new StreamReader(fileName);
+		using var sr = new StreamReader(kernelFile);
 		var clStr = sr.ReadToEnd();
 
 		var program = cl.CreateProgramWithSource(context, 1, [clStr], null, null);
@@ -239,7 +396,7 @@ internal static class Program {
 
 	// Cleanup resources
 	private static void Cleanup(CL cl, nint context, nint commandQueue,
-		nint program, nint kernel, nint[] memObjects, StreamWriter writer) {
+		nint program, nint nBodyKernel, nint[] memObjects, StreamWriter csvWriter, nint shiftKernel) {
 		foreach (var memObject in memObjects)
 			if (memObject != 0)
 				cl.ReleaseMemObject(memObject);
@@ -247,8 +404,8 @@ internal static class Program {
 		if (commandQueue != 0)
 			cl.ReleaseCommandQueue(commandQueue);
 
-		if (kernel != 0)
-			cl.ReleaseKernel(kernel);
+		if (nBodyKernel != 0)
+			cl.ReleaseKernel(nBodyKernel);
 
 		if (program != 0)
 			cl.ReleaseProgram(program);
@@ -256,7 +413,10 @@ internal static class Program {
 		if (context != 0)
 			cl.ReleaseContext(context);
 
-		writer.Dispose();
+		if (shiftKernel != 0)
+			cl.ReleaseKernel(shiftKernel);
+
+		csvWriter.Dispose();
 	}
 
 
@@ -324,8 +484,8 @@ internal static class Program {
 		}
 	}
 
-	private static string DoubleToString(double number, [StringSyntax("NumericFormat")] string format) {
-		return number.ToString(format, CultureInfo.InvariantCulture);
+	private static string DoubleToString(double number, [StringSyntax("NumericFormat")] string numericFormat) {
+		return number.ToString(numericFormat, CultureInfo.InvariantCulture);
 	}
 
 	private static string GetEnumDescription(Enum e) {
