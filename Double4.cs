@@ -19,4 +19,36 @@ internal struct Double4 {
 		Z = x;
 		W = 0.0;
 	}
+
+	private Double4(double x, double y, double z, double w) {
+		X = x;
+		Y = y;
+		Z = z;
+		W = w;
+	}
+
+	public static Double4 operator +(Double4 a) {
+		return a;
+	}
+
+	public static Double4 operator -(Double4 a) {
+		return new Double4(-a.X, -a.Y, -a.Z, -a.W);
+	}
+
+	public static Double4 operator +(Double4 a, Double4 b) {
+		return new Double4(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
+	}
+
+	public static Double4 operator -(Double4 a, Double4 b) {
+		return new Double4(a.X - b.X, a.Y - b.Y, a.Z - b.Z, a.W - b.W);
+	}
+
+	public static Double4 operator *(Double4 a, Double4 b) {
+		return new Double4(a.X * b.X, a.Y * b.Y, a.Z * b.Z, a.W * b.W);
+	}
+
+	public static Double4 operator /(Double4 a, Double4 b) {
+		if (b.X == 0 || b.Y == 0 || b.Z == 0 || b.W == 0) throw new DivideByZeroException();
+		return new Double4(a.X / b.X, a.Y / b.Y, a.Z / b.Z, a.W / b.W);
+	}
 }
