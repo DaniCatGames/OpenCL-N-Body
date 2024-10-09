@@ -20,14 +20,14 @@ public enum IntegrationMethods {
 }
 
 internal static class Program {
-	private const int NumberOfBodies = 200;
-	private const int Iterations = 1000;
-	private const double TimeStep = 1;
+	private const int NumberOfBodies = 4;
+	private const int Iterations = 250000;
+	private const double TimeStep = 10;
 
 	private const IntegrationMethods IntegrationMethod = IntegrationMethods.M52;
 	private const UniverseSetups UniverseSetup = UniverseSetups.EarthMoonSatellites;
 
-	private const int LogEvery = 50;
+	private const int LogEvery = 1;
 	private const int RepeatSim = 1;
 	private const int ReferenceFrame = 0; // BodyID of reference frame
 
@@ -82,7 +82,7 @@ internal static class Program {
 			return;
 		}
 		// ReSharper restore HeuristicUnreachableCode
-		
+
 		switch (IntegrationMethod) {
 			case IntegrationMethods.Euler:
 				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
@@ -102,15 +102,14 @@ internal static class Program {
 					csvWriter, shiftKernel);
 				break;
 		}
-		
+
 		Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
 
 		//OpenClWindow.RunWindow();
 	}
 
 	private static unsafe void IntegrateMultistep(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue,
-		nint program, double deltaTime, int numberOfBodies, StreamWriter writer, nint shiftKernel) {
+		nint commandQueue, nint program, double deltaTime, int numberOfBodies, StreamWriter writer, nint shiftKernel) {
 		var (positions, _, masses) =
 			Universe.GetUniverse(NumberOfBodies, UniverseSetup, TimeStep);
 
@@ -120,21 +119,15 @@ internal static class Program {
 			return;
 		}
 
-		var historySize = IntegrationMethod switch {
-			IntegrationMethods.M52 => 4,
-			_ => 0
-		};
-
 		// Set the nBodyKernel arguments (positions, velocities, masses, timestep, body count)
 		var errNum = cl.SetKernelArg(nBodyKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNum |= cl.SetKernelArg(nBodyKernel, 1, (nuint)sizeof(nint), memObjects[1]);
 		errNum |= cl.SetKernelArg(nBodyKernel, 2, sizeof(double), &deltaTime);
 		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(int), &numberOfBodies);
 
-		// Set the ShiftKernel arguments (positions, body count, rightshift)
+		// Set the ShiftKernel arguments (positions, numberOfBodies)
 		var errNumS = cl.SetKernelArg(shiftKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNumS |= cl.SetKernelArg(shiftKernel, 1, sizeof(int), &numberOfBodies);
-		errNumS |= cl.SetKernelArg(shiftKernel, 2, sizeof(int), &historySize);
 
 		if (errNumS != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting shiftKernel arguments.");
@@ -150,21 +143,18 @@ internal static class Program {
 
 		// Write start data to csv
 		writer.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
-		SavePositionData(writer, positions, 0, NumberOfBodies, true);
+		SavePositionData(writer, positions, 0, NumberOfBodies, 1);
 
-		nuint[] globalWorkSize = [NumberOfBodies];
-		nuint[] globalWorkSizeShift = [1];
-		nuint[] localWorkSize = [1];
-		
 		Logger.Info("Starting N-Body simulation.");
 		var stopwatch = Stopwatch.StartNew();
 
 		for (var repeat = 0; repeat < RepeatSim; repeat++)
 		for (var iteration = 0; iteration < Iterations; iteration++) {
-			// Enqueue kernel for execution
-			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
+			// Enqueue kernels for execution
+			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, [NumberOfBodies], [1], 0,
 				(nint*)null, (nint*)null);
-			cl.EnqueueNdrangeKernel(commandQueue, shiftKernel, 1, (nuint*)null, globalWorkSizeShift, localWorkSize, 0,
+
+			cl.EnqueueNdrangeKernel(commandQueue, shiftKernel, 1, (nuint*)null, [1], [1], 0,
 				(nint*)null, (nint*)null);
 
 			if (iteration % LogEvery == 0) {
@@ -180,10 +170,10 @@ internal static class Program {
 					return;
 				}
 
-				SavePositionData(writer, positions, iteration, NumberOfBodies, true);
+				SavePositionData(writer, positions, iteration, NumberOfBodies, 1);
 			}
 		}
-		
+
 		stopwatch.Stop();
 
 		Logger.Info(
@@ -200,8 +190,7 @@ internal static class Program {
 	}
 
 	private static unsafe void IntegrateNormal(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue,
-		nint program, double deltaTime, int numberOfBodies, StreamWriter csvWriter) {
+		nint commandQueue, nint program, double deltaTime, int numberOfBodies, StreamWriter csvWriter) {
 		var (positions, velocities, masses) =
 			Universe.GetUniverse(NumberOfBodies, UniverseSetup);
 
@@ -226,11 +215,11 @@ internal static class Program {
 
 		// Write start data to csv
 		csvWriter.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
-		SavePositionData(csvWriter, positions, 0, NumberOfBodies, false);
+		SavePositionData(csvWriter, positions, 0, NumberOfBodies, 0);
 
 		nuint[] globalWorkSize = [NumberOfBodies];
 		nuint[] localWorkSize = [1];
-		
+
 		Logger.Info("Starting N-Body simulation.");
 		var stopwatch = Stopwatch.StartNew();
 
@@ -253,10 +242,10 @@ internal static class Program {
 					return;
 				}
 
-				SavePositionData(csvWriter, positions, iteration, NumberOfBodies, false);
+				SavePositionData(csvWriter, positions, iteration, NumberOfBodies, 0);
 			}
 		}
-		
+
 		stopwatch.Stop();
 
 		Logger.Info(
@@ -273,46 +262,31 @@ internal static class Program {
 	}
 
 	private static void SavePositionData(StreamWriter csvWriter, double[] positions, int iteration, int numberOfBodies,
-		bool multistep) {
-		if (multistep)
-			for (var i = 0; i < NumberOfBodies; i++)
-				csvWriter.WriteLine(new StringBuilder().Append(DoubleToString((iteration + 1) * TimeStep, "g"))
-					.Append(',')
-					.Append(DoubleToString(i, "g"))
-					.Append(',')
-					.Append(DoubleToString(
-						positions[numberOfBodies * 4 + i * 4 + 0] -
-						positions[numberOfBodies * 4 + ReferenceFrame * 4 + 0],
-						"e2"))
-					.Append(',')
-					.Append(DoubleToString(
-						positions[numberOfBodies * 4 + i * 4 + 1] -
-						positions[numberOfBodies * 4 + ReferenceFrame * 4 + 1],
-						"e2"))
-					.Append(',')
-					.Append(DoubleToString(
-						positions[numberOfBodies * 4 + i * 4 + 2] -
-						positions[numberOfBodies * 4 + ReferenceFrame * 4 + 2],
-						"e2"))
-					.ToString());
-		else
-			for (var i = 0; i < NumberOfBodies; i++)
-				csvWriter.WriteLine(new StringBuilder().Append(DoubleToString((iteration + 1) * TimeStep, "g"))
-					.Append(',')
-					.Append(DoubleToString(i, "g"))
-					.Append(',')
-					.Append(DoubleToString(
-						positions[i * 4 + 0] - positions[ReferenceFrame * 4 + 0],
-						"e2"))
-					.Append(',')
-					.Append(DoubleToString(
-						positions[i * 4 + 1] - positions[ReferenceFrame * 4 + 1],
-						"e2"))
-					.Append(',')
-					.Append(DoubleToString(
-						positions[i * 4 + 2] - positions[ReferenceFrame * 4 + 2],
-						"e2"))
-					.ToString());
+		int multistep) {
+		// ReSharper disable RedundantAssignment
+		var posx = 0.0;
+		var posy = 0.0;
+		var posz = 0.0;
+		// ReSharper restore RedundantAssignment
+
+		if (ReferenceFrame != -1) {
+			posx = positions[multistep * numberOfBodies * 4 + ReferenceFrame * 4];
+			posy = positions[multistep * numberOfBodies * 4 + ReferenceFrame * 4 + 1];
+			posz = positions[multistep * numberOfBodies * 4 + ReferenceFrame * 4 + 2];
+		}
+
+		for (var i = 0; i < NumberOfBodies; i++)
+			csvWriter.WriteLine($"{DoubleToString((iteration + 1) * TimeStep, "g")}," +
+			                    $"{DoubleToString(i, "g")}," +
+			                    $"{DoubleToString(
+				                    positions[multistep * numberOfBodies * 4 + i * 4 + 0] - posx,
+				                    "E")}," +
+			                    $"{DoubleToString(
+				                    positions[multistep * numberOfBodies * 4 + i * 4 + 1] - posy,
+				                    "E")}," +
+			                    $"{DoubleToString(
+				                    positions[multistep * numberOfBodies * 4 + i * 4 + 2] - posz,
+				                    "E")}");
 	}
 
 

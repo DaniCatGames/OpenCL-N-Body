@@ -1,4 +1,8 @@
-﻿double4 compute_acceleration(double4 position1, double4 position2, double mass2) {
+﻿double4 compute_acceleration(
+    double4 position1, 
+    double4 position2, 
+    double mass2) {
+
     double4 difference = position2 - position1;
     double distance_squared = difference.x * difference.x + difference.y * difference.y + difference.z * difference.z + 1e-10;
 
@@ -52,6 +56,8 @@ __kernel void integrate_multistep_5_2(
     double4 pos2 = positions[3 * numberOfBodies + globalId];
     double4 pos3 = positions[4 * numberOfBodies + globalId];
 
+    barrier(CLK_GLOBAL_MEM_FENCE);
+
     double4 acc0 = calculate_total_acceleration_multistep(positions, masses, numberOfBodies, globalId, pos0, 0);
     double4 acc1 = calculate_total_acceleration_multistep(positions, masses, numberOfBodies, globalId, pos1, 1);
     double4 acc2 = calculate_total_acceleration_multistep(positions, masses, numberOfBodies, globalId, pos2, 2);
@@ -59,14 +65,17 @@ __kernel void integrate_multistep_5_2(
     positions[globalId] = pos0 + pos2 - pos3 + dt * dt * (5 * (acc0 + acc2) + 2 * acc1) / 4;
 }
 
-__kernel void shiftKernel(__global double4 *positions, int numberOfBodies, int historySize) {
-    int arraySize = numberOfBodies * (historySize + 1);
+__kernel void shiftKernel(
+    __global double4 *positions,
+    int numberOfBodies) {
 
-    for(int i = (arraySize - 1); i >= numberOfBodies; i--) {
+    int totalSize = numberOfBodies * 5;
+
+    for (int i = totalSize - 1; i >= numberOfBodies; --i) {
         positions[i] = positions[i - numberOfBodies];
     }
 
-    for(int i = 0; i < numberOfBodies; i++) {
+    for (int i = 0; i < numberOfBodies; ++i) {
         positions[i] = (double4)(0.0, 0.0, 0.0, 0.0);
     }
 }
@@ -81,7 +90,7 @@ __kernel void integrate_euler(
     int globalId = get_global_id(0);
 
     velocities[globalId] += calculate_total_acceleration(
-        positions, masses, numberOfBodies, globalId, (double4)(0.0, 0.0, 0.0, 0.0)
+        positions, masses, numberOfBodies, globalId, positions[globalId]
     ) * dt;
     positions[globalId] += velocities[globalId] * dt;
 }
@@ -96,11 +105,11 @@ __kernel void integrate_verlet(
     int globalId = get_global_id(0);
     
     double4 acceleration = calculate_total_acceleration(
-        positions, masses, numberOfBodies, globalId, (double4)(0.0, 0.0, 0.0, 0.0)
+        positions, masses, numberOfBodies, globalId, positions[globalId]
     ) * dt;
     positions[globalId] += dt * (velocities[globalId] + acceleration * dt / 2);
     double4 new_acceleration = calculate_total_acceleration(
-        positions, masses, numberOfBodies, globalId, (double4)(0.0, 0.0, 0.0, 0.0)
+        positions, masses, numberOfBodies, globalId, positions[globalId]
     ) * dt;
     velocities[globalId] += dt * (acceleration + new_acceleration) / 2;
 }
@@ -121,7 +130,7 @@ __kernel void integrate_rk4(
     //K1 stage
     double4 k1_position = velocity;
     double4 k1_velocity = calculate_total_acceleration(
-        positions, masses, numberOfBodies, globalId, (double4)(0.0, 0.0, 0.0, 0.0)
+        positions, masses, numberOfBodies, globalId, positions[globalId]
     ) * dt;
     
     //K2 stage
