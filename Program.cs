@@ -16,15 +16,18 @@ public enum IntegrationMethods {
 	RK4,
 
 	[Description("5th Order P2 Method Multistep Integration")]
-	M52
+	M52,
+
+	[Description("15th Order P7 (2nd) Method Multistep Integration")]
+	M157
 }
 
 internal static class Program {
-	private const int NumberOfBodies = 4;
-	private const int Iterations = 250000;
+	private const int NumberOfBodies = 3;
+	private const int Iterations = 25000;
 	private const double TimeStep = 10;
 
-	private const IntegrationMethods IntegrationMethod = IntegrationMethods.M52;
+	private const IntegrationMethods IntegrationMethod = IntegrationMethods.M157;
 	private const UniverseSetups UniverseSetup = UniverseSetups.EarthMoonSatellites;
 
 	private const int LogEvery = 1;
@@ -73,6 +76,7 @@ internal static class Program {
 			IntegrationMethods.Verlet => cl.CreateKernel(program, "integrate_verlet", null),
 			IntegrationMethods.RK4 => cl.CreateKernel(program, "integrate_rk4", null),
 			IntegrationMethods.M52 => cl.CreateKernel(program, "integrate_multistep_5_2", null),
+			IntegrationMethods.M157 => cl.CreateKernel(program, "integrate_multistep_15_7", null),
 			_ => cl.CreateKernel(program, "integrate_euler", null)
 		};
 		shiftKernel = cl.CreateKernel(program, "shiftKernel", null);
@@ -101,6 +105,11 @@ internal static class Program {
 					numberOfBodies,
 					csvWriter, shiftKernel);
 				break;
+			case IntegrationMethods.M157:
+				IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
+					numberOfBodies,
+					csvWriter, shiftKernel);
+				break;
 		}
 
 		Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
@@ -109,9 +118,9 @@ internal static class Program {
 	}
 
 	private static unsafe void IntegrateMultistep(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue, nint program, double deltaTime, int numberOfBodies, StreamWriter writer, nint shiftKernel) {
+		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter writer, nint shiftKernel) {
 		var (positions, _, masses) =
-			Universe.GetUniverse(NumberOfBodies, UniverseSetup, TimeStep);
+			Universe.GetUniverse(NumberOfBodies, UniverseSetup, IntegrationMethod, TimeStep);
 
 		// Turn data into memory objects
 		if (!CreateMemObjectsMultistep(cl, context, memObjects, positions, masses)) {
@@ -122,12 +131,18 @@ internal static class Program {
 		// Set the nBodyKernel arguments (positions, velocities, masses, timestep, body count)
 		var errNum = cl.SetKernelArg(nBodyKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNum |= cl.SetKernelArg(nBodyKernel, 1, (nuint)sizeof(nint), memObjects[1]);
-		errNum |= cl.SetKernelArg(nBodyKernel, 2, sizeof(double), &deltaTime);
+		errNum |= cl.SetKernelArg(nBodyKernel, 2, sizeof(double), &timeStep);
 		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(int), &numberOfBodies);
 
-		// Set the ShiftKernel arguments (positions, numberOfBodies)
+		int arraySize = IntegrationMethod switch {
+			IntegrationMethods.M52 => NumberOfBodies * 5,
+			IntegrationMethods.M157 => NumberOfBodies * 15
+		};
+		
+		// Set the ShiftKernel arguments (positions, numberOfBodies, arraySize)
 		var errNumS = cl.SetKernelArg(shiftKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNumS |= cl.SetKernelArg(shiftKernel, 1, sizeof(int), &numberOfBodies);
+		errNumS |= cl.SetKernelArg(shiftKernel, 2, sizeof(int), &arraySize);
 
 		if (errNumS != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting shiftKernel arguments.");
@@ -153,15 +168,14 @@ internal static class Program {
 			// Enqueue kernels for execution
 			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, [NumberOfBodies], [1], 0,
 				(nint*)null, (nint*)null);
-
+			
 			cl.EnqueueNdrangeKernel(commandQueue, shiftKernel, 1, (nuint*)null, [1], [1], 0,
 				(nint*)null, (nint*)null);
 
 			if (iteration % LogEvery == 0) {
 				fixed (void* pPositions = positions) {
 					errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
-						NumberOfBodies * sizeof(double) * 4 * 5,
-						pPositions, 0, null, null);
+						(nuint)(positions.Length * sizeof(double)), pPositions, 0, null, null);
 				}
 
 				if (errNum != (int)ErrorCodes.Success) {
@@ -190,9 +204,9 @@ internal static class Program {
 	}
 
 	private static unsafe void IntegrateNormal(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue, nint program, double deltaTime, int numberOfBodies, StreamWriter csvWriter) {
+		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter csvWriter) {
 		var (positions, velocities, masses) =
-			Universe.GetUniverse(NumberOfBodies, UniverseSetup);
+			Universe.GetUniverse(NumberOfBodies, UniverseSetup, IntegrationMethod);
 
 		// Turn data into memory objects
 		if (!CreateMemObjectsNormal(cl, context, memObjects, positions, velocities, masses)) {
@@ -204,7 +218,7 @@ internal static class Program {
 		var errNum = cl.SetKernelArg(nBodyKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNum |= cl.SetKernelArg(nBodyKernel, 1, (nuint)sizeof(nint), memObjects[1]);
 		errNum |= cl.SetKernelArg(nBodyKernel, 2, (nuint)sizeof(nint), memObjects[2]);
-		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(double), &deltaTime);
+		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(double), &timeStep);
 		errNum |= cl.SetKernelArg(nBodyKernel, 4, sizeof(int), &numberOfBodies);
 
 		if (errNum != (int)ErrorCodes.Success) {
@@ -296,17 +310,17 @@ internal static class Program {
 	) {
 		fixed (void* pPositions = positions) {
 			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
-				NumberOfBodies * sizeof(double) * 4, pPositions, null);
+				(nuint)(positions.Length * sizeof(double)), pPositions, null);
 		}
 
 		fixed (void* pVelocities = velocities) {
 			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
-				NumberOfBodies * sizeof(double) * 4, pVelocities, null);
+				(nuint)(velocities.Length * sizeof(double)), pVelocities, null);
 		}
 
 		fixed (void* pMasses = masses) {
 			memObjects[2] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.HostWriteOnly | MemFlags.CopyHostPtr,
-				sizeof(double) * NumberOfBodies, pMasses, null);
+				(nuint)(masses.Length * sizeof(double)), pMasses, null);
 		}
 
 		if (memObjects[0] != IntPtr.Zero && memObjects[1] != IntPtr.Zero && memObjects[2] != IntPtr.Zero) return true;
@@ -320,12 +334,12 @@ internal static class Program {
 	) {
 		fixed (void* pPositions = positions) {
 			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
-				NumberOfBodies * sizeof(double) * 4 * 5, pPositions, null);
+				(nuint)(positions.Length * sizeof(double)), pPositions, null);
 		}
 
 		fixed (void* pMasses = masses) {
 			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.HostWriteOnly | MemFlags.CopyHostPtr,
-				sizeof(double) * NumberOfBodies, pMasses, null);
+				(nuint)(masses.Length * sizeof(double)), pMasses, null);
 		}
 
 		if (memObjects[0] != IntPtr.Zero && memObjects[1] != IntPtr.Zero) return true;
@@ -461,7 +475,7 @@ internal static class Program {
 	private static string DoubleToString(double number, [StringSyntax("NumericFormat")] string numericFormat) {
 		return number.ToString(numericFormat, CultureInfo.InvariantCulture);
 	}
-
+	
 	private static string GetEnumDescription(Enum e) {
 		var fieldInfo = e.GetType().GetField(e.ToString());
 		return fieldInfo?.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[]

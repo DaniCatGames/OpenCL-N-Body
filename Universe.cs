@@ -9,7 +9,7 @@ public class Universe {
 	private const double G = 6.674315e-11;
 
 	public static (double[] positions, double[] velocities, double[] masses) GetUniverse(int numberOfBodies,
-		UniverseSetups setups, double timeStep = 0) {
+		UniverseSetups setups, IntegrationMethods integrationMethod, double timeStep = 0) {
 		if (timeStep == 0)
 			return setups switch {
 				UniverseSetups.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies),
@@ -18,14 +18,14 @@ public class Universe {
 			};
 
 		return setups switch {
-			UniverseSetups.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies, timeStep),
+			UniverseSetups.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies, timeStep, integrationMethod),
 			UniverseSetups.SunSystem => SunSystem(),
-			_ => EarthMoonSatellites(numberOfBodies, timeStep)
+			_ => EarthMoonSatellites(numberOfBodies, timeStep, integrationMethod)
 		};
 	}
 
 	private static (double[] positions, double[] accelerations, double[] masses) EarthMoonSatellites(int numberOfBodies,
-		double timeStep) {
+		double timeStep, IntegrationMethods integrationMethod) {
 		var positions = new Double4[numberOfBodies];
 		var velocities = new Double4[numberOfBodies];
 		var masses = new double[numberOfBodies];
@@ -43,6 +43,15 @@ public class Universe {
 			velocities[i] = new Double4(0.0, 7800 + 3386 * (i / (float)numberOfBodies), 0.0);
 		}
 
+		return integrationMethod switch {
+			IntegrationMethods.M52 => M52Init(numberOfBodies, timeStep, positions, velocities, masses),
+			IntegrationMethods.M157 => M157Init(numberOfBodies, timeStep, positions, velocities, masses),
+			_ => M52Init(numberOfBodies, timeStep, positions, velocities, masses),
+		};
+	}
+
+	private static (double[] positions, double[] accelerations, double[] masses) M52Init(int numberOfBodies,
+		double timeStep, Double4[] positions, Double4[] velocities, double[] masses) {
 		//Calculate previous positions with Leapfrog using timesteps of dt/512
 		var positions1 = CalculatePositionsAtTime(1, timeStep, positions, velocities, masses, numberOfBodies);
 		var positions2 = CalculatePositionsAtTime(2, timeStep, positions, velocities, masses, numberOfBodies);
@@ -65,6 +74,61 @@ public class Universe {
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 2] = positions1[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 3] = positions2[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 4] = positions3[i];
+
+		var accelerationsArray = new Double4[numberOfBodies * 4];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i] = new Double4(0);
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies] = accelerations0[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 2] = accelerations1[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 3] = accelerations2[i];
+
+
+		return (FlattenDoubleArray(positionsArray), FlattenDoubleArray(accelerationsArray), masses);
+	}
+
+	private static (double[] positions, double[] accelerations, double[] masses) M157Init(int numberOfBodies,
+		double timeStep, Double4[] positions, Double4[] velocities, double[] masses) {
+		//Calculate previous positions with Leapfrog using timesteps of dt/512
+		var positions1 = CalculatePositionsAtTime(1, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions2 = CalculatePositionsAtTime(2, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions3 = CalculatePositionsAtTime(3, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions4 = CalculatePositionsAtTime(4, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions5 = CalculatePositionsAtTime(5, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions6 = CalculatePositionsAtTime(6, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions7 = CalculatePositionsAtTime(7, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions8 = CalculatePositionsAtTime(8, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions9 = CalculatePositionsAtTime(9, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions10 = CalculatePositionsAtTime(10, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions11 = CalculatePositionsAtTime(11, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions12 = CalculatePositionsAtTime(12, timeStep, positions, velocities, masses, numberOfBodies);
+		var positions13 = CalculatePositionsAtTime(13, timeStep, positions, velocities, masses, numberOfBodies);
+
+		var accelerations0 = new Double4[numberOfBodies];
+		var accelerations1 = new Double4[numberOfBodies];
+		var accelerations2 = new Double4[numberOfBodies];
+
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations0[i] = CalculateTotalAcceleration(positions, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations1[i] = CalculateTotalAcceleration(positions1, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations2[i] = CalculateTotalAcceleration(positions2, masses, numberOfBodies, i);
+
+		var positionsArray = new Double4[numberOfBodies * 15];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i] = new Double4(0);
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies] = positions[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 2] = positions1[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 3] = positions2[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 4] = positions3[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 5] = positions4[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 6] = positions5[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 7] = positions6[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 8] = positions7[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 9] = positions8[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 10] = positions9[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 11] = positions10[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 12] = positions11[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 13] = positions12[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 14] = positions13[i];
 
 		var accelerationsArray = new Double4[numberOfBodies * 4];
 		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i] = new Double4(0);
