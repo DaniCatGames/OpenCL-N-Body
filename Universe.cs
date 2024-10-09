@@ -135,7 +135,7 @@ public class Universe {
 		for (var i = 0; i < numberOfBodies; i++) velocitiesAtTime[i] = velocities[i];
 
 		var calcTimeStep = timeStep / 512;
-		var iterations = time / calcTimeStep;
+		var iterations = time * timeStep / calcTimeStep;
 
 		//Kickoff 
 		for (var i = 0; i < numberOfBodies; i++)
