@@ -57,12 +57,9 @@ public class Universe {
 		var positions2 = CalculatePositionsAtTime(2, timeStep, positions, velocities, masses, numberOfBodies);
 		var positions3 = CalculatePositionsAtTime(3, timeStep, positions, velocities, masses, numberOfBodies);
 
-		var accelerations0 = new Double4[numberOfBodies];
 		var accelerations1 = new Double4[numberOfBodies];
 		var accelerations2 = new Double4[numberOfBodies];
 
-		for (var i = 0; i < numberOfBodies; i++)
-			accelerations0[i] = CalculateTotalAcceleration(positions, masses, numberOfBodies, i);
 		for (var i = 0; i < numberOfBodies; i++)
 			accelerations1[i] = CalculateTotalAcceleration(positions1, masses, numberOfBodies, i);
 		for (var i = 0; i < numberOfBodies; i++)
@@ -70,16 +67,15 @@ public class Universe {
 
 		var positionsArray = new Double4[numberOfBodies * 5];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i] = new Double4(0);
-		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies] = positions[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 1] = positions[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 2] = positions1[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 3] = positions2[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 4] = positions3[i];
 
-		var accelerationsArray = new Double4[numberOfBodies * 4];
+		var accelerationsArray = new Double4[numberOfBodies * 3];
 		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i] = new Double4(0);
-		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies] = accelerations0[i];
-		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 2] = accelerations1[i];
-		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 3] = accelerations2[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 1] = accelerations1[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 2] = accelerations2[i];
 
 
 		return (FlattenDoubleArray(positionsArray), FlattenDoubleArray(accelerationsArray), masses);
@@ -102,20 +98,47 @@ public class Universe {
 		var positions12 = CalculatePositionsAtTime(12, timeStep, positions, velocities, masses, numberOfBodies);
 		var positions13 = CalculatePositionsAtTime(13, timeStep, positions, velocities, masses, numberOfBodies);
 
-		var accelerations0 = new Double4[numberOfBodies];
 		var accelerations1 = new Double4[numberOfBodies];
 		var accelerations2 = new Double4[numberOfBodies];
+		var accelerations3 = new Double4[numberOfBodies];
+		var accelerations4 = new Double4[numberOfBodies];
+		var accelerations5 = new Double4[numberOfBodies];
+		var accelerations6 = new Double4[numberOfBodies];
+		var accelerations7 = new Double4[numberOfBodies];
+		var accelerations8 = new Double4[numberOfBodies];
+		var accelerations9 = new Double4[numberOfBodies];
+		var accelerations10 = new Double4[numberOfBodies];
+		var accelerations11 = new Double4[numberOfBodies];
+		var accelerations12 = new Double4[numberOfBodies];
 
-		for (var i = 0; i < numberOfBodies; i++)
-			accelerations0[i] = CalculateTotalAcceleration(positions, masses, numberOfBodies, i);
 		for (var i = 0; i < numberOfBodies; i++)
 			accelerations1[i] = CalculateTotalAcceleration(positions1, masses, numberOfBodies, i);
 		for (var i = 0; i < numberOfBodies; i++)
 			accelerations2[i] = CalculateTotalAcceleration(positions2, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations3[i] = CalculateTotalAcceleration(positions3, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations4[i] = CalculateTotalAcceleration(positions4, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations5[i] = CalculateTotalAcceleration(positions5, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations6[i] = CalculateTotalAcceleration(positions6, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations7[i] = CalculateTotalAcceleration(positions7, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations8[i] = CalculateTotalAcceleration(positions8, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations9[i] = CalculateTotalAcceleration(positions9, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations10[i] = CalculateTotalAcceleration(positions10, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations11[i] = CalculateTotalAcceleration(positions11, masses, numberOfBodies, i);
+		for (var i = 0; i < numberOfBodies; i++)
+			accelerations12[i] = CalculateTotalAcceleration(positions12, masses, numberOfBodies, i);
 
 		var positionsArray = new Double4[numberOfBodies * 15];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i] = new Double4(0);
-		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies] = positions[i];
+		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 1] = positions[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 2] = positions1[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 3] = positions2[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 4] = positions3[i];
@@ -130,11 +153,20 @@ public class Universe {
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 13] = positions12[i];
 		for (var i = 0; i < numberOfBodies; i++) positionsArray[i + numberOfBodies * 14] = positions13[i];
 
-		var accelerationsArray = new Double4[numberOfBodies * 4];
+		var accelerationsArray = new Double4[numberOfBodies * 13];
 		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i] = new Double4(0);
-		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies] = accelerations0[i];
-		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 2] = accelerations1[i];
-		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 3] = accelerations2[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 1] = accelerations1[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 2] = accelerations2[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 3] = accelerations3[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 4] = accelerations4[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 5] = accelerations5[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 6] = accelerations6[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 7] = accelerations7[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 8] = accelerations8[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 9] = accelerations9[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 10] = accelerations10[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 11] = accelerations11[i];
+		for (var i = 0; i < numberOfBodies; i++) accelerationsArray[i + numberOfBodies * 12] = accelerations12[i];
 
 
 		return (FlattenDoubleArray(positionsArray), FlattenDoubleArray(accelerationsArray), masses);

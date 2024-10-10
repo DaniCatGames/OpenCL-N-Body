@@ -24,7 +24,7 @@ public enum IntegrationMethods {
 
 internal static class Program {
 	private const int NumberOfBodies = 3;
-	private const int Iterations = 25000;
+	private const int Iterations = 200000;
 	private const double TimeStep = 10;
 
 	private const IntegrationMethods IntegrationMethod = IntegrationMethods.M157;
@@ -41,6 +41,7 @@ internal static class Program {
 		nint nBodyKernel = 0;
 		nint device = 0;
 		nint shiftKernel = 0;
+		nint shiftKernelAcc = 0;
 
 		var timeStep = TimeStep;
 		var numberOfBodies = NumberOfBodies;
@@ -80,6 +81,7 @@ internal static class Program {
 			_ => cl.CreateKernel(program, "integrate_euler", null)
 		};
 		shiftKernel = cl.CreateKernel(program, "shiftKernel", null);
+		shiftKernelAcc = cl.CreateKernel(program, "shiftKernel", null);
 		if (nBodyKernel == IntPtr.Zero || shiftKernel == IntPtr.Zero) {
 			Logger.Fatal("Failed to create " + (nBodyKernel == IntPtr.Zero ? "nBodyKernel" : "shiftKernel"));
 			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
@@ -103,12 +105,12 @@ internal static class Program {
 			case IntegrationMethods.M52:
 				IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
 					numberOfBodies,
-					csvWriter, shiftKernel);
+					csvWriter, shiftKernel, shiftKernelAcc);
 				break;
 			case IntegrationMethods.M157:
 				IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
 					numberOfBodies,
-					csvWriter, shiftKernel);
+					csvWriter, shiftKernel, shiftKernelAcc);
 				break;
 		}
 
@@ -118,31 +120,40 @@ internal static class Program {
 	}
 
 	private static unsafe void IntegrateMultistep(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter writer, nint shiftKernel) {
-		var (positions, _, masses) =
+		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter writer, nint shiftKernel, nint shiftKernelAcc) {
+		var (positions, accelerations, masses) =
 			Universe.GetUniverse(NumberOfBodies, UniverseSetup, IntegrationMethod, TimeStep);
 
 		// Turn data into memory objects
-		if (!CreateMemObjectsMultistep(cl, context, memObjects, positions, masses)) {
+		if (!CreateMemoryObjectsMultistep(cl, context, memObjects, positions, accelerations, masses)) {
 			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
 			return;
 		}
 
-		// Set the nBodyKernel arguments (positions, velocities, masses, timestep, body count)
+		// Set the nBodyKernel arguments (positions, accelerations, masses, timestep, body count)
 		var errNum = cl.SetKernelArg(nBodyKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNum |= cl.SetKernelArg(nBodyKernel, 1, (nuint)sizeof(nint), memObjects[1]);
-		errNum |= cl.SetKernelArg(nBodyKernel, 2, sizeof(double), &timeStep);
-		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(int), &numberOfBodies);
+		errNum |= cl.SetKernelArg(nBodyKernel, 2, (nuint)sizeof(nint), memObjects[2]);
+		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(double), &timeStep);
+		errNum |= cl.SetKernelArg(nBodyKernel, 4, sizeof(int), &numberOfBodies);
 
 		int arraySize = IntegrationMethod switch {
 			IntegrationMethods.M52 => NumberOfBodies * 5,
-			IntegrationMethods.M157 => NumberOfBodies * 15
+			IntegrationMethods.M157 => NumberOfBodies * 15,
+			_ => 0
 		};
 		
-		// Set the ShiftKernel arguments (positions, numberOfBodies, arraySize)
+		// Set the ShiftKernel arguments (positions, accelerations, numberOfBodies, arraySize)
 		var errNumS = cl.SetKernelArg(shiftKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNumS |= cl.SetKernelArg(shiftKernel, 1, sizeof(int), &numberOfBodies);
 		errNumS |= cl.SetKernelArg(shiftKernel, 2, sizeof(int), &arraySize);
+		
+		int arraySize2 = accelerations.Length;
+		
+		// Set the ShiftKernel arguments (positions, accelerations, numberOfBodies, arraySize)
+		errNumS |= cl.SetKernelArg(shiftKernelAcc, 0, (nuint)sizeof(nint), memObjects[1]);
+		errNumS |= cl.SetKernelArg(shiftKernelAcc, 1, sizeof(int), &numberOfBodies);
+		errNumS |= cl.SetKernelArg(shiftKernelAcc, 2, sizeof(int), &arraySize2);
 
 		if (errNumS != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting shiftKernel arguments.");
@@ -171,13 +182,16 @@ internal static class Program {
 			
 			cl.EnqueueNdrangeKernel(commandQueue, shiftKernel, 1, (nuint*)null, [1], [1], 0,
 				(nint*)null, (nint*)null);
+			
+			cl.EnqueueNdrangeKernel(commandQueue, shiftKernelAcc, 1, (nuint*)null, [1], [1], 0,
+				(nint*)null, (nint*)null);
 
 			if (iteration % LogEvery == 0) {
 				fixed (void* pPositions = positions) {
 					errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
 						(nuint)(positions.Length * sizeof(double)), pPositions, 0, null, null);
 				}
-
+				
 				if (errNum != (int)ErrorCodes.Success) {
 					Logger.Fatal("Error reading position or velocity buffer.");
 					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
@@ -209,7 +223,7 @@ internal static class Program {
 			Universe.GetUniverse(NumberOfBodies, UniverseSetup, IntegrationMethod);
 
 		// Turn data into memory objects
-		if (!CreateMemObjectsNormal(cl, context, memObjects, positions, velocities, masses)) {
+		if (!CreateMemoryObjectsNormal(cl, context, memObjects, positions, velocities, masses)) {
 			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0);
 			return;
 		}
@@ -305,7 +319,7 @@ internal static class Program {
 
 
 	// Create memory objects used as the arguments to the kernel
-	private static unsafe bool CreateMemObjectsNormal(CL cl, nint context, nint[] memObjects,
+	private static unsafe bool CreateMemoryObjectsNormal(CL cl, nint context, nint[] memObjects,
 		double[] positions, double[] velocities, double[] masses
 	) {
 		fixed (void* pPositions = positions) {
@@ -329,20 +343,25 @@ internal static class Program {
 		return false;
 	}
 
-	private static unsafe bool CreateMemObjectsMultistep(CL cl, nint context, nint[] memObjects,
-		double[] positions, double[] masses
+	private static unsafe bool CreateMemoryObjectsMultistep(CL cl, nint context, nint[] memObjects,
+		double[] positions, double[] accelerations, double[] masses
 	) {
 		fixed (void* pPositions = positions) {
 			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
 				(nuint)(positions.Length * sizeof(double)), pPositions, null);
 		}
+		
+		fixed (void* pAccelerations = accelerations) {
+			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
+				(nuint)(accelerations.Length * sizeof(double)), pAccelerations, null);
+		}
 
 		fixed (void* pMasses = masses) {
-			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.HostWriteOnly | MemFlags.CopyHostPtr,
+			memObjects[2] = cl.CreateBuffer(context, MemFlags.ReadOnly | MemFlags.HostWriteOnly | MemFlags.CopyHostPtr,
 				(nuint)(masses.Length * sizeof(double)), pMasses, null);
 		}
 
-		if (memObjects[0] != IntPtr.Zero && memObjects[1] != IntPtr.Zero) return true;
+		if (memObjects[0] != IntPtr.Zero && memObjects[1] != IntPtr.Zero && memObjects[2] != IntPtr.Zero) return true;
 
 		Logger.Fatal("Error creating memory objects.");
 		return false;
