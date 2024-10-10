@@ -152,6 +152,34 @@ __kernel void integrate_verlet(
     velocities[globalId] += dt * (acceleration + new_acceleration) / 2;
 }
 
+__kernel void integrate_leapfrog(
+    __global double4 *positions, 
+    __global double4 *velocitiesHalf, 
+    __global double *masses,
+    double dt, 
+    int numberOfBodies) {
+
+    int globalId = get_global_id(0);
+    
+    positions[globalId] += dt * velocitiesHalf[globalId];
+    barrier(CLK_GLOBAL_MEM_FENCE);
+    velocitiesHalf[globalId] += dt * calculate_total_acceleration(
+        positions, masses, numberOfBodies, globalId, positions[globalId], -1);
+}
+
+__kernel void kickoff_leapfrog(
+    __global double4 *positions, 
+    __global double4 *velocities, 
+    __global double *masses,
+    double dt, 
+    int numberOfBodies) {
+
+    int globalId = get_global_id(0);
+    
+    velocities[globalId] += dt * calculate_total_acceleration(
+        positions, masses, numberOfBodies, globalId, positions[globalId], -1);
+}
+
 __kernel void integrate_rk4(
     __global double4 *positions, 
     __global double4 *velocities, 

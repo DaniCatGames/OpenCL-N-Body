@@ -1,6 +1,6 @@
 ﻿namespace OpenCL_Barnes_Hut;
 
-internal struct Double4 {
+public struct Double4 {
 	public readonly double X;
 	public readonly double Y;
 	public readonly double Z;
@@ -17,6 +17,13 @@ internal struct Double4 {
 		X = x;
 		Y = x;
 		Z = x;
+		W = 0.0;
+	}
+
+	public Double4(double x, double y) {
+		X = x;
+		Y = y;
+		Z = 0.0;
 		W = 0.0;
 	}
 

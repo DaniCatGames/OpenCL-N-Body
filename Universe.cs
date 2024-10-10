@@ -2,40 +2,36 @@
 
 public enum UniverseSetups {
 	EarthMoonSatellites,
-	SunSystem
+	Infinity,
+	LiLiaoUE2D
 }
 
-public class Universe {
+public abstract class Universe {
 	private const double G = 6.674315e-11;
 
 	public static (double[] positions, double[] velocities, double[] masses) GetUniverse(int numberOfBodies,
-		UniverseSetups setups, IntegrationMethods integrationMethod, double timeStep = 0) {
-		if (timeStep == 0)
-			return setups switch {
-				UniverseSetups.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies),
-				UniverseSetups.SunSystem => SunSystem(),
-				_ => EarthMoonSatellites(numberOfBodies)
-			};
+		UniverseSetups universeSetup, IntegrationMethods integrationMethod, double timeStep = 0) {
 
-		return setups switch {
+		return universeSetup switch {
 			UniverseSetups.EarthMoonSatellites => EarthMoonSatellites(numberOfBodies, timeStep, integrationMethod),
-			UniverseSetups.SunSystem => SunSystem(),
-			_ => EarthMoonSatellites(numberOfBodies, timeStep, integrationMethod)
+			_ => Periodic(timeStep, integrationMethod, universeSetup),
 		};
 	}
 
+	// Create initial data
 	private static (double[] positions, double[] accelerations, double[] masses) EarthMoonSatellites(int numberOfBodies,
 		double timeStep, IntegrationMethods integrationMethod) {
 		var positions = new Double4[numberOfBodies];
 		var velocities = new Double4[numberOfBodies];
 		var masses = new double[numberOfBodies];
 
-		masses[0] = 5.972e24 * G; // Mass Earth
+		masses[0] = 5.97219e24 * G; // Mass Earth
 		masses[1] = 7.348e22 * G; // Mass Moon 
 		positions[0] = new Double4(0.0); //Position Earth
-		positions[1] = new Double4(3.84e8, 0.0, 0.0); //Position Moon
+		positions[1] =
+			new Double4(-3.679525311419403E+08, 1.665317952836706E+08, 2.517731761270612E+07); //Position Moon
 		velocities[0] = new Double4(0.0);
-		velocities[1] = new Double4(0.0, 1022.0, 0.0);
+		velocities[1] = new Double4(-4.097678496220849E+02, -8.756270441426266E+02, -5.926517055394465E+01);
 
 		for (var i = 2; i < numberOfBodies; i++) {
 			masses[i] = 1200;
@@ -43,13 +39,33 @@ public class Universe {
 			velocities[i] = new Double4(0.0, 7800 + 3386 * (i / (float)numberOfBodies), 0.0);
 		}
 
+		if (timeStep == 0) return (FlattenDoubleArray(positions), FlattenDoubleArray(velocities), masses);
+		
 		return integrationMethod switch {
 			IntegrationMethods.M52 => M52Init(numberOfBodies, timeStep, positions, velocities, masses),
 			IntegrationMethods.M157 => M157Init(numberOfBodies, timeStep, positions, velocities, masses),
-			_ => M52Init(numberOfBodies, timeStep, positions, velocities, masses),
+			_ => M52Init(numberOfBodies, timeStep, positions, velocities, masses)
 		};
 	}
 
+	private static (double[] positions, double[] velocities, double[] masses) Periodic(double timeStep,
+		IntegrationMethods integrationMethod, UniverseSetups universeSetup) {
+		var numberOfBodies = 3;
+		var positions = PeriodicOrbitData.PositionLookupTable()[universeSetup];
+		var velocities = PeriodicOrbitData.VelocityLookupTable()[universeSetup];
+		var masses = PeriodicOrbitData.MassLookupTable()[universeSetup];
+
+		if (timeStep == 0) return (FlattenDoubleArray(positions), FlattenDoubleArray(velocities), masses);
+		
+		return integrationMethod switch {
+			IntegrationMethods.M52 => M52Init(numberOfBodies, timeStep, positions, velocities, masses),
+			IntegrationMethods.M157 => M157Init(numberOfBodies, timeStep, positions, velocities, masses),
+			_ => M52Init(numberOfBodies, timeStep, positions, velocities, masses)
+		};
+	}
+	
+	
+	// Multistep Initialization
 	private static (double[] positions, double[] accelerations, double[] masses) M52Init(int numberOfBodies,
 		double timeStep, Double4[] positions, Double4[] velocities, double[] masses) {
 		//Calculate previous positions with Leapfrog using timesteps of dt/512
@@ -172,46 +188,13 @@ public class Universe {
 		return (FlattenDoubleArray(positionsArray), FlattenDoubleArray(accelerationsArray), masses);
 	}
 
-	private static (double[] positions, double[] velocities, double[] masses) EarthMoonSatellites(int numberOfBodies) {
-		var positions = new Double4[numberOfBodies];
-		var velocities = new Double4[numberOfBodies];
-		var masses = new double[numberOfBodies];
-
-		masses[0] = 5.972e24 * G; // Mass Earth
-		masses[1] = 7.348e22 * G; // Mass Moon 
-		positions[0] = new Double4(0.0); //Position Earth
-		positions[1] = new Double4(3.84e8, 0.0, 0.0); //Position Moon
-		velocities[0] = new Double4(0.0);
-		velocities[1] = new Double4(0.0, 1022.0, 0.0);
-
-		for (var i = 2; i < numberOfBodies; i++) {
-			masses[i] = 1200;
-			positions[i] = new Double4(6571000 + i * 1000, 0.0, 0.0);
-			velocities[i] = new Double4(0.0, 7800 + 3386 * (i / (float)numberOfBodies), 0.0);
-		}
-
-		var flattenedPositions = FlattenDoubleArray(positions);
-		var flattenedVelocities = FlattenDoubleArray(velocities);
-
-		return (flattenedPositions, flattenedVelocities, masses);
-	}
-
-	private static (double[] positions, double[] velocities, double[] masses) SunSystem() {
-		var positions = new Double4[9];
-		var velocities = new Double4[9];
-		var masses = new double[9];
-
-
-		return (FlattenDoubleArray(positions), FlattenDoubleArray(velocities), masses);
-	}
-
 	private static double[] FlattenDoubleArray(Double4[] array) {
 		var flattened = new double[array.Length * 4];
 		for (var i = 0; i < array.Length; i++) {
 			flattened[i * 4] = array[i].X;
 			flattened[i * 4 + 1] = array[i].Y;
 			flattened[i * 4 + 2] = array[i].Z;
-			flattened[i * 4 + 2] = array[i].W;
+			flattened[i * 4 + 3] = array[i].W;
 		}
 
 		return flattened;

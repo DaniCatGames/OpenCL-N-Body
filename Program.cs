@@ -10,7 +10,8 @@ namespace OpenCL_Barnes_Hut;
 
 public enum IntegrationMethods {
 	[Description("Euler Integration")] Euler,
-	[Description("Verlet Integration")] Verlet,
+
+	[Description("Leapfrog Integration")] Leapfrog,
 
 	[Description("4th Order Runge-Kutta Integration")]
 	RK4,
@@ -24,15 +25,15 @@ public enum IntegrationMethods {
 
 internal static class Program {
 	private const int NumberOfBodies = 3;
-	private const int Iterations = 200000;
-	private const double TimeStep = 10;
+	private const int Iterations = 2000000;
+	private const double TimeStep = 1;
 
 	private const IntegrationMethods IntegrationMethod = IntegrationMethods.M157;
 	private const UniverseSetups UniverseSetup = UniverseSetups.EarthMoonSatellites;
 
-	private const int LogEvery = 1;
+	private const int LogEvery = 50;
 	private const int RepeatSim = 1;
-	private const int ReferenceFrame = 0; // BodyID of reference frame
+	private const int ReferenceFrame = -1; // BodyID of reference frame
 
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -42,6 +43,7 @@ internal static class Program {
 		nint device = 0;
 		nint shiftKernel = 0;
 		nint shiftKernelAcc = 0;
+		nint kickoffLeapfrogKernel = 0;
 
 		var timeStep = TimeStep;
 		var numberOfBodies = NumberOfBodies;
@@ -74,16 +76,17 @@ internal static class Program {
 		// Create OpenCL kernel
 		nBodyKernel = IntegrationMethod switch {
 			IntegrationMethods.Euler => cl.CreateKernel(program, "integrate_euler", null),
-			IntegrationMethods.Verlet => cl.CreateKernel(program, "integrate_verlet", null),
 			IntegrationMethods.RK4 => cl.CreateKernel(program, "integrate_rk4", null),
 			IntegrationMethods.M52 => cl.CreateKernel(program, "integrate_multistep_5_2", null),
 			IntegrationMethods.M157 => cl.CreateKernel(program, "integrate_multistep_15_7", null),
+			IntegrationMethods.Leapfrog => cl.CreateKernel(program, "integrate_leapfrog", null),
 			_ => cl.CreateKernel(program, "integrate_euler", null)
 		};
 		shiftKernel = cl.CreateKernel(program, "shiftKernel", null);
 		shiftKernelAcc = cl.CreateKernel(program, "shiftKernel", null);
+		kickoffLeapfrogKernel = cl.CreateKernel(program, "kickoff_leapfrog", null);
 		if (nBodyKernel == IntPtr.Zero || shiftKernel == IntPtr.Zero) {
-			Logger.Fatal("Failed to create " + (nBodyKernel == IntPtr.Zero ? "nBodyKernel" : "shiftKernel"));
+			Logger.Fatal($"Failed to create {(nBodyKernel == IntPtr.Zero ? "nBodyKernel" : "shiftKernel")}");
 			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
 			return;
 		}
@@ -92,15 +95,15 @@ internal static class Program {
 		switch (IntegrationMethod) {
 			case IntegrationMethods.Euler:
 				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
-					csvWriter);
+					csvWriter, kickoffLeapfrogKernel);
 				break;
-			case IntegrationMethods.Verlet:
+			case IntegrationMethods.Leapfrog:
 				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
-					csvWriter);
+					csvWriter, kickoffLeapfrogKernel);
 				break;
 			case IntegrationMethods.RK4:
 				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
-					csvWriter);
+					csvWriter, kickoffLeapfrogKernel);
 				break;
 			case IntegrationMethods.M52:
 				IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
@@ -120,7 +123,8 @@ internal static class Program {
 	}
 
 	private static unsafe void IntegrateMultistep(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter writer, nint shiftKernel, nint shiftKernelAcc) {
+		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter writer, nint shiftKernel,
+		nint shiftKernelAcc) {
 		var (positions, accelerations, masses) =
 			Universe.GetUniverse(NumberOfBodies, UniverseSetup, IntegrationMethod, TimeStep);
 
@@ -137,19 +141,19 @@ internal static class Program {
 		errNum |= cl.SetKernelArg(nBodyKernel, 3, sizeof(double), &timeStep);
 		errNum |= cl.SetKernelArg(nBodyKernel, 4, sizeof(int), &numberOfBodies);
 
-		int arraySize = IntegrationMethod switch {
+		var arraySize = IntegrationMethod switch {
 			IntegrationMethods.M52 => NumberOfBodies * 5,
 			IntegrationMethods.M157 => NumberOfBodies * 15,
 			_ => 0
 		};
-		
+
 		// Set the ShiftKernel arguments (positions, accelerations, numberOfBodies, arraySize)
 		var errNumS = cl.SetKernelArg(shiftKernel, 0, (nuint)sizeof(nint), memObjects[0]);
 		errNumS |= cl.SetKernelArg(shiftKernel, 1, sizeof(int), &numberOfBodies);
 		errNumS |= cl.SetKernelArg(shiftKernel, 2, sizeof(int), &arraySize);
-		
-		int arraySize2 = accelerations.Length;
-		
+
+		var arraySize2 = accelerations.Length;
+
 		// Set the ShiftKernel arguments (positions, accelerations, numberOfBodies, arraySize)
 		errNumS |= cl.SetKernelArg(shiftKernelAcc, 0, (nuint)sizeof(nint), memObjects[1]);
 		errNumS |= cl.SetKernelArg(shiftKernelAcc, 1, sizeof(int), &numberOfBodies);
@@ -179,10 +183,10 @@ internal static class Program {
 			// Enqueue kernels for execution
 			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, [NumberOfBodies], [1], 0,
 				(nint*)null, (nint*)null);
-			
+
 			cl.EnqueueNdrangeKernel(commandQueue, shiftKernel, 1, (nuint*)null, [1], [1], 0,
 				(nint*)null, (nint*)null);
-			
+
 			cl.EnqueueNdrangeKernel(commandQueue, shiftKernelAcc, 1, (nuint*)null, [1], [1], 0,
 				(nint*)null, (nint*)null);
 
@@ -191,7 +195,7 @@ internal static class Program {
 					errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
 						(nuint)(positions.Length * sizeof(double)), pPositions, 0, null, null);
 				}
-				
+
 				if (errNum != (int)ErrorCodes.Success) {
 					Logger.Fatal("Error reading position or velocity buffer.");
 					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
@@ -218,7 +222,8 @@ internal static class Program {
 	}
 
 	private static unsafe void IntegrateNormal(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter csvWriter) {
+		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter csvWriter,
+		nint kickoffLeapfrogKernel) {
 		var (positions, velocities, masses) =
 			Universe.GetUniverse(NumberOfBodies, UniverseSetup, IntegrationMethod);
 
@@ -250,6 +255,18 @@ internal static class Program {
 
 		Logger.Info("Starting N-Body simulation.");
 		var stopwatch = Stopwatch.StartNew();
+
+		if (IntegrationMethod == IntegrationMethods.Leapfrog) {
+			errNum |= cl.SetKernelArg(kickoffLeapfrogKernel, 0, (nuint)sizeof(nint), memObjects[0]);
+			errNum |= cl.SetKernelArg(kickoffLeapfrogKernel, 1, (nuint)sizeof(nint), memObjects[1]);
+			errNum |= cl.SetKernelArg(kickoffLeapfrogKernel, 2, (nuint)sizeof(nint), memObjects[2]);
+			errNum |= cl.SetKernelArg(kickoffLeapfrogKernel, 3, sizeof(double), &timeStep);
+			errNum |= cl.SetKernelArg(kickoffLeapfrogKernel, 4, sizeof(int), &numberOfBodies);
+
+			cl.EnqueueNdrangeKernel(commandQueue, kickoffLeapfrogKernel, 1, (nuint*)null, globalWorkSize, localWorkSize,
+				0,
+				(nint*)null, (nint*)null);
+		}
 
 		for (var repeat = 0; repeat < RepeatSim; repeat++)
 		for (var iteration = 0; iteration < Iterations; iteration++) {
@@ -350,7 +367,7 @@ internal static class Program {
 			memObjects[0] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
 				(nuint)(positions.Length * sizeof(double)), pPositions, null);
 		}
-		
+
 		fixed (void* pAccelerations = accelerations) {
 			memObjects[1] = cl.CreateBuffer(context, MemFlags.ReadWrite | MemFlags.CopyHostPtr,
 				(nuint)(accelerations.Length * sizeof(double)), pAccelerations, null);
@@ -494,7 +511,7 @@ internal static class Program {
 	private static string DoubleToString(double number, [StringSyntax("NumericFormat")] string numericFormat) {
 		return number.ToString(numericFormat, CultureInfo.InvariantCulture);
 	}
-	
+
 	private static string GetEnumDescription(Enum e) {
 		var fieldInfo = e.GetType().GetField(e.ToString());
 		return fieldInfo?.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[]
