@@ -9,7 +9,8 @@ using Silk.NET.OpenCL;
 namespace OpenCL_Barnes_Hut;
 
 public enum IntegrationMethods {
-	[Description("Euler Integration")] Euler,
+	[Description("Symplectic Euler Integration")] SymplecticEuler,
+	[Description("Forward Euler Integration")] ForwardEuler,
 
 	[Description("Leapfrog Integration")] Leapfrog,
 
@@ -24,16 +25,18 @@ public enum IntegrationMethods {
 }
 
 internal static class Program {
-	private const int NumberOfBodies = 3;
-	private const int Iterations = 2000000;
-	private const double TimeStep = 1;
+	// Periodic = 3, SunSystem = 10, EMS = n
+	private const int NumberOfBodies = 10;
+	private const int Iterations = 100_000;
+	private const double TimeStep = 40_000;
 
-	private const IntegrationMethods IntegrationMethod = IntegrationMethods.M157;
-	private const UniverseSetups UniverseSetup = UniverseSetups.EarthMoonSatellites;
+	private const IntegrationMethods IntegrationMethod = IntegrationMethods.RK4;
+	private const UniverseSetups UniverseSetup = UniverseSetups.SunSystem;
 
-	private const int LogEvery = 50;
+	private const double LogEvery = 10000000; // seconds
 	private const int RepeatSim = 1;
-	private const int ReferenceFrame = -1; // BodyID of reference frame
+	private const int ReferenceFrame = 0; // BodyID of reference frame
+	private const int LogOnlyBody = 9;
 
 	private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -41,8 +44,8 @@ internal static class Program {
 		var cl = CL.GetApi();
 		nint nBodyKernel = 0;
 		nint device = 0;
-		nint shiftKernel = 0;
-		nint shiftKernelAcc = 0;
+		nint positionShiftKernel = 0;
+		nint accelerationShiftKernel = 0;
 		nint kickoffLeapfrogKernel = 0;
 
 		var timeStep = TimeStep;
@@ -68,69 +71,57 @@ internal static class Program {
 		var commandQueue = CreateCommandQueue(cl, context, ref device);
 		var program = CreateProgram(cl, context, device, @"D:\Programming\C#\OpenCL Barnes-Hut\Kernels\NBodyKernel.cl");
 		if (program == IntPtr.Zero || commandQueue == IntPtr.Zero) {
-			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, positionShiftKernel,
+				accelerationShiftKernel);
 			return;
 		}
 
 		// ReSharper disable HeuristicUnreachableCode
 		// Create OpenCL kernel
 		nBodyKernel = IntegrationMethod switch {
-			IntegrationMethods.Euler => cl.CreateKernel(program, "integrate_euler", null),
+			IntegrationMethods.SymplecticEuler => cl.CreateKernel(program, "integrate_symplectic_euler", null),
+			IntegrationMethods.ForwardEuler => cl.CreateKernel(program, "integrate_forward_euler", null),
 			IntegrationMethods.RK4 => cl.CreateKernel(program, "integrate_rk4", null),
 			IntegrationMethods.M52 => cl.CreateKernel(program, "integrate_multistep_5_2", null),
 			IntegrationMethods.M157 => cl.CreateKernel(program, "integrate_multistep_15_7", null),
 			IntegrationMethods.Leapfrog => cl.CreateKernel(program, "integrate_leapfrog", null),
 			_ => cl.CreateKernel(program, "integrate_euler", null)
 		};
-		shiftKernel = cl.CreateKernel(program, "shiftKernel", null);
-		shiftKernelAcc = cl.CreateKernel(program, "shiftKernel", null);
+		positionShiftKernel = cl.CreateKernel(program, "shiftKernel", null);
+		accelerationShiftKernel = cl.CreateKernel(program, "shiftKernel", null);
 		kickoffLeapfrogKernel = cl.CreateKernel(program, "kickoff_leapfrog", null);
-		if (nBodyKernel == IntPtr.Zero || shiftKernel == IntPtr.Zero) {
+		if (nBodyKernel == IntPtr.Zero || positionShiftKernel == IntPtr.Zero) {
 			Logger.Fatal($"Failed to create {(nBodyKernel == IntPtr.Zero ? "nBodyKernel" : "shiftKernel")}");
-			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, positionShiftKernel,
+				accelerationShiftKernel);
 			return;
 		}
 		// ReSharper restore HeuristicUnreachableCode
 
-		switch (IntegrationMethod) {
-			case IntegrationMethods.Euler:
-				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
-					csvWriter, kickoffLeapfrogKernel);
-				break;
-			case IntegrationMethods.Leapfrog:
-				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
-					csvWriter, kickoffLeapfrogKernel);
-				break;
-			case IntegrationMethods.RK4:
-				IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
-					csvWriter, kickoffLeapfrogKernel);
-				break;
-			case IntegrationMethods.M52:
-				IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
-					numberOfBodies,
-					csvWriter, shiftKernel, shiftKernelAcc);
-				break;
-			case IntegrationMethods.M157:
-				IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
-					numberOfBodies,
-					csvWriter, shiftKernel, shiftKernelAcc);
-				break;
-		}
+		if (IntegrationMethod.ToString().StartsWith("M"))
+			IntegrateMultistep(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep,
+				numberOfBodies,
+				csvWriter, positionShiftKernel, accelerationShiftKernel);
+		else
+			IntegrateNormal(cl, nBodyKernel, context, memObjects, commandQueue, program, timeStep, numberOfBodies,
+				csvWriter, kickoffLeapfrogKernel);
 
-		Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, shiftKernel);
+		Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, positionShiftKernel,
+			accelerationShiftKernel);
 
-		//OpenClWindow.RunWindow();
+		//OpenGlWindow.RunWindow();
 	}
 
 	private static unsafe void IntegrateMultistep(CL cl, nint nBodyKernel, nint context, nint[] memObjects,
-		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter writer, nint shiftKernel,
-		nint shiftKernelAcc) {
+		nint commandQueue, nint program, double timeStep, int numberOfBodies, StreamWriter writer,
+		nint positionShiftKernel, nint accelerationShiftKernel) {
 		var (positions, accelerations, masses) =
 			Universe.GetUniverse(NumberOfBodies, UniverseSetup, IntegrationMethod, TimeStep);
 
 		// Turn data into memory objects
 		if (!CreateMemoryObjectsMultistep(cl, context, memObjects, positions, accelerations, masses)) {
-			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, positionShiftKernel,
+				accelerationShiftKernel);
 			return;
 		}
 
@@ -147,50 +138,52 @@ internal static class Program {
 			_ => 0
 		};
 
-		// Set the ShiftKernel arguments (positions, accelerations, numberOfBodies, arraySize)
-		var errNumS = cl.SetKernelArg(shiftKernel, 0, (nuint)sizeof(nint), memObjects[0]);
-		errNumS |= cl.SetKernelArg(shiftKernel, 1, sizeof(int), &numberOfBodies);
-		errNumS |= cl.SetKernelArg(shiftKernel, 2, sizeof(int), &arraySize);
+		// Set the PositionShiftKernel arguments (positions, numberOfBodies, arraySize)
+		var errNumS = cl.SetKernelArg(positionShiftKernel, 0, (nuint)sizeof(nint), memObjects[0]);
+		errNumS |= cl.SetKernelArg(positionShiftKernel, 1, sizeof(int), &numberOfBodies);
+		errNumS |= cl.SetKernelArg(positionShiftKernel, 2, sizeof(int), &arraySize);
 
 		var arraySize2 = accelerations.Length;
 
-		// Set the ShiftKernel arguments (positions, accelerations, numberOfBodies, arraySize)
-		errNumS |= cl.SetKernelArg(shiftKernelAcc, 0, (nuint)sizeof(nint), memObjects[1]);
-		errNumS |= cl.SetKernelArg(shiftKernelAcc, 1, sizeof(int), &numberOfBodies);
-		errNumS |= cl.SetKernelArg(shiftKernelAcc, 2, sizeof(int), &arraySize2);
+		// Set the AccelerationShiftKernel arguments (accelerations, numberOfBodies, arraySize)
+		errNumS |= cl.SetKernelArg(accelerationShiftKernel, 0, (nuint)sizeof(nint), memObjects[1]);
+		errNumS |= cl.SetKernelArg(accelerationShiftKernel, 1, sizeof(int), &numberOfBodies);
+		errNumS |= cl.SetKernelArg(accelerationShiftKernel, 2, sizeof(int), &arraySize2);
 
 		if (errNumS != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting shiftKernel arguments.");
-			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, positionShiftKernel,
+				accelerationShiftKernel);
 			return;
 		}
 
 		if (errNum != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting kernel arguments.");
-			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, positionShiftKernel,
+				accelerationShiftKernel);
 			return;
 		}
 
 		// Write start data to csv
-		writer.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
+		//writer.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
 		SavePositionData(writer, positions, 0, NumberOfBodies, 1);
 
 		Logger.Info("Starting N-Body simulation.");
 		var stopwatch = Stopwatch.StartNew();
 
 		for (var repeat = 0; repeat < RepeatSim; repeat++)
-		for (var iteration = 0; iteration < Iterations; iteration++) {
+		for (var iteration = 1; iteration <= Iterations; iteration++) {
 			// Enqueue kernels for execution
 			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, [NumberOfBodies], [1], 0,
 				(nint*)null, (nint*)null);
 
-			cl.EnqueueNdrangeKernel(commandQueue, shiftKernel, 1, (nuint*)null, [1], [1], 0,
+			cl.EnqueueNdrangeKernel(commandQueue, positionShiftKernel, 1, (nuint*)null, [1], [1], 0,
 				(nint*)null, (nint*)null);
 
-			cl.EnqueueNdrangeKernel(commandQueue, shiftKernelAcc, 1, (nuint*)null, [1], [1], 0,
+			cl.EnqueueNdrangeKernel(commandQueue, accelerationShiftKernel, 1, (nuint*)null, [1], [1], 0,
 				(nint*)null, (nint*)null);
 
-			if (iteration % LogEvery == 0) {
+			if (iteration * TimeStep % LogEvery == 0) {
 				fixed (void* pPositions = positions) {
 					errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
 						(nuint)(positions.Length * sizeof(double)), pPositions, 0, null, null);
@@ -198,7 +191,8 @@ internal static class Program {
 
 				if (errNum != (int)ErrorCodes.Success) {
 					Logger.Fatal("Error reading position or velocity buffer.");
-					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, shiftKernel);
+					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, writer, positionShiftKernel,
+						accelerationShiftKernel);
 					return;
 				}
 
@@ -229,7 +223,7 @@ internal static class Program {
 
 		// Turn data into memory objects
 		if (!CreateMemoryObjectsNormal(cl, context, memObjects, positions, velocities, masses)) {
-			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0, 0);
 			return;
 		}
 
@@ -242,12 +236,12 @@ internal static class Program {
 
 		if (errNum != (int)ErrorCodes.Success) {
 			Logger.Fatal("Error setting kernel arguments.");
-			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0);
+			Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0, 0);
 			return;
 		}
 
 		// Write start data to csv
-		csvWriter.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
+		//csvWriter.WriteLine("time,bodyId,xPosition,yPosition,zPosition");
 		SavePositionData(csvWriter, positions, 0, NumberOfBodies, 0);
 
 		nuint[] globalWorkSize = [NumberOfBodies];
@@ -269,12 +263,12 @@ internal static class Program {
 		}
 
 		for (var repeat = 0; repeat < RepeatSim; repeat++)
-		for (var iteration = 0; iteration < Iterations; iteration++) {
+		for (var iteration = 1; iteration <= Iterations; iteration++) {
 			// Enqueue kernel for execution
 			cl.EnqueueNdrangeKernel(commandQueue, nBodyKernel, 1, (nuint*)null, globalWorkSize, localWorkSize, 0,
 				(nint*)null, (nint*)null);
 
-			if (iteration % LogEvery == 0) {
+			if (iteration * TimeStep % LogEvery == 0) {
 				fixed (void* pPositions = positions) {
 					errNum = cl.EnqueueReadBuffer(commandQueue, memObjects[0], true, 0,
 						NumberOfBodies * sizeof(double) * 4,
@@ -283,7 +277,7 @@ internal static class Program {
 
 				if (errNum != (int)ErrorCodes.Success) {
 					Logger.Fatal("Error reading position or velocity buffer.");
-					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0);
+					Cleanup(cl, context, commandQueue, program, nBodyKernel, memObjects, csvWriter, 0, 0);
 					return;
 				}
 
@@ -320,18 +314,32 @@ internal static class Program {
 			posz = positions[multistep * numberOfBodies * 4 + ReferenceFrame * 4 + 2];
 		}
 
-		for (var i = 0; i < NumberOfBodies; i++)
-			csvWriter.WriteLine($"{DoubleToString((iteration + 1) * TimeStep, "g")}," +
-			                    $"{DoubleToString(i, "g")}," +
+		if(LogOnlyBody == -1) {
+			for (var i = 0; i < NumberOfBodies; i++)
+				csvWriter.WriteLine($"{DoubleToString(iteration * TimeStep, "g")}," +
+				                    $"{DoubleToString(i, "g")}," +
+				                    $"{DoubleToString(
+					                    positions[multistep * numberOfBodies * 4 + i * 4 + 0] - posx,
+					                    "E")}," +
+				                    $"{DoubleToString(
+					                    positions[multistep * numberOfBodies * 4 + i * 4 + 1] - posy,
+					                    "E")}," +
+				                    $"{DoubleToString(
+					                    positions[multistep * numberOfBodies * 4 + i * 4 + 2] - posz,
+					                    "E")}");
+		}
+		else {
+			csvWriter.WriteLine(//$"{DoubleToString(iteration * TimeStep, "g")},4," +
 			                    $"{DoubleToString(
-				                    positions[multistep * numberOfBodies * 4 + i * 4 + 0] - posx,
-				                    "E")}," +
+				                    positions[multistep * numberOfBodies * 4 + LogOnlyBody * 4 + 0] - posx,
+				                    "##################")}," +
 			                    $"{DoubleToString(
-				                    positions[multistep * numberOfBodies * 4 + i * 4 + 1] - posy,
-				                    "E")}," +
+				                    positions[multistep * numberOfBodies * 4 + LogOnlyBody * 4 + 1] - posy,
+				                    "##################")}," +
 			                    $"{DoubleToString(
-				                    positions[multistep * numberOfBodies * 4 + i * 4 + 2] - posz,
-				                    "E")}");
+				                    positions[multistep * numberOfBodies * 4 + LogOnlyBody * 4 + 2] - posz,
+				                    "##################")}");
+		}
 	}
 
 
@@ -420,7 +428,8 @@ internal static class Program {
 
 	// Cleanup resources
 	private static void Cleanup(CL cl, nint context, nint commandQueue,
-		nint program, nint nBodyKernel, nint[] memObjects, StreamWriter csvWriter, nint shiftKernel) {
+		nint program, nint nBodyKernel, nint[] memObjects, StreamWriter csvWriter, nint shiftKernel,
+		nint accelerationShiftKernel) {
 		foreach (var memObject in memObjects)
 			if (memObject != 0)
 				cl.ReleaseMemObject(memObject);
@@ -439,6 +448,9 @@ internal static class Program {
 
 		if (shiftKernel != 0)
 			cl.ReleaseKernel(shiftKernel);
+
+		if (accelerationShiftKernel != 0)
+			cl.ReleaseKernel(accelerationShiftKernel);
 
 		csvWriter.Dispose();
 	}

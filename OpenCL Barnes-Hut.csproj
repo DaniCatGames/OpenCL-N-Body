@@ -16,4 +16,8 @@
         <PackageReference Include="StbImageSharp" Version="2.27.14"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Output\124yrs 12hr dt\" />
+    </ItemGroup>
+
 </Project>

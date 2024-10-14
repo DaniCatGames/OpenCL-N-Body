@@ -6,7 +6,6 @@
     double4 difference = position2 - position1;
     double distance_squared = difference.x * difference.x + difference.y * difference.y + difference.z * difference.z + 1e-10;
 
-    // Compute acceleration, mass precomputed with G
     return mass2 / (distance_squared * sqrt(distance_squared)) * difference;
 }
 
@@ -118,7 +117,7 @@ __kernel void shiftKernel(
     }
 }
 
-__kernel void integrate_euler(
+__kernel void integrate_symplectic_euler(
     __global double4 *positions, 
     __global double4 *velocities, 
     __global double *masses,
@@ -133,7 +132,7 @@ __kernel void integrate_euler(
     positions[globalId] += velocities[globalId] * dt;
 }
 
-__kernel void integrate_verlet(
+__kernel void integrate_forward_euler(
     __global double4 *positions, 
     __global double4 *velocities, 
     __global double *masses,
@@ -141,15 +140,12 @@ __kernel void integrate_verlet(
     int numberOfBodies) {
 
     int globalId = get_global_id(0);
-    
-    double4 acceleration = calculate_total_acceleration(
+
+    double4 oldVelocity = velocities[globalId];
+    velocities[globalId] += calculate_total_acceleration(
         positions, masses, numberOfBodies, globalId, positions[globalId], -1
     ) * dt;
-    positions[globalId] += dt * (velocities[globalId] + acceleration * dt / 2);
-    double4 new_acceleration = calculate_total_acceleration(
-        positions, masses, numberOfBodies, globalId, positions[globalId], -1
-    ) * dt;
-    velocities[globalId] += dt * (acceleration + new_acceleration) / 2;
+    positions[globalId] += oldVelocity * dt;
 }
 
 __kernel void integrate_leapfrog(
